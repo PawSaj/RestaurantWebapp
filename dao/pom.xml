@@ -10,8 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dao</artifactId>
-    <packaging>war</packaging>
-
+jar
     <properties>
         <jdk.version>1.8</jdk.version>
         <hibernate.version>4.2.11.Final</hibernate.version>
