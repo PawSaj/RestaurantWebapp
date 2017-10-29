@@ -1,17 +1,17 @@
 'use strict';
 
-var path = require('path');
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+let path = require('path');
+let webpack = require('webpack');
+let HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     devtool: 'eval-source-map',
     entry: [
         'babel-polyfill',
         'webpack-dev-server/client?http://localhost:3000',
-        'webpack/hot/only-dev-server',
+        'webpack/hot/dev-server',
         'react-hot-loader/patch',
-        path.join(__dirname, 'app/index.js')
+        path.join(__dirname, 'app/index.jsx')
     ],
     output: {
         path: path.join(__dirname, '/dist/'),
@@ -28,12 +28,12 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.js?$/,
+                test: /\.jsx?$/,
                 exclude: /node_modules/,
                 loader: 'babel'
             }, {
-                test: /\.json?$/,
-                loader: 'json'
+                test: /\.json$/,
+                loader: 'json-loader'
             }
         ]
     }
