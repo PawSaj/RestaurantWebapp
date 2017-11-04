@@ -8,7 +8,6 @@
   <component name="ChangeListManager">
     <list default="true" id="dd925a87-af28-41b1-82f9-4ef6b38051a2" name="Default" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -742,11 +741,18 @@
       <option name="project" value="LOCAL" />
       <updated>1509764038354</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary=".gitignore improved&#10;removed .idea">
+      <created>1509764142765</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1509764142765</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22661000" />
+    <option name="totallyTimeSpent" value="22750000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="960" height="1080" extended-state="0" />
@@ -861,7 +867,8 @@
     <MESSAGE value="small improvements&#10;name changed of JNDI and solved logback warnings" />
     <MESSAGE value=".gitignore improved&#10;removed unnecessary filed from repossitory" />
     <MESSAGE value="removed unnecessary filed from repossitory" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed unnecessary filed from repossitory" />
+    <MESSAGE value=".gitignore improved&#10;removed .idea" />
+    <option name="LAST_COMMIT_MESSAGE" value=".gitignore improved&#10;removed .idea" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
