@@ -46,5 +46,8 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-#idea
-.idea
+# idea
+.idea/*
+
+# target folders
+*/target/**
