@@ -47,7 +47,10 @@ Temporary Items
 .apdisk
 
 # idea
-.idea/*
+.idea
+
+# iml Intellij files
+*.iml
 
 # target folders
 */target/**
