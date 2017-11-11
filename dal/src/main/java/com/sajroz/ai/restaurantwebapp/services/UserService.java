@@ -22,7 +22,7 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-//    @PreAuthorize("hasAuthority('ADIMN')")
+    //@PreAuthorize("hasAuthority('ADIMN')")
     public UserDto getUserByUsername(String username) {
         logger.debug("getUserByUsername, username={}", username);
         UserDao user = userRepository.findUserByUsername(username);
@@ -37,6 +37,8 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public UserDao mapUserFromDto(UserDto userDto) {return userMapper.mapFromDto(userDto); }
+    public UserDao mapUserFromDto(UserDto userDto) {
+        return userMapper.mapFromDto(userDto);
+    }
 
 }

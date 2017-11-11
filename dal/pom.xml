@@ -14,6 +14,8 @@
 
     <properties>
         <jdk.version>1.8</jdk.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
         <dao.version>1.0-SNAPSHOT</dao.version>
     </properties>
 
@@ -24,6 +26,22 @@
             <artifactId>dao</artifactId>
             <version>${dao.version}</version>
         </dependency>
+
+        <!-- tests junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>4.3.9.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 </project>
