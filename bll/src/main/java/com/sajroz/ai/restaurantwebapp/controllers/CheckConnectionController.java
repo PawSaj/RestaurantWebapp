@@ -10,4 +10,9 @@ public class CheckConnectionController {
     public String test() {
         return "good";
     }
+
+    @RequestMapping(value = "/test2")
+    public String test2() {
+        return "good";
+    }
 }

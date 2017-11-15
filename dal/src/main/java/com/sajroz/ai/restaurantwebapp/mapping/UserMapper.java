@@ -19,8 +19,12 @@ public class UserMapper  {
 
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
+        userDto.setEmail(user.getEmail());
         userDto.setUsername(user.getUsername());
+        userDto.setSurname(user.getSurname());
         userDto.setPassword(user.getPassword());
+        userDto.setPhone(user.getPhone());
+        userDto.setImage(user.getImage());
         return userDto;
     }
 
@@ -32,8 +36,12 @@ public class UserMapper  {
 
         UserDao user = new UserDao();
         user.setId(userDto.getId());
+        user.setEmail(userDto.getEmail());
         user.setUsername(userDto.getUsername());
+        user.setSurname(userDto.getSurname());
         user.setPassword(userDto.getPassword());
+        user.setPhone(userDto.getPhone());
+        user.setImage(userDto.getImage());
         return user;
     }
 }

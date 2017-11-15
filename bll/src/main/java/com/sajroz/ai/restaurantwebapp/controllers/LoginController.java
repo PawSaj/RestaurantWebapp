@@ -34,14 +34,23 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/registration")
-    public String registration(@RequestParam String username, @RequestParam String password) {
-        logger.debug("registration, username={}", username);
-        if (userService.getUserByUsername(username) != null) {
+    public String registration(@RequestParam String email,
+                               @RequestParam String password,
+                               @RequestParam String username,
+                               @RequestParam String surname,
+                               @RequestParam(required = false) int phone,
+                               @RequestParam(required = false) byte[] user_image ) {
+        logger.debug("registration, email={}", email);
+        if (userService.getUserByEmail(email) != null) {
             return "user already exist";
         } else {
             UserDao user = new UserDao();
+            user.setEmail(email);
             user.setUsername(username);
+            user.setSurname(surname);
             user.setPassword(password);
+            user.setPhone(phone);
+            user.setImage(user_image);
             userService.insertUserToDatabase(user);
             return "register successful";
         }

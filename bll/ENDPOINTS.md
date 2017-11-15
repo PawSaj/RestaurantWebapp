@@ -7,6 +7,13 @@ Domyślnie http://localhost:8080/
 * **co robi:** 
   * nic 
   * zwraca String *good*
+  
+### ```/test2``` 
+* **metoda:** GET/POST/DELETE/PUT
+* **wymagania:** wymaga autoryzacji
+* **co robi:** 
+  * nic 
+  * zwraca String *good* lub błąd 401 jeśli się nie zalogowano
 
 ### ```/login``` 
 
@@ -14,7 +21,7 @@ Domyślnie http://localhost:8080/
 * **wymagania:** 
   * nie wymaga autoryzacji
   * wymaga argumentów:
-    * *username* – nazwa użytkownika
+    * *username* – nazwa użytkownika jako email
     * *password* – hasło (czysty tekst)
 * **co robi:**
   * jeśli użytkownik istnieje i udało się go zalogować:
@@ -44,8 +51,13 @@ Domyślnie http://localhost:8080/
 * **wymagania:** 
   * nie wymaga autoryzacji
   * wymaga argumentów:
+    * *email* - email
     * *username* – nazwa użytkownika
+    * *surname* - nazwisko
     * *password* – hasło (czysty tekst)
+  * opcjonalne argumenty:
+    * *phone* - jako int numer telefonu
+    * *image* - avatar jako byte[]
 * **co robi:**
   * jeśli użytkownik nie istnieje i udało się go zapisać w bazie:
     * zwraca String *register successful*

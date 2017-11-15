@@ -10,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(propagation = Propagation.MANDATORY)
 public interface UserRepository extends JpaRepository<com.sajroz.ai.restaurantwebapp.model.entity.UserDao, Long> {
 
-    @Query("SELECT CASE WHEN count(u) > 0 THEN 'true' ELSE 'false' END FROM UserDao u WHERE u.username = :username AND u.password = :password")
-    boolean userByNameAndPasswordExists(@Param(value = "username") String username, @Param(value = "password") String password);
+    @Query("SELECT CASE WHEN count(u) > 0 THEN 'true' ELSE 'false' END FROM UserDao u WHERE u.email = :email AND u.password = :password")
+    boolean userByEmailAndPasswordExists(@Param(value = "email") String email, @Param(value = "password") String password);
 
-    @Query("SELECT u FROM UserDao u WHERE u.username = :username")
-    UserDao findUserByUsername(@Param(value = "username") String username);
+    @Query("SELECT u FROM UserDao u WHERE u.email = :email")
+    UserDao findUserByEmail(@Param(value = "email") String email);
 
 
 }

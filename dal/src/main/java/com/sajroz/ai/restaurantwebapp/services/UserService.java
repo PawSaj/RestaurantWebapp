@@ -23,14 +23,14 @@ public class UserService {
     private UserMapper userMapper;
 
     //@PreAuthorize("hasAuthority('ADIMN')")
-    public UserDto getUserByUsername(String username) {
-        logger.debug("getUserByUsername, username={}", username);
-        UserDao user = userRepository.findUserByUsername(username);
+    public UserDto getUserByEmail(String email) {
+        logger.debug("getUserByEmail, email={}", email);
+        UserDao user = userRepository.findUserByEmail(email);
         return userMapper.mapToDto(user);
     }
 
-    public boolean userByNameAndPasswordExists(String username, String password) {
-        return userRepository.userByNameAndPasswordExists(username, password);
+    public boolean userByEmailAndPasswordExists(String email, String password) {
+        return userRepository.userByEmailAndPasswordExists(email, password);
     }
 
     public void insertUserToDatabase(UserDao user) {
