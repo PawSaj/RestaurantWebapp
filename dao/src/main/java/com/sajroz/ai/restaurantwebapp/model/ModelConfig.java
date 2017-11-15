@@ -1,12 +1,19 @@
 package com.sajroz.ai.restaurantwebapp.model;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.sql.DriverManager;
 import java.util.Properties;
 
+import org.apache.commons.dbcp.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -15,6 +22,12 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 @Configuration
 public class ModelConfig {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @PostConstruct
+    protected void init() {
+        logger.info("INITIALIZE ModelCongif");
+    }
 
     /**
      * Definicja beanu wymagana do poprawnego odczytywania properties za pomoca adnotacji PropertiySource.
@@ -48,6 +61,7 @@ public class ModelConfig {
      */
     @Bean
     public DataSource dataSource() {
+        //łączenie z bazą danych przez JNDI
         JndiDataSourceLookup lookup = new JndiDataSourceLookup();
         return lookup.getDataSource("jdbc/restaurant");
     }

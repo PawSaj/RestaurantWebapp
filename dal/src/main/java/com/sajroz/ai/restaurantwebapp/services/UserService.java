@@ -30,10 +30,18 @@ public class UserService {
     }
 
     public boolean userByEmailAndPasswordExists(String email, String password) {
-        return userRepository.userByEmailAndPasswordExists(email, password);
+        logger.debug("userByEmailAndPasswordExists, email={}", email);
+        if(userRepository.userByEmailAndPasswordExists(email, password)) {
+            logger.debug("userByEmailAndPasswordExists user found, email={}, passowrd={}", email, password);
+            return true;
+        } else {
+            logger.debug("userByEmailAndPasswordExists user not found, email={}, passowrd={}", email, password);
+            return false;
+        }
     }
 
     public void insertUserToDatabase(UserDao user) {
+        logger.debug("insertUserToDatabase saving user to database, user={}", user);
         userRepository.save(user);
     }
 

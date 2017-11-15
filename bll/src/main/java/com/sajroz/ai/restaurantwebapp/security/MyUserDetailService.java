@@ -28,10 +28,12 @@ public class MyUserDetailService implements UserDetailsService {
         UserDto user = userService.getUserByEmail(email);
 
         if(user == null) {
+            logger.debug("loadUserByEmail failed - user not found, email={}", email);
             //throw new UsernameNotFoundException("User not found");
             return null;
         }
 
+        logger.debug("loadUserByEmail successful, email={}", email);
         return new User(user.getEmail(), "", Collections.singletonList(new SimpleGrantedAuthority("ROLE")));
     }
 

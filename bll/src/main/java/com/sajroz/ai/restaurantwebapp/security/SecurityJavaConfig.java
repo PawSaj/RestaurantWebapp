@@ -1,5 +1,7 @@
 package com.sajroz.ai.restaurantwebapp.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,6 +16,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.annotation.PostConstruct;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
@@ -25,6 +29,13 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DaoAuthenticationProvider authenticationProvider;
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @PostConstruct
+    protected void init() {
+        logger.info("INITIALIZE SecurityJavaConfig");
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth)

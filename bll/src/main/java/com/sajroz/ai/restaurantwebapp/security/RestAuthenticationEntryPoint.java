@@ -16,7 +16,6 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e)
             throws IOException, ServletException {
         logger.debug("ENTER commence(): httpServletRequest={}, httpServletResponse={}, e={}", httpServletRequest, httpServletResponse, e);

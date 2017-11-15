@@ -3,10 +3,7 @@ package com.sajroz.ai.restaurantwebapp.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.sajroz.ai.restaurantwebapp.model.entity.UserDao;
 import com.sajroz.ai.restaurantwebapp.services.UserService;
 
@@ -34,16 +31,18 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/registration")
-    public String registration(@RequestParam String email,
-                               @RequestParam String password,
-                               @RequestParam String username,
-                               @RequestParam String surname,
-                               @RequestParam(required = false) int phone,
-                               @RequestParam(required = false) byte[] user_image ) {
+    public @ResponseBody String registration(@RequestParam String email,
+                        @RequestParam String password,
+                        @RequestParam String username,
+                        @RequestParam String surname,
+                        @RequestParam(required = false) int phone,
+                        @RequestParam(required = false) byte[] user_image ) {
         logger.debug("registration, email={}", email);
         if (userService.getUserByEmail(email) != null) {
+            logger.debug("registration faild - user already exist, email={}", email);
             return "user already exist";
         } else {
+            logger.debug("saving user to database, email={}", email);
             UserDao user = new UserDao();
             user.setEmail(email);
             user.setUsername(username);
@@ -51,6 +50,7 @@ public class LoginController {
             user.setPassword(password);
             user.setPhone(phone);
             user.setImage(user_image);
+            user.setRole("USER");
             userService.insertUserToDatabase(user);
             return "register successful";
         }

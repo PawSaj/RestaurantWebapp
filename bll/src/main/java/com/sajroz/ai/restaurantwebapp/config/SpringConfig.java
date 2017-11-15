@@ -1,11 +1,15 @@
 package com.sajroz.ai.restaurantwebapp.config;
 
 import com.sajroz.ai.restaurantwebapp.security.SecurityJavaConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import javax.annotation.PostConstruct;
 
 @Configuration
 @EnableWebMvc
@@ -14,5 +18,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Import({SecurityJavaConfig.class, SpringConfigDal.class})
 public class SpringConfig extends WebMvcConfigurerAdapter {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @PostConstruct
+    protected void init() {
+        logger.info("INITIALIZE SpringConfig");
+    }
 }
