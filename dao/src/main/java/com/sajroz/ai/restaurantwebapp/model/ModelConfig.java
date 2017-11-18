@@ -49,11 +49,11 @@ public class ModelConfig {
     @Bean
     public DataSource dataSource() {
         JndiDataSourceLookup lookup = new JndiDataSourceLookup();
-        return lookup.getDataSource("jdbc/gps");
+        return lookup.getDataSource("jdbc/restaurant");
     }
 
     /**
-     * Konfiguracja jpaVendorAdapter. Metoda dodaje wyswietlanie sql wygenerowanych przez hibernate'a oraz ustawia dialekt sqla na SQLServer.
+     * Konfiguracja jpaVendorAdapter. Metoda dodaje wyswietlanie sql wygenerowanych przez hibernate'a oraz ustawia dialekt sqla na MySQL.
      *
      * @return JpaVendorAdapter
      */
@@ -78,13 +78,13 @@ public class ModelConfig {
         properties.setProperty("hibernate.show_sql", "true");
         properties.setProperty("hibernate.format_sql", "true");
         properties.setProperty("hibernate.jdbc.fetch_size", "0");
-        // w SQLServer to chyba nie dziala (JDBC Batch nie dziala przy AUTO ID jesli dobrze pamietam)
+        // w MySQL to chyba nie dziala (JDBC Batch nie dziala przy AUTO ID jesli dobrze pamietam)
         properties.setProperty("hibernate.jdbc.batch_size", "20");
         return properties;
     }
 
     /**
-     * Konfiguracja JpaTransactionManager ktory jest odpowiedzialny za zarzadzani transakcjami.
+     * Konfiguracja JpaTransactionManager ktory jest odpowiedzialny za zarzadzanie transakcjami.
      *
      * @param emf EntityManagerFactory
      * @return JpaTransactionManager
