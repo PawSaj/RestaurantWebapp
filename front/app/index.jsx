@@ -1,21 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {AppContainer} from 'react-hot-loader'
-import SidePanel from './containers/SidePanel';
+import {AppContainer} from 'react-hot-loader';
+
+/*  user imports    */
+import Root from './containers/Root';
 
 const render = Component => {
     ReactDOM.render(
         <AppContainer>
-            <Component />
+            <Component/>
         </AppContainer>,
         document.getElementById('root'),
     )
 };
 
-render(SidePanel);
+render(Root);
 
 if (module.hot) {
-    module.hot.accept('./containers/SidePanel', () => {
-        render(SidePanel)
+    module.hot.accept('./containers/Root', () => {
+        render(Root);
     })
 }
