@@ -18,7 +18,7 @@ public class UserDto implements Serializable {
 
     private String role;
 
-    private byte[] image;
+    private String image;
 
     public Long getId() {
         return id;
@@ -76,11 +76,11 @@ public class UserDto implements Serializable {
         this.role = role;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

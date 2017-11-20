@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import com.sajroz.ai.restaurantwebapp.model.entity.UserDao;
 import com.sajroz.ai.restaurantwebapp.services.UserService;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.UUID;
+
 @RestController
 public class LoginController {
 
@@ -31,28 +36,63 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/registration")
-    public @ResponseBody String registration(@RequestParam String email,
+    public @ResponseBody
+    String registration(@RequestParam String email,
                         @RequestParam String password,
                         @RequestParam String username,
                         @RequestParam String surname,
                         @RequestParam(required = false) int phone,
-                        @RequestParam(required = false) byte[] user_image ) {
-        logger.debug("registration, email={}", email);
+                        @RequestParam(required = false) byte[] user_image) {
+        logger.info("registration, email={}", email);
         if (userService.getUserByEmail(email) != null) {
-            logger.debug("registration faild - user already exist, email={}", email);
+            logger.warn("registration faild - user already exist, email={}", email);
             return "user already exist";
         } else {
-            logger.debug("saving user to database, email={}", email);
+            logger.info("saving user to database, email={}", email);
             UserDao user = new UserDao();
             user.setEmail(email);
             user.setUsername(username);
             user.setSurname(surname);
             user.setPassword(password);
             user.setPhone(phone);
-            user.setImage(user_image);
+
+            if (user_image != null) {
+                String filepath = storeImage(user_image);
+                if(filepath != null) {
+                    logger.info("saving user image successful, email={}", email);
+                    user.setImage(filepath);
+                } else {
+                    logger.warn("saving user image failed, email={}", email);
+                    user.setImage(null);
+                }
+            } else {
+                user.setImage(null);
+            }
+
             user.setRole("USER");
             userService.insertUserToDatabase(user);
             return "register successful";
         }
+    }
+
+    private String storeImage(byte[] user_image) {
+        String filename = UUID.randomUUID().toString();
+        File file = new File(filename + ".jpg");
+        while (file.isFile()) {
+            filename = UUID.randomUUID().toString();
+            file = new File(filename + ".jpg");
+        }
+
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            out.write(user_image);
+            out.close();
+            return (file.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
     }
 }

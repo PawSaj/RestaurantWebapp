@@ -3,17 +3,13 @@ package com.sajroz.ai.restaurantwebapp.model;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.sql.DriverManager;
 import java.util.Properties;
 
-import org.apache.commons.dbcp.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -88,7 +84,6 @@ public class ModelConfig {
         Properties properties = new Properties();
         // NIE WLACZAC - automatyczna aktualizacja schematu db
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
-        // TODO do properties
         properties.setProperty("hibernate.show_sql", "true");
         properties.setProperty("hibernate.format_sql", "true");
         properties.setProperty("hibernate.jdbc.fetch_size", "0");
