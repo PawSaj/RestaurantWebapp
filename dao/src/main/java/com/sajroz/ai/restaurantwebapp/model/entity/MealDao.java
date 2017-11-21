@@ -101,7 +101,6 @@ public class MealDao implements Serializable {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", describe='" + describe + '\'' +
-                ", image=" + Arrays.toString(image) +
                 ", ingredients=" + ingredients +
                 '}';
     }

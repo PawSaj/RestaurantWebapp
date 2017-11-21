@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(propagation = Propagation.MANDATORY)
-public interface UserRepository extends JpaRepository<com.sajroz.ai.restaurantwebapp.model.entity.UserDao, Long> {
+public interface UserRepository extends JpaRepository<UserDao, Long> {
 
     @Query("SELECT CASE WHEN count(u) > 0 THEN 'true' ELSE 'false' END FROM UserDao u WHERE u.email = :email AND u.password = :password")
     boolean userByEmailAndPasswordExists(@Param(value = "email") String email, @Param(value = "password") String password);

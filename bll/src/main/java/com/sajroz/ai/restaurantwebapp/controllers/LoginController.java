@@ -1,10 +1,10 @@
 package com.sajroz.ai.restaurantwebapp.controllers;
 
+import com.sajroz.ai.restaurantwebapp.dto.UserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.sajroz.ai.restaurantwebapp.model.entity.UserDao;
 import com.sajroz.ai.restaurantwebapp.services.UserService;
 
 import java.io.File;
@@ -49,7 +49,7 @@ public class LoginController {
             return "user already exist";
         } else {
             logger.info("saving user to database, email={}", email);
-            UserDao user = new UserDao();
+            UserDto user = new UserDto();
             user.setEmail(email);
             user.setUsername(username);
             user.setSurname(surname);
@@ -70,7 +70,7 @@ public class LoginController {
             }
 
             user.setRole("USER");
-            userService.insertUserToDatabase(user);
+            userService.insertUserToDatabase(userService.mapUserFromDto(user));
             return "register successful";
         }
     }
