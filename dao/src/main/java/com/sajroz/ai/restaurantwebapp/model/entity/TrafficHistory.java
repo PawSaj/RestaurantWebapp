@@ -14,12 +14,12 @@ public class TrafficHistory implements Serializable{
     @Column(name = "traffic_history_id")
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "occupied_table", referencedColumnName = "table_id", nullable = false)
     private Tables table;
 
     @Column(name = "table_occupied_timestamp", nullable = false)
-    @Type(type="timestamp") //added to be sure its timestamp
+    @Temporal(TemporalType.TIMESTAMP)
     private Date tableOccupiedDate;
 
     public Long getId() {

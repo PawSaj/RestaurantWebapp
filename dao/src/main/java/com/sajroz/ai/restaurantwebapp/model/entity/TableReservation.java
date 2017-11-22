@@ -16,16 +16,16 @@ public class TableReservation implements Serializable {
     @Column(name = "table_reservation_id")
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "table_reserving_user", referencedColumnName = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reserved_table", referencedColumnName = "table_id", nullable = false)
     private Tables table;
 
     @Column(name = "table_reservation_timestamp", nullable = false)
-    @Type(type="timestamp") //added to be sure its timestamp
+    @Temporal(TemporalType.TIMESTAMP)
     private Date tableReservationDate;
 
     public Long getId() {

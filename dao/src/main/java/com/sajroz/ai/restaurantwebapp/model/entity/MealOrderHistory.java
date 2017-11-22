@@ -14,12 +14,12 @@ public class MealOrderHistory implements Serializable{
     @Column(name = "meal_order_history_id")
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ordered_meal", referencedColumnName = "meal_id", nullable = false)
     private Meal meal;
 
     @Column(name = "meal_order_timestamp", nullable = false)
-    @Type(type="timestamp") //added to be sure its timestamp
+    @Temporal(TemporalType.TIMESTAMP)
     private Date mealOrderDate;
 
     public Long getId() {

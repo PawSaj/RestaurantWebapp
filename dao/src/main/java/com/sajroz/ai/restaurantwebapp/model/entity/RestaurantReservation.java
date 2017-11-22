@@ -15,12 +15,12 @@ public class RestaurantReservation implements Serializable {
     @Column(name = "restaurant_reservation_id")
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_reserving_user", referencedColumnName = "user_id", nullable = false)
     private User user;
 
     @Column(name = "restaurant_reservation_timestamp", nullable = false)
-    @Type(type="timestamp") //added to be sure its timestamp
+    @Temporal(TemporalType.TIMESTAMP)
     private Date restaurantReservationDate;
 
     @Column(name = "reserved_floor")

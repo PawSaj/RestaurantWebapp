@@ -18,7 +18,7 @@ public class Meal implements Serializable {
     @Column(name = "meal_name", nullable = false)
     private String name;
 
-    @Column(name = "meal_price", columnDefinition = "Decimal(10,2)")
+    @Column(name = "meal_price", precision=10, scale=2)
     private BigDecimal price;
 
     @Column(name = "meal_describe")
@@ -28,7 +28,7 @@ public class Meal implements Serializable {
     @Lob
     private byte[] image;
 
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "MEAL_INGREDIENT",
             joinColumns = {@JoinColumn(name = "meal_id")},
             inverseJoinColumns = {@JoinColumn(name = "ingredient_id")})

@@ -28,13 +28,13 @@ public class Tables implements Serializable {
     @Column(name = "is_free", nullable = false)
     private boolean isFree;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="table")
+    @OneToMany(mappedBy="table")
     private Set<TableReservation> tableReservations;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="table")
+    @OneToMany(mappedBy="table")
     private Set<ReservationHistory> tableReservationsHistory;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="table")
+    @OneToMany(mappedBy="table")
     private Set<TrafficHistory> tableOccupations;
 
     public Long getId() {

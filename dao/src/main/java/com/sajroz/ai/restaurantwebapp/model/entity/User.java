@@ -35,13 +35,13 @@ public class User implements Serializable {
     @Column(name = "user_image")
     private String image;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+    @OneToMany(mappedBy="user")
     private Set<TableReservation> tableReservationSet;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+    @OneToMany(mappedBy="user")
     private Set<RestaurantReservation> restaurantReservationSet;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+    @OneToMany(mappedBy="user")
     private Set<ReservationHistory> reservationHistorySet;
 
     public Long getId() {

@@ -15,11 +15,11 @@ public class ReservationHistory implements Serializable {
     @Column(name = "reservation_id")
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reserving_user_history", referencedColumnName = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "table_reserved_history", referencedColumnName = "table_id")
     private Tables table;
 
@@ -27,7 +27,7 @@ public class ReservationHistory implements Serializable {
     private short floor;
 
     @Column(name = "table_reservation_timestamp_history", nullable = false)
-    @Type(type="timestamp") //added to be sure its timestamp
+    @Temporal(TemporalType.TIMESTAMP)
     private Date tableReservationDate;
 
     public Long getId() {
