@@ -69,10 +69,8 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
                 .and().logout().logoutSuccessUrl("/successfulLogout")
                 .and().authorizeRequests()
                 .antMatchers("/login*", "/logout*", "/registration", "/successfulLogout", "/test", "/menu").permitAll()
+                .antMatchers().hasAnyRole()
                 .anyRequest().authenticated();
-//                .and().httpBasic();
-        //http.requiresChannel()
-        //        .antMatchers("/login*").requiresSecure();
     }
 
 

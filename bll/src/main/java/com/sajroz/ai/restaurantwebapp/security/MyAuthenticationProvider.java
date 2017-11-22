@@ -31,8 +31,9 @@ public class MyAuthenticationProvider extends DaoAuthenticationProvider {
         if (authentication.getCredentials() != null && authentication.getPrincipal() != null) {
             String email = (String) authentication.getPrincipal();
             String password = (String) authentication.getCredentials();
-            if (userService.userByEmailAndPasswordExists(email, password)) {
-                return new UsernamePasswordAuthenticationToken(email, password, Collections.singletonList(new SimpleGrantedAuthority("ROLE")));
+            String role = userService.userByEmailAndPasswordExists(email, password);
+            if (role != null) {
+                return new UsernamePasswordAuthenticationToken(email, password, Collections.singletonList(new SimpleGrantedAuthority(role)));
             }
         }
 

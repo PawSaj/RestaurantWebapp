@@ -29,15 +29,10 @@ public class UserService {
         return userMapper.mapToDto(user);
     }
 
-    public boolean userByEmailAndPasswordExists(String email, String password) {
-        logger.debug("userByEmailAndPasswordExists, email={}", email);
-        if(userRepository.userByEmailAndPasswordExists(email, password)) {
-            logger.debug("userByEmailAndPasswordExists user found, email={}, passowrd={}", email, password);
-            return true;
-        } else {
-            logger.debug("userByEmailAndPasswordExists user not found, email={}, passowrd={}", email, password);
-            return false;
-        }
+    public String userByEmailAndPasswordExists(String email, String password) {
+        logger.debug("userByEmailAndPasswordGetRole, email={}", email);
+        return userRepository.userByEmailAndPasswordGetRole(email, password);
+
     }
 
     public void insertUserToDatabase(UserDao user) {
