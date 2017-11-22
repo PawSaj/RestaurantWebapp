@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sajroz.ai.restaurantwebapp.dao.UserRepository;
 import com.sajroz.ai.restaurantwebapp.dto.UserDto;
 import com.sajroz.ai.restaurantwebapp.mapping.UserMapper;
-import com.sajroz.ai.restaurantwebapp.model.entity.UserDao;
+import com.sajroz.ai.restaurantwebapp.model.entity.User;
 
 @Service
 @Transactional
@@ -25,7 +25,7 @@ public class UserService {
     //@PreAuthorize("hasAuthority('ADIMN')")
     public UserDto getUserByEmail(String email) {
         logger.debug("getUserByEmail, email={}", email);
-        UserDao user = userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email);
         return userMapper.mapToDto(user);
     }
 
@@ -35,12 +35,12 @@ public class UserService {
 
     }
 
-    public void insertUserToDatabase(UserDao user) {
+    public void insertUserToDatabase(User user) {
         logger.debug("insertUserToDatabase saving user to database, user={}", user);
         userRepository.save(user);
     }
 
-    public UserDao mapUserFromDto(UserDto userDto) {
+    public User mapUserFromDto(UserDto userDto) {
         return userMapper.mapFromDto(userDto);
     }
 

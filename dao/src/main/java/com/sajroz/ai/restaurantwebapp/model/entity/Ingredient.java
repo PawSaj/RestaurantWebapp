@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "INGREDIENT")
-public class IngredientDao implements Serializable {
+public class Ingredient implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +18,7 @@ public class IngredientDao implements Serializable {
     private String name;
 
     @ManyToMany(mappedBy = "ingredients", fetch = FetchType.EAGER)
-    private Set<MealDao> meal = new HashSet<MealDao>();
+    private Set<Meal> meal = new HashSet<Meal>();
 
     public Long getId() {
         return id;
@@ -36,11 +36,11 @@ public class IngredientDao implements Serializable {
         this.name = name;
     }
 
-    public Set<MealDao> getMeal() {
+    public Set<Meal> getMeal() {
         return meal;
     }
 
-    public void setMeal(Set<MealDao> meal) {
+    public void setMeal(Set<Meal> meal) {
         this.meal = meal;
     }
 

@@ -16,7 +16,7 @@ public class MealOrderHistory implements Serializable{
 
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "ordered_meal", referencedColumnName = "meal_id", nullable = false)
-    private MealDao meal;
+    private Meal meal;
 
     @Column(name = "meal_order_timestamp", nullable = false)
     @Type(type="timestamp") //added to be sure its timestamp
@@ -30,11 +30,11 @@ public class MealOrderHistory implements Serializable{
         this.id = id;
     }
 
-    public MealDao getMeal() {
+    public Meal getMeal() {
         return meal;
     }
 
-    public void setMeal(MealDao meal) {
+    public void setMeal(Meal meal) {
         this.meal = meal;
     }
 

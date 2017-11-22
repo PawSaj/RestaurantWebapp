@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "TRAFFIC_HISTORY")
-public class TrafficHistoryDao implements Serializable{
+public class TrafficHistory implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "traffic_history_id")
@@ -16,7 +16,7 @@ public class TrafficHistoryDao implements Serializable{
 
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "occupied_table", referencedColumnName = "table_id", nullable = false)
-    private TableDao table;
+    private Tables table;
 
     @Column(name = "table_occupied_timestamp", nullable = false)
     @Type(type="timestamp") //added to be sure its timestamp
@@ -30,11 +30,11 @@ public class TrafficHistoryDao implements Serializable{
         this.id = id;
     }
 
-    public TableDao getTable() {
+    public Tables getTable() {
         return table;
     }
 
-    public void setTable(TableDao table) {
+    public void setTable(Tables table) {
         this.table = table;
     }
 

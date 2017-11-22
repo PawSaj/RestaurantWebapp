@@ -3,13 +3,12 @@ package com.sajroz.ai.restaurantwebapp.model.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "MEAL")
-public class MealDao implements Serializable {
+public class Meal implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +32,7 @@ public class MealDao implements Serializable {
     @JoinTable(name = "MEAL_INGREDIENT",
             joinColumns = {@JoinColumn(name = "meal_id")},
             inverseJoinColumns = {@JoinColumn(name = "ingredient_id")})
-    private Set<IngredientDao> ingredients = new HashSet<IngredientDao>();
+    private Set<Ingredient> ingredients = new HashSet<Ingredient>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="meal")
     private Set<MealOrderHistory> mealOrderHistories;
@@ -78,11 +77,11 @@ public class MealDao implements Serializable {
         this.image = image;
     }
 
-    public Set<IngredientDao> getIngredients() {
+    public Set<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(Set<IngredientDao> ingredients) {
+    public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 

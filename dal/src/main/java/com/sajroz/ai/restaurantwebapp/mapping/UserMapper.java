@@ -1,7 +1,7 @@
 package com.sajroz.ai.restaurantwebapp.mapping;
 
 import com.sajroz.ai.restaurantwebapp.dto.UserDto;
-import com.sajroz.ai.restaurantwebapp.model.entity.UserDao;
+import com.sajroz.ai.restaurantwebapp.model.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ public class UserMapper  {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public UserDto mapToDto(UserDao user) {
+    public UserDto mapToDto(User user) {
         logger.debug("map, user={}", user);
         if(user == null) {
             return null;
@@ -28,13 +28,13 @@ public class UserMapper  {
         return userDto;
     }
 
-    public UserDao mapFromDto(UserDto userDto) {
+    public User mapFromDto(UserDto userDto) {
         logger.debug("map, user={}", userDto);
         if(userDto == null) {
             return null;
         }
 
-        UserDao user = new UserDao();
+        User user = new User();
         user.setId(userDto.getId());
         user.setEmail(userDto.getEmail());
         user.setUsername(userDto.getUsername());

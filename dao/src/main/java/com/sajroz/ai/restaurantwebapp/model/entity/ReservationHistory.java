@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "RESERVATION_HISTORY")
-public class ReservationHistoryDao implements Serializable {
+public class ReservationHistory implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,11 +17,11 @@ public class ReservationHistoryDao implements Serializable {
 
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "reserving_user_history", referencedColumnName = "user_id", nullable = false)
-    private UserDao user;
+    private User user;
 
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "table_reserved_history", referencedColumnName = "table_id")
-    private TableDao table;
+    private Tables table;
 
     @Column(name = "reserved_floor")
     private short floor;
@@ -38,19 +38,19 @@ public class ReservationHistoryDao implements Serializable {
         this.id = id;
     }
 
-    public UserDao getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserDao user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public TableDao getTable() {
+    public Tables getTable() {
         return table;
     }
 
-    public void setTable(TableDao table) {
+    public void setTable(Tables table) {
         this.table = table;
     }
 

@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "USERS")
-public class UserDao implements Serializable {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,13 +36,13 @@ public class UserDao implements Serializable {
     private String image;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<TableReservationDao> tableReservationSet;
+    private Set<TableReservation> tableReservationSet;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<RestaurantReservationDao> restaurantReservationSet;
+    private Set<RestaurantReservation> restaurantReservationSet;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<ReservationHistoryDao> reservationHistorySet;
+    private Set<ReservationHistory> reservationHistorySet;
 
     public Long getId() {
         return id;
@@ -108,27 +108,27 @@ public class UserDao implements Serializable {
         this.image = image;
     }
 
-    public Set<TableReservationDao> getTableReservationSet() {
+    public Set<TableReservation> getTableReservationSet() {
         return tableReservationSet;
     }
 
-    public void setTableReservationSet(Set<TableReservationDao> tableReservationSet) {
+    public void setTableReservationSet(Set<TableReservation> tableReservationSet) {
         this.tableReservationSet = tableReservationSet;
     }
 
-    public Set<RestaurantReservationDao> getRestaurantReservationSet() {
+    public Set<RestaurantReservation> getRestaurantReservationSet() {
         return restaurantReservationSet;
     }
 
-    public void setRestaurantReservationSet(Set<RestaurantReservationDao> restaurantReservationSet) {
+    public void setRestaurantReservationSet(Set<RestaurantReservation> restaurantReservationSet) {
         this.restaurantReservationSet = restaurantReservationSet;
     }
 
-    public Set<ReservationHistoryDao> getReservationHistorySet() {
+    public Set<ReservationHistory> getReservationHistorySet() {
         return reservationHistorySet;
     }
 
-    public void setReservationHistorySet(Set<ReservationHistoryDao> reservationHistorySet) {
+    public void setReservationHistorySet(Set<ReservationHistory> reservationHistorySet) {
         this.reservationHistorySet = reservationHistorySet;
     }
 

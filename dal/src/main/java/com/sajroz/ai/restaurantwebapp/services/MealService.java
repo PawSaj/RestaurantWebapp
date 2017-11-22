@@ -4,7 +4,7 @@ import com.sajroz.ai.restaurantwebapp.dao.MealRepository;
 import com.sajroz.ai.restaurantwebapp.dto.IngredientDto;
 import com.sajroz.ai.restaurantwebapp.dto.MealDto;
 import com.sajroz.ai.restaurantwebapp.mapping.MealMapper;
-import com.sajroz.ai.restaurantwebapp.model.entity.MealDao;
+import com.sajroz.ai.restaurantwebapp.model.entity.Meal;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -30,12 +30,12 @@ public class MealService {
 
     public JSONObject getAllMealsForMenu() {
         logger.debug("getAllMealsForMenu");
-        List<MealDao> meals;
+        List<Meal> meals;
         meals = mealRepository.findAll();
 
         List<MealDto> mealDtos = new ArrayList<>();
-        for (MealDao m : meals) {
-            mealDtos.add(mealMapper.mealDaoToMealDto(m));
+        for (Meal m : meals) {
+            mealDtos.add(mealMapper.mealToMealDto(m));
         }
         logger.debug("getAllMealsForMenu, mealDtos={}", mealDtos);
 

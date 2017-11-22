@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "RESTAURANT_RESERVATION")
-public class RestaurantReservationDao implements Serializable {
+public class RestaurantReservation implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +17,7 @@ public class RestaurantReservationDao implements Serializable {
 
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "restaurant_reserving_user", referencedColumnName = "user_id", nullable = false)
-    private UserDao user;
+    private User user;
 
     @Column(name = "restaurant_reservation_timestamp", nullable = false)
     @Type(type="timestamp") //added to be sure its timestamp
@@ -34,11 +34,11 @@ public class RestaurantReservationDao implements Serializable {
         this.id = id;
     }
 
-    public UserDao getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserDao user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

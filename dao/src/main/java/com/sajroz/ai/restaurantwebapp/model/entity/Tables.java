@@ -6,7 +6,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "TABLES")
-public class TableDao implements Serializable {
+public class Tables implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,13 +29,13 @@ public class TableDao implements Serializable {
     private boolean isFree;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="table")
-    private Set<TableReservationDao> tableReservations;
+    private Set<TableReservation> tableReservations;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="table")
-    private Set<ReservationHistoryDao> tableReservationsHistory;
+    private Set<ReservationHistory> tableReservationsHistory;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="table")
-    private Set<TrafficHistoryDao> tableOccupations;
+    private Set<TrafficHistory> tableOccupations;
 
     public Long getId() {
         return id;
@@ -85,27 +85,27 @@ public class TableDao implements Serializable {
         isFree = free;
     }
 
-    public Set<TableReservationDao> getTableReservations() {
+    public Set<TableReservation> getTableReservations() {
         return tableReservations;
     }
 
-    public void setTableReservations(Set<TableReservationDao> tableReservations) {
+    public void setTableReservations(Set<TableReservation> tableReservations) {
         this.tableReservations = tableReservations;
     }
 
-    public Set<ReservationHistoryDao> getTableReservationsHistory() {
+    public Set<ReservationHistory> getTableReservationsHistory() {
         return tableReservationsHistory;
     }
 
-    public void setTableReservationsHistory(Set<ReservationHistoryDao> tableReservationsHistory) {
+    public void setTableReservationsHistory(Set<ReservationHistory> tableReservationsHistory) {
         this.tableReservationsHistory = tableReservationsHistory;
     }
 
-    public Set<TrafficHistoryDao> getTableOccupations() {
+    public Set<TrafficHistory> getTableOccupations() {
         return tableOccupations;
     }
 
-    public void setTableOccupations(Set<TrafficHistoryDao> tableOccupations) {
+    public void setTableOccupations(Set<TrafficHistory> tableOccupations) {
         this.tableOccupations = tableOccupations;
     }
 
