@@ -35,13 +35,13 @@ public class LoginController {
         return "logout successful";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/registration")
-    public @ResponseBody
-    String registration(@RequestParam String email,
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    @ResponseBody
+    public String registration(@RequestParam String email,
                         @RequestParam String password,
                         @RequestParam String username,
                         @RequestParam String surname,
-                        @RequestParam(required = false) int phone,
+                        @RequestParam(required = false) Integer phone,
                         @RequestParam(required = false) byte[] user_image) {
         logger.info("registration, email={}", email);
         if (userService.getUserByEmail(email) != null) {

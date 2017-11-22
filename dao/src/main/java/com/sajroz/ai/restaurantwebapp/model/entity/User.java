@@ -27,7 +27,7 @@ public class User implements Serializable {
     private String password;
 
     @Column(name = "phone")
-    private int phone;
+    private Integer phone;
 
     @Column(name = "user_role", nullable = false)
     private String role;
@@ -84,11 +84,11 @@ public class User implements Serializable {
         this.surname = surname;
     }
 
-    public int getPhone() {
+    public Integer getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(Integer phone) {
         this.phone = phone;
     }
 

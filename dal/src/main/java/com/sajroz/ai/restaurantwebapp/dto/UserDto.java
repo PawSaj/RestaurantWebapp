@@ -14,7 +14,7 @@ public class UserDto implements Serializable {
 
     private String password;
 
-    private int phone;
+    private Integer phone;
 
     private String role;
 
@@ -60,11 +60,11 @@ public class UserDto implements Serializable {
         this.surname = surname;
     }
 
-    public int getPhone() {
+    public Integer getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(Integer phone) {
         this.phone = phone;
     }
 
