@@ -15,14 +15,6 @@
     <properties>
         <jdk.version>1.8</jdk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <hibernate.version>4.2.11.Final</hibernate.version>
-        <servletapi.version>3.0.1</servletapi.version>
-        <mysql.version>5.1.43</mysql.version>
-        <spring.data.jpa.version>1.11.6.RELEASE</spring.data.jpa.version>
-        <logback.version>1.1.2</logback.version>
-        <slf4j.version>1.7.6</slf4j.version>
-        <hibernate.spacial.varsion>5.2.12.Final</hibernate.spacial.varsion>
     </properties>
 
     <dependencies>
@@ -30,51 +22,43 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.version}</version>
         </dependency>
         <!-- Hibernate Spatial -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-spatial</artifactId>
-            <version>${hibernate.spacial.varsion}</version>
         </dependency>
 
         <!-- ORM integration, e.g Hibernate -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
-            <version>${spring.data.jpa.version}</version>
         </dependency>
 
         <!-- logging, slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
-            <version>${slf4j.version}</version>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
         </dependency>
 
         <!-- DB -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.version}</version>
         </dependency>
     </dependencies>
 

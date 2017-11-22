@@ -16,15 +16,6 @@
         <jdk.version>1.8</jdk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
-
-        <dal.version>1.0-SNAPSHOT</dal.version>
-        <spring.version>4.3.12.RELEASE</spring.version>
-        <spring.security.version>4.2.3.RELEASE</spring.security.version>
-        <spring.security.oauth2.version>2.0.13.RELEASE</spring.security.oauth2.version>
-        <servletapi.version>3.0.1</servletapi.version>
-
-        <logback.version>1.1.2</logback.version>
-        <slf4j.version>1.7.6</slf4j.version>
     </properties>
 
     <dependencies>
@@ -32,14 +23,12 @@
         <dependency>
             <groupId>com.sajroz.ai.restaurantwebapp</groupId>
             <artifactId>dal</artifactId>
-            <version>${dal.version}</version>
         </dependency>
 
         <!-- Spring 3 dependencies -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>${spring.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-logging</groupId>
@@ -52,32 +41,27 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>${spring.version}</version>
         </dependency>
 
         <!-- Spring Security -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-            <version>${spring.security.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>${spring.security.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
-            <version>${spring.security.oauth2.version}</version>
         </dependency>
 
         <!-- servlet -->
@@ -85,7 +69,6 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>${servletapi.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -93,19 +76,16 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
-            <version>${slf4j.version}</version>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
         </dependency>
 
     </dependencies>
