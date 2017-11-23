@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.bind.DatatypeConverter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +52,7 @@ public class MealService {
                 ingredients.put(in.getName());
             }
             jo.put("ingredients", ingredients);
-            jo.put("image", DatatypeConverter.printBase64Binary(m.getImage()));
+            jo.put("image", m.getImage());
             JSONArray ja = new JSONArray();
             ja.put(jo);
             mainObject.put(m.getName(), ja);

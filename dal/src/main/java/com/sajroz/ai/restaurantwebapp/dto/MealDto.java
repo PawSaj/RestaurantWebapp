@@ -12,7 +12,7 @@ public class MealDto {
 
     private String describe;
 
-    private byte[] image;
+    private String image;
 
     private Set<IngredientDto> ingredients = new HashSet<>();
 
@@ -40,11 +40,11 @@ public class MealDto {
         this.describe = describe;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -58,10 +58,11 @@ public class MealDto {
 
     @Override
     public String toString() {
-        return "Meal{" +
+        return "MealDto{" +
                 "name='" + name + '\'' +
                 ", price=" + price +
                 ", describe='" + describe + '\'' +
+                ", image='" + image + '\'' +
                 ", ingredients=" + ingredients +
                 '}';
     }

@@ -34,7 +34,7 @@ public class MyUserDetailService implements UserDetailsService {
         }
 
         logger.debug("loadUserByEmail successful, email={}", email);
-        return new User(user.getEmail(), "", Collections.singletonList(new SimpleGrantedAuthority("ROLE")));
+        return new User(user.getEmail(), "", Collections.singletonList(new SimpleGrantedAuthority(user.getRole())));
     }
 
 

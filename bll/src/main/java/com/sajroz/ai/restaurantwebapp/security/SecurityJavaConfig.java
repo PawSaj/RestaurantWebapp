@@ -42,6 +42,7 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
             throws Exception {
 
         authenticationProvider.setPasswordEncoder(passwordEncoder());
+        auth.eraseCredentials(false);
         auth.authenticationProvider(authenticationProvider);
 
 //        auth.inMemoryAuthentication()

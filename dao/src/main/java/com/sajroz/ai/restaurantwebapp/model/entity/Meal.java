@@ -25,8 +25,7 @@ public class Meal implements Serializable {
     private String describe;
 
     @Column(name = "meal_image")
-    @Lob
-    private byte[] image;
+    private String image;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "MEAL_INGREDIENT",
@@ -69,11 +68,11 @@ public class Meal implements Serializable {
         this.describe = describe;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -100,7 +99,9 @@ public class Meal implements Serializable {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", describe='" + describe + '\'' +
+                ", image='" + image + '\'' +
                 ", ingredients=" + ingredients +
+                ", mealOrderHistories=" + mealOrderHistories +
                 '}';
     }
 }
