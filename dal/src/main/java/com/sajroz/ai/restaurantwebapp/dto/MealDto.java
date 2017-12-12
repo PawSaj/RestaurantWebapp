@@ -6,6 +6,8 @@ import java.util.Set;
 
 public class MealDto {
 
+    private Long id;
+
     private String name;
 
     private BigDecimal price;
@@ -15,6 +17,14 @@ public class MealDto {
     private String image;
 
     private Set<IngredientDto> ingredients = new HashSet<>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

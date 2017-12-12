@@ -45,6 +45,7 @@ public class MealService {
         JSONObject mainObject = new JSONObject();
         for (MealDto m : mealDtos) {
             JSONObject jo = new JSONObject();
+            jo.put("name", m.getName());
             jo.put("price", m.getPrice());
             jo.put("describe", m.getDescribe());
             JSONArray ingredients = new JSONArray();
@@ -55,7 +56,7 @@ public class MealService {
             jo.put("image", m.getImage());
             JSONArray ja = new JSONArray();
             ja.put(jo);
-            mainObject.put(m.getName(), ja);
+            mainObject.put(m.getId().toString(), ja);
         }
         return mainObject;
     }
