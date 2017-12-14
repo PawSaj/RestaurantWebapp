@@ -54,9 +54,9 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
-
         http.sessionManagement()
                 .sessionFixation()
+
                 .none();
         // zabezpieczenie przed atakiem clickjacking
         http.headers().frameOptions().sameOrigin();
@@ -70,6 +70,7 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
                 .and().logout().logoutSuccessUrl("/successfulLogout")
                 .and().authorizeRequests()
                 .antMatchers("/login*", "/logout*", "/registration", "/successfulLogout", "/test", "/menu").permitAll()
+                .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .antMatchers().hasAnyRole()
                 .anyRequest().authenticated();
     }
