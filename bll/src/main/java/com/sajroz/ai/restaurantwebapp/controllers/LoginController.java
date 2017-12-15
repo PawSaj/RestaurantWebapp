@@ -2,8 +2,7 @@ package com.sajroz.ai.restaurantwebapp.controllers;
 
 import com.sajroz.ai.restaurantwebapp.dto.UserDto;
 import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
-import com.sajroz.ai.restaurantwebapp.returnMessages.Messages;
-import org.json.JSONObject;
+import com.sajroz.ai.restaurantwebapp.returnMessages.ResponseMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +28,12 @@ public class LoginController {
 
     @RequestMapping(value = "/failedLogin", produces = "application/json")
     public String failedLogin() {
-        return jsonMessageGenerator.createSimpleRespons(Messages.OK).toString();
+        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.LOGIN_FILED).toString();
     }
 
     @RequestMapping(value = "/successfulLogout", produces = "application/json")
     public String successfulLogout() {
-        return jsonMessageGenerator.createSimpleRespons(Messages.OK).toString();
+        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST, produces = "application/json")
@@ -43,13 +42,13 @@ public class LoginController {
         if (userService.getUserByEmail(userDto.getEmail()) != null) {
             logger.warn("registration failed - user already exist, email={}", userDto.getEmail());
 
-            return jsonMessageGenerator.createSimpleRespons(Messages.DUPLICATE_EMAIL).toString();
+            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_EMAIL).toString();
         } else {
             logger.info("saving user to database, user={}", userDto);
 
             userDto.setRole("USER");
             userService.saveUserToDatabase(userService.mapUserFromDto(userDto));
-            return jsonMessageGenerator.createSimpleRespons(Messages.USER_REGISTERED).toString();
+            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.USER_REGISTERED).toString();
         }
     }
 }

@@ -1,9 +1,7 @@
 package com.sajroz.ai.restaurantwebapp.services;
 
 import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
-import com.sajroz.ai.restaurantwebapp.returnMessages.Messages;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.sajroz.ai.restaurantwebapp.returnMessages.ResponseMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,11 +63,11 @@ public class UserService {
         User userToUpdate = createUpdatedUser(userId, userDto, admin);
         if (userToUpdate == null) {
             logger.debug("updateUser failed, userId={}, user={}", userId, userDto);
-            return jsonMessageGenerator.createSimpleRespons(Messages.NO_USER).toString();
+            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_USER).toString();
         } else {
             logger.debug("updateUser update user to database, user={}", userToUpdate);
             userRepository.save(userToUpdate);
-            return jsonMessageGenerator.createSimpleRespons(Messages.USER_UPDATED).toString();
+            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.USER_UPDATED).toString();
         }
 
     }

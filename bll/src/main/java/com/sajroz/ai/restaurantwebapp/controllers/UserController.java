@@ -2,7 +2,7 @@ package com.sajroz.ai.restaurantwebapp.controllers;
 
 import com.sajroz.ai.restaurantwebapp.dto.UserDto;
 import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
-import com.sajroz.ai.restaurantwebapp.returnMessages.Messages;
+import com.sajroz.ai.restaurantwebapp.returnMessages.ResponseMessages;
 import com.sajroz.ai.restaurantwebapp.services.UserService;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -42,10 +42,10 @@ public class UserController {
                 SecurityContextHolder.getContext().setAuthentication(request);
                 return message;
             } catch (DataIntegrityViolationException e) {
-                return jsonMessageGenerator.createSimpleRespons(Messages.DUPLICATE_EMAIL).toString();
+                return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_EMAIL).toString();
             }
         } else {
-            return jsonMessageGenerator.createSimpleRespons(Messages.ACCESS_ERROR).toString();
+            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.ACCESS_ERROR).toString();
         }
 
     }
@@ -55,7 +55,7 @@ public class UserController {
         return userService.getAllUsers((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
-    @RequestMapping(value = "/admin/user/update/{userId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = "application/json")
+    @RequestMapping(value = "/admin/users/update/{userId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = "application/json")
     public String adminUpdateUser(@PathVariable(value = "userId") Long userId, @RequestBody UserDto userDto) {
         JSONObject returnMessage = new JSONObject();
         logger.info("updating to, user={}", userDto);
@@ -68,7 +68,7 @@ public class UserController {
             }
             return message;
         } catch (DataIntegrityViolationException e) {
-            return jsonMessageGenerator.createSimpleRespons(Messages.DUPLICATE_EMAIL).toString();
+            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_EMAIL).toString();
         }
 
     }

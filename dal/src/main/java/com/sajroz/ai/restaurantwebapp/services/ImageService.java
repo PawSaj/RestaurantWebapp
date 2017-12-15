@@ -2,8 +2,7 @@ package com.sajroz.ai.restaurantwebapp.services;
 
 import com.sajroz.ai.restaurantwebapp.dto.ImageData;
 import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
-import com.sajroz.ai.restaurantwebapp.returnMessages.Messages;
-import org.json.JSONObject;
+import com.sajroz.ai.restaurantwebapp.returnMessages.ResponseMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +29,11 @@ public class ImageService {
             imageBytes = Files.readAllBytes(fileLocation);
         } catch (IOException e) {
             logger.info("No file found, filePath={}", imagePath);
-            return jsonMessageGenerator.createSimpleRespons(Messages.NO_FILE).toString();
+            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_FILE).toString();
         }
 
         imageBytes = Base64.getMimeEncoder().encode(imageBytes);
-        return jsonMessageGenerator.createResponseWithAdditionalInfo(Messages.OK, "image", new String(imageBytes)).toString();
+        return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.OK, "image", new String(imageBytes)).toString();
     }
 
     public String convertBase64ToImage(ImageData userImage) {
@@ -43,21 +42,21 @@ public class ImageService {
             decodedImage = Base64.getMimeDecoder().decode(userImage.getImage());
         }  catch (IllegalArgumentException e) {
             logger.info("No data to save, decode error, e={}", e.getMessage());
-            return jsonMessageGenerator.createSimpleRespons(Messages.BASE64_ERROR).toString();
+            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.BASE64_ERROR).toString();
         }
 
         if (decodedImage != null) {
             String filename = storeImage(decodedImage);
             if(filename != null) {
                 logger.info("Saving user image successful, filepath={}", filename);
-                return jsonMessageGenerator.createResponseWithAdditionalInfo(Messages.IMAGE_SAVED, "filename", filename).toString();
+                return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.IMAGE_SAVED, "filename", filename).toString();
             } else {
                 logger.warn("Saving user image failed");
-                return jsonMessageGenerator.createSimpleRespons(Messages.IMAGE_SAVING_ERROR).toString();
+                return jsonMessageGenerator.createSimpleRespons(ResponseMessages.IMAGE_SAVING_ERROR).toString();
             }
         } else {
             logger.info("No data to save");
-            return jsonMessageGenerator.createSimpleRespons(Messages.EMPTY_IMAGE_DATA).toString();
+            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.EMPTY_IMAGE_DATA).toString();
         }
     }
 

@@ -12,14 +12,14 @@ import java.util.List;
 @Component
 public class JSONMessageGenerator {
 
-    public JSONObject createSimpleRespons(Messages message) {
+    public JSONObject createSimpleRespons(ResponseMessages message) {
         JSONObject response = new JSONObject();
         response.put("status", message.getCode());
         response.put("description", message.getDescription());
         return response;
     }
 
-    public JSONObject createResponseWithAdditionalInfo(Messages message, String infoKey, String info) {
+    public JSONObject createResponseWithAdditionalInfo(ResponseMessages message, String infoKey, String info) {
         JSONObject response = createSimpleRespons(message);
         response.put(infoKey, info);
         return response;
@@ -33,8 +33,10 @@ public class JSONMessageGenerator {
             jo.put("price", m.getPrice());
             jo.put("describe", m.getDescribe());
             JSONArray ingredients = new JSONArray();
+            int index = 0;
             for (IngredientDto in:  m.getIngredients()) {
-                ingredients.put(in.getName());
+                ingredients.put(index, in.getName());
+                index++;
             }
             jo.put("ingredients", ingredients);
             jo.put("image", m.getImage());

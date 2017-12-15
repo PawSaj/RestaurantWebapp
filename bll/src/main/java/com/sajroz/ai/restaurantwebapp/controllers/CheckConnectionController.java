@@ -16,8 +16,8 @@ public class CheckConnectionController {
     @RequestMapping(value = "/test2")
     public String test2() {
 
-        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal()
-                + SecurityContextHolder.getContext().getAuthentication().getCredentials()
+        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal() + " "
+                + SecurityContextHolder.getContext().getAuthentication().getCredentials() + " "
                 + SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
     }
 }
