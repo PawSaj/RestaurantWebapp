@@ -1,9 +1,12 @@
 package com.sajroz.ai.restaurantwebapp.services;
 
 import com.sajroz.ai.restaurantwebapp.dto.ImageData;
+import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
+import com.sajroz.ai.restaurantwebapp.returnMessages.Messages;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -17,60 +20,44 @@ import java.util.UUID;
 public class ImageService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Autowired
+    private JSONMessageGenerator jsonMessageGenerator;
+
     public String convertImageToBase64(String imagePath) {
-        JSONObject returnMessage = new JSONObject();
         byte[] imageBytes;
         try {
             Path fileLocation = Paths.get("./images/" + imagePath);
             imageBytes = Files.readAllBytes(fileLocation);
         } catch (IOException e) {
             logger.info("No file found, filePath={}", imagePath);
-            returnMessage.put("status", -1);
-            returnMessage.put("message", "No file found");
-            return returnMessage.toString();
+            return jsonMessageGenerator.createSimpleRespons(Messages.NO_FILE).toString();
         }
 
         imageBytes = Base64.getMimeEncoder().encode(imageBytes);
-        returnMessage.put("status", 0);
-        returnMessage.put("image", new String(imageBytes));
-
-        return returnMessage.toString();
+        return jsonMessageGenerator.createResponseWithAdditionalInfo(Messages.OK, "image", new String(imageBytes)).toString();
     }
 
     public String convertBase64ToImage(ImageData userImage) {
-        JSONObject returnMessage = new JSONObject();
-
         byte[] decodedImage;
         try {
             decodedImage = Base64.getMimeDecoder().decode(userImage.getImage());
         }  catch (IllegalArgumentException e) {
             logger.info("No data to save, decode error, e={}", e.getMessage());
-            returnMessage.put("status", -3);
-            returnMessage.put("message", "Wrong encode");
-            returnMessage.put("filepath", "");
-            return returnMessage.toString();
+            return jsonMessageGenerator.createSimpleRespons(Messages.BASE64_ERROR).toString();
         }
+
         if (decodedImage != null) {
-            String filepath = storeImage(decodedImage);
-            if(filepath != null) {
-                logger.info("Saving user image successful, filepath={}", filepath);
-                returnMessage.put("status", 0);
-                returnMessage.put("message", "Image saved successfully");
-                returnMessage.put("filepath", filepath);
-                return returnMessage.toString();
+            String filename = storeImage(decodedImage);
+            if(filename != null) {
+                logger.info("Saving user image successful, filepath={}", filename);
+                return jsonMessageGenerator.createResponseWithAdditionalInfo(Messages.IMAGE_SAVED, "filename", filename).toString();
             } else {
                 logger.warn("Saving user image failed");
-                returnMessage.put("status", -1);
-                returnMessage.put("message", "Image saving failure");
-                returnMessage.put("filepath", "");
-                return returnMessage.toString();
+                return jsonMessageGenerator.createSimpleRespons(Messages.IMAGE_SAVING_ERROR).toString();
             }
         } else {
             logger.info("No data to save");
-            returnMessage.put("status", -2);
-            returnMessage.put("message", "No data to save or data is corrupted");
-            returnMessage.put("filepath", "");
-            return returnMessage.toString();
+            return jsonMessageGenerator.createSimpleRespons(Messages.EMPTY_IMAGE_DATA).toString();
         }
     }
 

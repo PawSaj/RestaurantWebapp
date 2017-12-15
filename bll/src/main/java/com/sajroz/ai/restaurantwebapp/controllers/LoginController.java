@@ -1,10 +1,13 @@
 package com.sajroz.ai.restaurantwebapp.controllers;
 
 import com.sajroz.ai.restaurantwebapp.dto.UserDto;
+import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
+import com.sajroz.ai.restaurantwebapp.returnMessages.Messages;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import com.sajroz.ai.restaurantwebapp.services.UserService;
 
@@ -16,39 +19,37 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/successfulLogin")
-    public String successfulLogin() {
-        return "login successful";
+    @Autowired
+    private JSONMessageGenerator jsonMessageGenerator;
+
+    @RequestMapping(value = "/successfulLogin", produces = "application/json")
+    public UserDto successfulLogin() {
+        return userService.getUserByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
-    @RequestMapping(value = "/failedLogin")
+    @RequestMapping(value = "/failedLogin", produces = "application/json")
     public String failedLogin() {
-        return "error";
+        return jsonMessageGenerator.createSimpleRespons(Messages.OK).toString();
     }
 
-    @RequestMapping(value = "/successfulLogout")
+    @RequestMapping(value = "/successfulLogout", produces = "application/json")
     public String successfulLogout() {
-        return "logout successful";
+        return jsonMessageGenerator.createSimpleRespons(Messages.OK).toString();
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    @RequestMapping(value = "/registration", method = RequestMethod.POST, produces = "application/json")
     public String registration(@RequestBody UserDto userDto) {
         logger.info("registration, user={}", userDto);
-        JSONObject returnMessage = new JSONObject();
         if (userService.getUserByEmail(userDto.getEmail()) != null) {
             logger.warn("registration failed - user already exist, email={}", userDto.getEmail());
 
-            returnMessage.put("status", -1);
-            returnMessage.put("message", "Email is taken. Try another.");
-            return returnMessage.toString();
+            return jsonMessageGenerator.createSimpleRespons(Messages.DUPLICATE_EMAIL).toString();
         } else {
             logger.info("saving user to database, user={}", userDto);
 
             userDto.setRole("USER");
-            userService.insertUserToDatabase(userService.mapUserFromDto(userDto));
-            returnMessage.put("status", 0);
-            returnMessage.put("message", "Registration successful");
-            return returnMessage.toString();
+            userService.saveUserToDatabase(userService.mapUserFromDto(userDto));
+            return jsonMessageGenerator.createSimpleRespons(Messages.USER_REGISTERED).toString();
         }
     }
 }

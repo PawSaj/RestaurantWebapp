@@ -1,5 +1,7 @@
 package com.sajroz.ai.restaurantwebapp.services;
 
+import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
+import com.sajroz.ai.restaurantwebapp.returnMessages.Messages;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -27,6 +29,9 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private JSONMessageGenerator jsonMessageGenerator;
+
     //@PreAuthorize("hasAuthority('ADIMN')")
     public UserDto getUserByEmail(String email) {
         logger.debug("getUserByEmail, email={}", email);
@@ -46,8 +51,8 @@ public class UserService {
 
     }
 
-    public void insertUserToDatabase(User user) {
-        logger.debug("insertUserToDatabase saving user to database, user={}", user);
+    public void saveUserToDatabase(User user) {
+        logger.debug("saveUserToDatabase saving user to database, user={}", user);
         userRepository.save(user);
     }
 
@@ -57,19 +62,14 @@ public class UserService {
 
     public String updateUser(Long userId, UserDto userDto, boolean admin) {
         logger.debug("updateUser, userId={}, user={}", userId, userDto);
-        JSONObject returnMessage = new JSONObject();
         User userToUpdate = createUpdatedUser(userId, userDto, admin);
         if (userToUpdate == null) {
             logger.debug("updateUser failed, userId={}, user={}", userId, userDto);
-            returnMessage.put("status", -1);
-            returnMessage.put("message", "User doesn't exist");
-            return returnMessage.toString();
+            return jsonMessageGenerator.createSimpleRespons(Messages.NO_USER).toString();
         } else {
             logger.debug("updateUser update user to database, user={}", userToUpdate);
             userRepository.save(userToUpdate);
-            returnMessage.put("status", 0);
-            returnMessage.put("message", "User updated");
-            return returnMessage.toString();
+            return jsonMessageGenerator.createSimpleRespons(Messages.USER_UPDATED).toString();
         }
 
     }
@@ -105,26 +105,11 @@ public class UserService {
         for (User u : users){
             userDtos.add(userMapper.mapToDto(u));
         }
+
         logger.debug("getAllUsers, userDtos={}", userDtos);
 
-        return generateJSONWithUsers(userDtos);
+        return jsonMessageGenerator.generateJSONWithUsers(userDtos);
     }
 
-    private String generateJSONWithUsers(List<UserDto> userDtos) {
-        JSONObject mainObject = new JSONObject();
-        for (UserDto u : userDtos) {
-            JSONObject jo = new JSONObject();
-            jo.put("username", u.getUsername());
-            jo.put("surname", u.getSurname());
-            jo.put("email", u.getEmail());
-            jo.put("password", u.getPassword());
-            jo.put("phone", u.getPhone());
-            jo.put("role", u.getRole());
-            jo.put("image", u.getImage());
-            JSONArray ja = new JSONArray();
-            ja.put(jo);
-            mainObject.put(u.getId().toString(), ja);
-        }
-        return mainObject.toString();
-    }
+
 }

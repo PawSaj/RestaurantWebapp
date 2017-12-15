@@ -1,6 +1,8 @@
 package com.sajroz.ai.restaurantwebapp.controllers;
 
 import com.sajroz.ai.restaurantwebapp.dto.UserDto;
+import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
+import com.sajroz.ai.restaurantwebapp.returnMessages.Messages;
 import com.sajroz.ai.restaurantwebapp.services.UserService;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -21,6 +23,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JSONMessageGenerator jsonMessageGenerator;
+
     @RequestMapping(value = "/user/update", method = RequestMethod.GET, produces = "application/json")
     public UserDto updateUser() {
         return userService.getUserByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
@@ -28,7 +33,6 @@ public class UserController {
 
     @RequestMapping(value = "/user/update/{userId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = "application/json")
     public String updateUser(@PathVariable(value = "userId") Long userId, @RequestBody UserDto userDto) {
-        JSONObject returnMessage = new JSONObject();
         logger.info("updating to, user={}", userDto);
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals(userService.getUserById(userId).getEmail())) {
             try {
@@ -38,14 +42,10 @@ public class UserController {
                 SecurityContextHolder.getContext().setAuthentication(request);
                 return message;
             } catch (DataIntegrityViolationException e) {
-                returnMessage.put("status", -1);
-                returnMessage.put("message", "Email is taken. Try another.");
-                return returnMessage.toString();
+                return jsonMessageGenerator.createSimpleRespons(Messages.DUPLICATE_EMAIL).toString();
             }
         } else {
-            returnMessage.put("status", -2);
-            returnMessage.put("message", "You try to change data of different user");
-            return returnMessage.toString();
+            return jsonMessageGenerator.createSimpleRespons(Messages.ACCESS_ERROR).toString();
         }
 
     }
@@ -68,9 +68,7 @@ public class UserController {
             }
             return message;
         } catch (DataIntegrityViolationException e) {
-            returnMessage.put("status", -1);
-            returnMessage.put("message", "Email is taken. Try another.");
-            return returnMessage.toString();
+            return jsonMessageGenerator.createSimpleRespons(Messages.DUPLICATE_EMAIL).toString();
         }
 
     }
