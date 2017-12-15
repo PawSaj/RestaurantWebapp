@@ -29,10 +29,11 @@ public class MyAuthenticationProvider extends DaoAuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
         if (authentication.getCredentials() != null && authentication.getPrincipal() != null) {
-            String username = (String) authentication.getPrincipal();
+            String email = (String) authentication.getPrincipal();
             String password = (String) authentication.getCredentials();
-            if (userService.userByNameAndPasswordExists(username, password)) {
-                return new UsernamePasswordAuthenticationToken(username, password, Collections.singletonList(new SimpleGrantedAuthority("ROLE")));
+            String role = userService.userByEmailAndPasswordExists(email, password);
+            if (role != null) {
+                return new UsernamePasswordAuthenticationToken(email, password, Collections.singletonList(new SimpleGrantedAuthority(role)));
             }
         }
 

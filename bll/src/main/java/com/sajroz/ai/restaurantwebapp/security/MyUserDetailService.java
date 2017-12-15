@@ -22,17 +22,19 @@ public class MyUserDetailService implements UserDetailsService {
     @Autowired
     private UserService userService;
 
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        logger.debug("loadUserByUsername, username={}", username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        logger.debug("loadUserByEmail, email={}", email);
 
-        UserDto user = userService.getUserByUsername(username);
+        UserDto user = userService.getUserByEmail(email);
 
         if(user == null) {
+            logger.debug("loadUserByEmail failed - user not found, email={}", email);
             //throw new UsernameNotFoundException("User not found");
             return null;
         }
 
-        return new User(user.getUsername(), "", Collections.singletonList(new SimpleGrantedAuthority("ROLE")));
+        logger.debug("loadUserByEmail successful, email={}", email);
+        return new User(user.getEmail(), "", Collections.singletonList(new SimpleGrantedAuthority(user.getRole())));
     }
 
 

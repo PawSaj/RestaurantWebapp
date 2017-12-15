@@ -1,24 +1,48 @@
-package com.sajroz.ai.restaurantwebapp.dto;
+package com.sajroz.ai.restaurantwebapp.model.entity;
 
+import javax.persistence.*;
+import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Set;
 
-public class UserDto implements Serializable {
+@Entity
+@Table(name = "USERS")
+public class User implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @Column(name = "username", nullable = false)
     private String username;
 
+    @Column(name = "surname", nullable = false)
     private String surname;
 
+    @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "phone")
     private Integer phone;
 
+    @Column(name = "user_role", nullable = false)
     private String role;
 
+    @Column(name = "user_image")
     private String image;
+
+    @OneToMany(mappedBy="user")
+    private Set<TableReservation> tableReservationSet;
+
+    @OneToMany(mappedBy="user")
+    private Set<RestaurantReservation> restaurantReservationSet;
+
+    @OneToMany(mappedBy="user")
+    private Set<ReservationHistory> reservationHistorySet;
 
     public Long getId() {
         return id;
@@ -82,6 +106,30 @@ public class UserDto implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Set<TableReservation> getTableReservationSet() {
+        return tableReservationSet;
+    }
+
+    public void setTableReservationSet(Set<TableReservation> tableReservationSet) {
+        this.tableReservationSet = tableReservationSet;
+    }
+
+    public Set<RestaurantReservation> getRestaurantReservationSet() {
+        return restaurantReservationSet;
+    }
+
+    public void setRestaurantReservationSet(Set<RestaurantReservation> restaurantReservationSet) {
+        this.restaurantReservationSet = restaurantReservationSet;
+    }
+
+    public Set<ReservationHistory> getReservationHistorySet() {
+        return reservationHistorySet;
+    }
+
+    public void setReservationHistorySet(Set<ReservationHistory> reservationHistorySet) {
+        this.reservationHistorySet = reservationHistorySet;
     }
 
     @Override
