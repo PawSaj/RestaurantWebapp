@@ -20,9 +20,9 @@ public class ImageController {
         return imageService.convertBase64ToImage(userImage);
     }
 
-    @RequestMapping(value = "/getImage/{imageName}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/getImage/{imageName:.+}", method = RequestMethod.GET, produces = "application/json")
     public String sendImage(@PathVariable String imageName) {
-        logger.info("Loading image, imagePath={}", imageName);
+        logger.info("Loading image, imageName={}", imageName);
         return imageService.convertImageToBase64(imageName).replaceAll("\\\\r\\\\n", "");
     }
 }

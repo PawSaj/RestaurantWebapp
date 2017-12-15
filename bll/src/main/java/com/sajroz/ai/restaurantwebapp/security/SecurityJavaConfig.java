@@ -69,7 +69,7 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
                 .and().formLogin().successForwardUrl("/successfulLogin").failureForwardUrl("/failedLogin")
                 .and().logout().logoutSuccessUrl("/successfulLogout")
                 .and().authorizeRequests()
-                .antMatchers("/login*", "/logout*", "/registration", "/successfulLogout", "/test", "/menu").permitAll()
+                .antMatchers("/login*", "/logout*", "/registration", "/successfulLogout", "/test", "/menu", "/getImage/**").permitAll()
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .antMatchers().hasAnyRole()
                 .anyRequest().authenticated();
