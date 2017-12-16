@@ -15,7 +15,7 @@ public class Meal implements Serializable {
     @Column(name = "meal_id")
     private Long id;
 
-    @Column(name = "meal_name", nullable = false)
+    @Column(name = "meal_name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "meal_price", precision=10, scale=2)

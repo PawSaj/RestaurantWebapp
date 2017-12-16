@@ -91,7 +91,7 @@ Domyślnie http://localhost:8080/
     * w liście informacji o daniu znajdują się:
         * name - nazwa dania
         * ingredients - lista składników
-            * wypisanych w formie kolejnych indeksów + nazwa
+            * wypisanych w formie indeksów (w bazie) + nazwa
         * describe - opis dania
         
 ### ```/sendImage```

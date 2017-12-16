@@ -1,13 +1,14 @@
 package com.sajroz.ai.restaurantwebapp.controllers;
 
+import com.sajroz.ai.restaurantwebapp.dto.MealDto;
+import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
+import com.sajroz.ai.restaurantwebapp.returnMessages.ResponseMessages;
 import com.sajroz.ai.restaurantwebapp.services.MealService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class MenuController {
@@ -16,6 +17,9 @@ public class MenuController {
     @Autowired
     MealService mealService;
 
+    @Autowired
+    private JSONMessageGenerator jsonMessageGenerator;
+
     @RequestMapping(value = "/menu", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public String sendMenu(){
@@ -23,5 +27,15 @@ public class MenuController {
     }
 
 
+    @RequestMapping(value = "/admin/addMeal", method = RequestMethod.POST, produces = "application/json")
+    public String addMeal(@RequestBody MealDto mealDto) {
+        try {
+            logger.info("Maving meal to database, meal={}", mealDto);
+            return mealService.addMeal(mealDto);
+        } catch (DataIntegrityViolationException e) {
+            logger.warn("Meal adding failed - meal already exist, meal={}", mealDto);
+            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_MEAL).toString();
+        }
 
+    }
 }

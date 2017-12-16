@@ -14,7 +14,7 @@ public class Ingredient implements Serializable {
     @Column(name = "ingredient_id")
     private Long id;
 
-    @Column(name = "ingredient_name", nullable = false)
+    @Column(name = "ingredient_name", nullable = false, unique = true)
     private String name;
 
     @ManyToMany(mappedBy = "ingredients", fetch = FetchType.LAZY)
@@ -49,7 +49,6 @@ public class Ingredient implements Serializable {
         return "Ingredient{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", meal=" + meal +
                 '}';
     }
 }
