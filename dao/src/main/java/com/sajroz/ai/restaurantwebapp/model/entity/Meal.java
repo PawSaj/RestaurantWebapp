@@ -33,7 +33,7 @@ public class Meal implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "ingredient_id")})
     private Set<Ingredient> ingredients = new HashSet<Ingredient>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="meal")
+    @OneToMany(mappedBy="meal")
     private Set<MealOrderHistory> mealOrderHistories;
 
     public Long getId() {

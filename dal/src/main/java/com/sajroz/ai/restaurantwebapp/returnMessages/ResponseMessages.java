@@ -12,9 +12,11 @@ public enum ResponseMessages {
     BASE64_ERROR(-4, "Wrong encode of base64."),
     IMAGE_SAVING_ERROR(-5, "Image saving failure."),
     EMPTY_IMAGE_DATA(-6, "No data to save or data is corrupted."),
-    ACCESS_ERROR(-7, "You try to change data of different user."),
-    LOGIN_FILED(-8, "Login failed."),
-    DUPLICATE_MEAL(-9, "Meal is already exist.");
+    ACCESS_TO_USER_ERROR(-7, "You try to change data of different user."),
+    LOGIN_FILED(-8, "Login failed, user don't exist."),
+    DUPLICATE_MEAL(-9, "Meal is already exist."),
+    ACCESS_DENIED(403, "Forbidden, bad authorities, access denied"),
+    LOGIN_REQUIRED(401, "Unauthorized, login required");
 
     private final int code;
     private final String description;

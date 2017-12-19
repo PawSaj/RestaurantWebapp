@@ -25,17 +25,21 @@ import java.util.Set;
 public class MealService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    private MealRepository mealRepository;
+    private final MealRepository mealRepository;
+
+    private final IngredientRepository ingredientRepository;
+
+    private final MealMapper mealMapper;
+
+    private final JSONMessageGenerator jsonMessageGenerator;
 
     @Autowired
-    private IngredientRepository ingredientRepository;
-
-    @Autowired
-    private MealMapper mealMapper;
-
-    @Autowired
-    private JSONMessageGenerator jsonMessageGenerator;
+    public MealService(MealRepository mealRepository, IngredientRepository ingredientRepository, MealMapper mealMapper, JSONMessageGenerator jsonMessageGenerator) {
+        this.mealRepository = mealRepository;
+        this.ingredientRepository = ingredientRepository;
+        this.mealMapper = mealMapper;
+        this.jsonMessageGenerator = jsonMessageGenerator;
+    }
 
     public JSONObject getAllMealsForMenu() {
         logger.info("getAllMealsForMenu");
@@ -53,18 +57,24 @@ public class MealService {
 
     public String addMeal(MealDto mealDto) {
         Meal meal = mealMapper.mealDtoToMeal(mealDto);
+        meal = correctIngredientsInMeal(meal);
+
+        logger.info("addMeal meal with corrected ingredients information, meal={}", meal);
+        mealRepository.save(meal);
+        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+    }
+
+    private Meal correctIngredientsInMeal(Meal meal) {
         Set<Ingredient> correctIngredients = new HashSet<>();
         for (Ingredient i : meal.getIngredients()) {
             Ingredient mealIngredient = ingredientRepository.findByName(i.getName());
-            if(mealIngredient == null) {
+            if (mealIngredient == null) {
                 mealIngredient = ingredientRepository.save(i);
             }
             correctIngredients.add(mealIngredient);
         }
         meal.getIngredients().clear();
         meal.getIngredients().addAll(correctIngredients);
-        logger.info("addMeal meal with corrected ingredients information, meal={}", meal);
-        mealRepository.save(meal);
-        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+        return meal;
     }
 }

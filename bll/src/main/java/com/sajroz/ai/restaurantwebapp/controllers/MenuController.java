@@ -14,11 +14,15 @@ import org.springframework.web.bind.annotation.*;
 public class MenuController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    MealService mealService;
+    private final MealService mealService;
+
+    private final JSONMessageGenerator jsonMessageGenerator;
 
     @Autowired
-    private JSONMessageGenerator jsonMessageGenerator;
+    public MenuController(MealService mealService, JSONMessageGenerator jsonMessageGenerator) {
+        this.mealService = mealService;
+        this.jsonMessageGenerator = jsonMessageGenerator;
+    }
 
     @RequestMapping(value = "/menu", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody

@@ -12,5 +12,5 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
 
     List<Meal> findAll();
 
-    Meal findByName(String mealName);
+    //Meal findByName(String mealName);
 }

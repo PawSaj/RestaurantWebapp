@@ -17,12 +17,12 @@ import java.util.Collections;
 @Transactional
 public class MyAuthenticationProvider extends DaoAuthenticationProvider {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
-    public MyAuthenticationProvider(UserDetailsService userDetailsService) {
+    public MyAuthenticationProvider(UserDetailsService userDetailsService, UserService userService) {
         this.setUserDetailsService(userDetailsService);
+        this.userService = userService;
     }
 
     @Override

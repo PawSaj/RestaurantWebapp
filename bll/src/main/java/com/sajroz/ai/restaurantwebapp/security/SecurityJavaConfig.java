@@ -23,14 +23,17 @@ import javax.annotation.PostConstruct;
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @ComponentScan
 public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-
-    @Autowired
-    private DaoAuthenticationProvider authenticationProvider;
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
+    private final DaoAuthenticationProvider authenticationProvider;
+
+    @Autowired
+    public SecurityJavaConfig(RestAuthenticationEntryPoint restAuthenticationEntryPoint, DaoAuthenticationProvider authenticationProvider) {
+        this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
+        this.authenticationProvider = authenticationProvider;
+    }
 
     @PostConstruct
     protected void init() {
@@ -66,13 +69,16 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
 
         // uwierzytelnianie
         http.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint)
+                .accessDeniedPage("/accessDenied")
                 .and().formLogin().successForwardUrl("/successfulLogin").failureForwardUrl("/failedLogin")
                 .and().logout().logoutSuccessUrl("/successfulLogout")
                 .and().authorizeRequests()
-                .antMatchers("/login*", "/logout*", "/registration", "/successfulLogout", "/test", "/menu", "/getImage/**").permitAll()
-                .antMatchers("/admin/**").hasAnyRole("ADMIN")
+                .antMatchers("/login*", "/logout*", "/registration", "/successfulLogout",
+                        "/test", "/menu", "/getImage/**", "/favicon.ico").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers().hasAnyRole()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                ;
     }
 
 

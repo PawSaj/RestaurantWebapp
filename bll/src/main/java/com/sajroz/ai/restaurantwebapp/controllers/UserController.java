@@ -4,14 +4,10 @@ import com.sajroz.ai.restaurantwebapp.dto.UserDto;
 import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
 import com.sajroz.ai.restaurantwebapp.returnMessages.ResponseMessages;
 import com.sajroz.ai.restaurantwebapp.services.UserService;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,57 +16,51 @@ public class UserController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    private final JSONMessageGenerator jsonMessageGenerator;
 
     @Autowired
-    private JSONMessageGenerator jsonMessageGenerator;
+    public UserController(UserService userService, JSONMessageGenerator jsonMessageGenerator) {
+        this.userService = userService;
+        this.jsonMessageGenerator = jsonMessageGenerator;
+    }
 
-    @RequestMapping(value = "/user/update", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/user", method = RequestMethod.GET, produces = "application/json")
     public UserDto updateUser() {
         return userService.getUserByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
-    @RequestMapping(value = "/user/update/{userId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = "application/json")
+    @RequestMapping(value = "/user/{userId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = "application/json")
     public String updateUser(@PathVariable(value = "userId") Long userId, @RequestBody UserDto userDto) {
         logger.info("updating to, user={}", userDto);
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals(userService.getUserById(userId).getEmail())) {
-            try {
-                String message = userService.updateUser(userId, userDto, false);
-                //correct logged user info
-                Authentication request = new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword(), SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(request);
-                return message;
-            } catch (DataIntegrityViolationException e) {
-                return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_EMAIL).toString();
-            }
+            return userService.updateUser(userId, userDto, false);
         } else {
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.ACCESS_ERROR).toString();
+            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
         }
 
     }
 
-    @RequestMapping(value = "/admin/users/update", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/user/{userId}", method = RequestMethod.DELETE, produces = "application/json")
+    public String deleteUser(@PathVariable Long userId) {
+        return userService.deleteUser(userId, false);
+    }
+
+    @RequestMapping(value = "/admin/users", method = RequestMethod.GET, produces = "application/json")
     public String adminUpdateUser() {
         return userService.getAllUsers((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
-    @RequestMapping(value = "/admin/users/update/{userId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = "application/json")
+    @RequestMapping(value = "/admin/users/{userId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = "application/json")
     public String adminUpdateUser(@PathVariable(value = "userId") Long userId, @RequestBody UserDto userDto) {
-        JSONObject returnMessage = new JSONObject();
-        logger.info("updating to, user={}", userDto);
-        try {
-            String message = userService.updateUser(userId, userDto, true);
-            if (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals(userService.getUserById(userId).getEmail())) {
-                //correct logged user info
-                Authentication request = new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword(), SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(request);
-            }
-            return message;
-        } catch (DataIntegrityViolationException e) {
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_EMAIL).toString();
-        }
+        logger.info("adminUpdateUser Updating by admin to, user={}", userDto);
+        return userService.updateUser(userId, userDto, true);
+    }
 
+    @RequestMapping(value = "/admin/users/{userId}", method = RequestMethod.DELETE, produces = "application/json")
+    public String adminDeleteUser(@PathVariable Long userId) {
+        return userService.deleteUser(userId, true);
     }
 
 }

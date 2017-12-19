@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.*;
 public class ImageController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    private final ImageService imageService;
+
     @Autowired
-    ImageService imageService;
+    public ImageController(ImageService imageService) {
+        this.imageService = imageService;
+    }
 
     @RequestMapping(value = "/sendImage", method = RequestMethod.POST, produces = "application/json")
     public String downloadImage(@RequestBody ImageData userImage){
@@ -23,6 +27,6 @@ public class ImageController {
     @RequestMapping(value = "/getImage/{imageName:.+}", method = RequestMethod.GET, produces = "application/json")
     public String sendImage(@PathVariable String imageName) {
         logger.info("Loading image, imageName={}", imageName);
-        return imageService.convertImageToBase64(imageName).replaceAll("\\\\r\\\\n", "");
+        return imageService.convertImageToBase64(imageName);
     }
 }
