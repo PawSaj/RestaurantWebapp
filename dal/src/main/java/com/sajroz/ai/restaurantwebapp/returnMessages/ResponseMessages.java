@@ -13,8 +13,9 @@ public enum ResponseMessages {
     IMAGE_SAVING_ERROR(-5, "Image saving failure."),
     EMPTY_IMAGE_DATA(-6, "No data to save or data is corrupted."),
     ACCESS_TO_USER_ERROR(-7, "You try to change data of different user."),
-    LOGIN_FILED(-8, "Login failed, user don't exist."),
+    LOGIN_FILED(-8, "Login failed, user doesn't exist."),
     DUPLICATE_MEAL(-9, "Meal is already exist."),
+    NO_MEAL(-10, "Meal doesn't exist."),
     ACCESS_DENIED(403, "Forbidden, bad authorities, access denied"),
     LOGIN_REQUIRED(401, "Unauthorized, login required");
 

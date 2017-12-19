@@ -56,12 +56,26 @@ public class MealService {
     }
 
     public String addMeal(MealDto mealDto) {
+        if (isMealExist(mealDto)) {
+            logger.warn("addMeal Meal adding failed - meal already exist, meal={}", mealDto);
+            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_MEAL).toString();
+        }
+        mealDto.setId(null);
+        saveMeal(mealDto);
+        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+    }
+
+    private void saveMeal(MealDto mealDto) {
         Meal meal = mealMapper.mealDtoToMeal(mealDto);
         meal = correctIngredientsInMeal(meal);
 
-        logger.info("addMeal meal with corrected ingredients information, meal={}", meal);
+        logger.debug("Saving meal with corrected ingredients information, meal={}", meal);
         mealRepository.save(meal);
-        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+    }
+
+    private boolean isMealExist(MealDto mealDto) {
+        return mealRepository.findByName(mealDto.getName()) != null;
+
     }
 
     private Meal correctIngredientsInMeal(Meal meal) {
@@ -76,5 +90,31 @@ public class MealService {
         meal.getIngredients().clear();
         meal.getIngredients().addAll(correctIngredients);
         return meal;
+    }
+
+    public String updateMeal(Long mealId, MealDto mealDto) {
+        if (!mealRepository.exists(mealId)) {
+            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_MEAL).toString();
+        }
+        if (isMealExist(mealDto) && !isSelfUpdate(mealId, mealDto)) {
+            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_MEAL).toString();
+        }
+
+        mealDto.setId(mealId);
+        saveMeal(mealDto);
+        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+    }
+
+    private boolean isSelfUpdate(Long mealId, MealDto mealDto) {
+        return mealRepository.findOne(mealId).getName().equals(mealDto.getName());
+    }
+
+    public String deleteMeal(Long mealId) {
+        if (!mealRepository.exists(mealId)) {
+            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_MEAL).toString();
+        }
+        
+        mealRepository.delete(mealId);
+        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
     }
 }
