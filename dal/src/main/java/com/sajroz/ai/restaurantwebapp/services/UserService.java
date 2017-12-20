@@ -43,7 +43,7 @@ public class UserService {
         return userMapper.mapToDto(user);
     }
 
-    public UserDto getUserById(Long userId) {
+    private UserDto getUserById(Long userId) {
         logger.debug("getUserById, userId={}", userId);
         User user = userRepository.findOne(userId);
         return userMapper.mapToDto(user);
@@ -82,15 +82,23 @@ public class UserService {
             logger.debug("updateUser User doesn't exist, wrong id, userId={}, user={}", userId, userDto);
             return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_USER).toString();
         }
-        if (isEmailExist(userDto) && !isSelfUpdate(userId, userDto)) {
-            logger.debug("updateUser Update failed - user already exist, email={}", userDto.getEmail());
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_EMAIL).toString();
+
+        if(!isSelfUpdate(userId, userDto)) {
+            if(!admin) {
+                return jsonMessageGenerator.createSimpleRespons(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
+            }
+            if (isEmailExist(userDto)) {
+                logger.debug("updateUser Update failed - user already exist, email={}", userDto.getEmail());
+                return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_EMAIL).toString();
+            }
         }
 
+
         User userToUpdate = createUpdatedUser(userId, userDto, admin);
+        updateUserInThisSession(userId, userToUpdate);
         logger.debug("updateUser Update user to database, user={}", userToUpdate);
         userRepository.save(userToUpdate);
-        updateUserInThisSession(userId, userToUpdate);
+
         return jsonMessageGenerator.createSimpleRespons(ResponseMessages.USER_UPDATED).toString();
 
     }
@@ -151,6 +159,7 @@ public class UserService {
 
         if (userId.equals(userRepository.findUserByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId())) {
             userRepository.delete(userId);
+            SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.OK, "redirect", "/logout").toString();
         } else if (admin) {
             userRepository.delete(userId);

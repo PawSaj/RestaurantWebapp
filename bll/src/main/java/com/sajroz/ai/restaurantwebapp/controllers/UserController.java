@@ -1,8 +1,6 @@
 package com.sajroz.ai.restaurantwebapp.controllers;
 
 import com.sajroz.ai.restaurantwebapp.dto.UserDto;
-import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
-import com.sajroz.ai.restaurantwebapp.returnMessages.ResponseMessages;
 import com.sajroz.ai.restaurantwebapp.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,28 +16,20 @@ public class UserController {
 
     private final UserService userService;
 
-    private final JSONMessageGenerator jsonMessageGenerator;
-
     @Autowired
-    public UserController(UserService userService, JSONMessageGenerator jsonMessageGenerator) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.jsonMessageGenerator = jsonMessageGenerator;
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET, produces = "application/json")
-    public UserDto updateUser() {
+    public UserDto getUser() {
         return userService.getUserByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = "application/json")
-    public String updateUser(@PathVariable(value = "userId") Long userId, @RequestBody UserDto userDto) {
-        logger.info("updating to, user={}", userDto);
-        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals(userService.getUserById(userId).getEmail())) {
-            return userService.updateUser(userId, userDto, false);
-        } else {
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
-        }
-
+    public String getUser(@PathVariable(value = "userId") Long userId, @RequestBody UserDto userDto) {
+        logger.debug("Updating to user={}", userDto);
+        return userService.updateUser(userId, userDto, false);
     }
 
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.DELETE, produces = "application/json")

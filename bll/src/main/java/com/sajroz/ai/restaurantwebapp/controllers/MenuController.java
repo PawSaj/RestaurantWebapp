@@ -19,7 +19,6 @@ public class MenuController {
     }
 
     @RequestMapping(value = "/menu", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
     public String sendMenu() {
         return mealService.getAllMealsForMenu().toString();
     }
