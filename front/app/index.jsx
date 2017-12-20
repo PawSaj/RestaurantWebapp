@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
 
 /*  user imports    */
-import Root from './containers/Root';
+import Routes from './Routes';
 
 const render = Component => {
     ReactDOM.render(
@@ -14,10 +14,10 @@ const render = Component => {
     )
 };
 
-render(Root);
+render(Routes);
 
 if (module.hot) {
-    module.hot.accept('./containers/Root', () => {
-        render(Root);
+    module.hot.accept('./Routes', () => {
+        render(Routes);
     })
 }
