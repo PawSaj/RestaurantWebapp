@@ -1,7 +1,10 @@
 package com.sajroz.ai.restaurantwebapp.security;
 
+import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
+import com.sajroz.ai.restaurantwebapp.returnMessages.ResponseMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -16,10 +19,25 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    private final JSONMessageGenerator jsonMessageGenerator;
+
+    @Autowired
+    public RestAuthenticationEntryPoint(JSONMessageGenerator jsonMessageGenerator) {
+        this.jsonMessageGenerator = jsonMessageGenerator;
+    }
+
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e)
             throws IOException, ServletException {
         logger.debug("ENTER commence(): httpServletRequest={}, httpServletResponse={}, e={}", httpServletRequest, httpServletResponse, e);
         logger.debug("requestUri: {}", httpServletRequest);
-        httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+
+        try{
+            httpServletResponse.addHeader("content-type", "application/json;charset=UTF-8");
+            httpServletResponse.getWriter().print(jsonMessageGenerator.createSimpleRespons(ResponseMessages.LOGIN_REQUIRED));
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
     }
 }

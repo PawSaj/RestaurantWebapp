@@ -11,4 +11,6 @@ import java.util.List;
 public interface MealRepository extends JpaRepository<Meal, Long> {
 
     List<Meal> findAll();
+
+    Meal findByName(String mealName);
 }

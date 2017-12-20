@@ -15,11 +15,15 @@ public class LoginController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    private final JSONMessageGenerator jsonMessageGenerator;
 
     @Autowired
-    private JSONMessageGenerator jsonMessageGenerator;
+    public LoginController(UserService userService, JSONMessageGenerator jsonMessageGenerator) {
+        this.userService = userService;
+        this.jsonMessageGenerator = jsonMessageGenerator;
+    }
 
     @RequestMapping(value = "/successfulLogin", produces = "application/json")
     public UserDto successfulLogin() {
@@ -39,16 +43,11 @@ public class LoginController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST, produces = "application/json")
     public String registration(@RequestBody UserDto userDto) {
         logger.info("registration, user={}", userDto);
-        if (userService.getUserByEmail(userDto.getEmail()) != null) {
-            logger.warn("registration failed - user already exist, email={}", userDto.getEmail());
+        return userService.registerUser(userDto);
+    }
 
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_EMAIL).toString();
-        } else {
-            logger.info("saving user to database, user={}", userDto);
-
-            userDto.setRole("USER");
-            userService.saveUserToDatabase(userService.mapUserFromDto(userDto));
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.USER_REGISTERED).toString();
-        }
+    @RequestMapping(value = "/accessDenied", produces = "application/json")
+    public String accessDenied() {
+        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.ACCESS_DENIED).toString();
     }
 }

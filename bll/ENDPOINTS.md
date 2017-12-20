@@ -26,6 +26,7 @@ Domyślnie http://localhost:8080/
   * jeśli użytkownik istnieje i udało się go zalogować:
     * przenosi pod adres ```/successfulLogin```
     * wymaga on autoryzacji
+    * zwraca w nagłówku wiadomości Cookie będące tokenem aktualnej sesji. Należy je umieszczać w nagłówku kolejnych requestów
     * zwraca JSON z wszystkimi danymi użytkownika:
         * id
         * email
@@ -62,13 +63,13 @@ Domyślnie http://localhost:8080/
 * **wymagania:** 
   * nie wymaga autoryzacji
   * wymaga w ciele JSON'a z danymi:
-    * *email* - email
-    * *username* – nazwa użytkownika
-    * *surname* - nazwisko
-    * *password* – hasło (czysty tekst)
+    * email - email
+    * username – nazwa użytkownika
+    * surname - nazwisko
+    * password – hasło (czysty tekst)
   * opcjonalne argumenty:
     * *phone* - jako int numer telefonu
-    * *image* - w formie nazwy użytkownika, który można uzyskać wysyłając obraz pod podadres *```/sendImage```*
+    * *image* - w formie nazwy obrazu, którą można uzyskać wysyłając obraz pod adres *```/sendImage```*
 * **co robi:**
   * jeśli użytkownik nie istnieje i udało się go zapisać w bazie:
     * zwraca JSON z danymi:
@@ -91,8 +92,73 @@ Domyślnie http://localhost:8080/
     * w liście informacji o daniu znajdują się:
         * name - nazwa dania
         * ingredients - lista składników
-            * wypisanych w formie kolejnych indeksów + nazwa
+            * wypisanych w formie indeksów (w bazie) + nazwa
         * describe - opis dania
+
+### ```/admin/meal```
+
+* **metoda:** POST
+* **wymagania:** 
+  * wymaga autoryzacji
+  * wymaga w ciele JSON'a z danymi:
+	* name - nazwa dania  
+  * opcjonalne argumenty:
+  	* ingredients - lista składników
+		* wypisanych kolejno samych nazw składników np. { "name":"kurczak", "name":"oliwki"}    
+	* describe - opis dania
+    * price - cena dania
+    * *image* - w formie nazwy obrazu, którą można uzyskać wysyłając obraz pod adres *```/sendImage```*
+* **co robi:**
+  * jeśli danie nie istnieje i udało się je zapisać w bazie:
+    * zwraca JSON z danymi:
+        * status - *0*
+        * descripton - *Request completed with no errors.*
+  * jeśli dodawanie dania zakończone neipowodzeniem, nazwa zduplikowana:
+    * zwraca JSON z danymi:
+        * status - *-9*
+        * descripton - *Meal is already exist.*
+
+
+### ```/admin/meal/{id}```
+
+* **metoda:** PUT
+* **wymagania:** 
+  * wymaga autoryzacji
+  * w adresie *{id}* jest to id użytkownika, które chcemy poddać modyfikacji
+  * wymaga w ciele JSON'a z danymi:
+	* name - nazwa dania
+  	* ingredients - lista składników
+		* wypisanych kolejno samych nazw składników np. { "name":"kurczak", "name":"oliwki"}    
+	* describe - opis dania
+    * price - cena dania
+    * *image* - w formie nazwy obrazu, którą można uzyskać wysyłając obraz pod adres *```/sendImage```*
+  * **jeśli jakaś z danych nie została zmieniona należy ją także umieścić w podstawowej wersji**    
+* **co robi:**
+  * jeśli powodzenie aktualizacji danych dania zwraca JSON z danymi:
+    * status - *0*
+	* descripton - *Request completed with no errors.*
+  * JSON z danymi jeśli niepowodzenie z powodu:
+    * danie nie istnieje - błędne *id*:
+        * status - *-10*
+        * description - *Meal doesn't exist.*
+    * nowa nazwa dania już jest zajęta:
+        * status - *-9*
+        * descripton - *Meal is already exist.*
+    
+### ```/admin/meal/{id}```
+
+* **metoda:** DELETE
+* **wymagania:** 
+  * wymaga autoryzacji
+  * w adresie *{id}* jest to id dania, które chcemy usunąć  
+* **co robi:**
+  * jeśli powodzenie usunięcia dania zwraca JSON z danymi:
+    * status - *0*
+    * description - *Request completed with no errors.*
+  * JSON z danymi jeśli niepowodzenie z powodu:
+    * danie nie istnieje - błędne *id*:
+        * status - *-10*
+        * description - *Meal doesn't exist.*       
         
 ### ```/sendImage```
 
@@ -100,7 +166,7 @@ Domyślnie http://localhost:8080/
 * **wymagania:** 
   * wymaga autoryzacji
   * JSON z obrazu w formie:
-    * *image* - nazwa, *<sam_kod_obrazu_zakodowany_za_pomocą_BASE64>* - wartość
+    * *image* - nazwa, *<sam_kod_obrazu_zakodowany_za_pomocą_BASE64>* - wartość String
   * dozwolone obrazy tylko w formacie *.jpg*
 * **co robi:**
   * jeśli powodzenie zwraca JSON z danymi:
@@ -133,7 +199,7 @@ Domyślnie http://localhost:8080/
     * status - *-3*
     * description - *No file found.*
         
-### ```/user/update```
+### ```/user```
 
 * **metoda:** GET
 * **wymagania:** 
@@ -149,9 +215,9 @@ Domyślnie http://localhost:8080/
     * role
     * image - nazwę obrazu, który można pobrać korzystając z *```/getImage```*
     
-### ```/user/update/{id}```
+### ```/user/{id}```
 
-* **metoda:** POST
+* **metoda:** PUT
 * **wymagania:** 
   * wymaga autoryzacji
   * w adresie *{id}* jest to id użytkownika, które chcemy poddać modyfikacji
@@ -164,7 +230,7 @@ Domyślnie http://localhost:8080/
     * image - nazwę obrazu, który można pobrać korzystając z *```/getImage```*
   * **jeśli jakaś z danych nie została zmieniona należy ją także umieścić w podstawowej wersji**    
 * **co robi:**
-  * jeśli powodzenie zwraca JSON z danymi:
+  * jeśli powodzenie aktualizacji danych usera zwraca JSON z danymi:
     * status - *2*
     * description - *User updated.*
   * JSON z danymi jeśli niepowodzenie z powodu:
@@ -177,9 +243,27 @@ Domyślnie http://localhost:8080/
     * użytkownik próbuję zmienić dane innego użytkownika:
         * status - *-7*
         * description - *You try to change data of different user.*
+    
+### ```/user/{id}```
+
+* **metoda:** DELETE
+* **wymagania:** 
+  * wymaga autoryzacji
+  * w adresie *{id}* jest to id użytkownika, które chcemy usunąć  
+* **co robi:**
+  * jeśli powodzenie usunięcia usera zwraca JSON z danymi:
+    * status - *0*
+    * description - *Request completed with no errors.*
+    * redirect - */logout*
+  * JSON z danymi jeśli niepowodzenie z powodu:
+    * user nie istnieje - błędne *id*:
+        * status - *-1*
+        * description - *User doesn't exist.*
+    * użytkownik próbuje usunąć innego użytkownika:
+        * status - *-7*
+        * description - *You try to change data of different user.*        
         
-        
-### ```/admin/users/update```
+### ```/admin/users```
 
 * **metoda:** GET
 * **wymagania:** 
@@ -196,9 +280,9 @@ Domyślnie http://localhost:8080/
         * role
         * image - nazwę obrazu, który można pobrać korzystając z *```/getImage```*
             
-### ```/admin/users/update/{id}```
+### ```/admin/users/{id}```
 
-* **metoda:** POST
+* **metoda:** PUT
 * **wymagania:** 
   * wymaga autoryzacji z rolą *ADMIN*
   * w adresie *{id}* jest to id użytkownika, które chcemy poddać modyfikacji
@@ -212,7 +296,7 @@ Domyślnie http://localhost:8080/
     * image - nazwę obrazu, który można pobrać korzystając z *```/getImage```*
   * **jeśli jakaś z danych nie została zmieniona należy ją także umieścić w podstawowej wersji**    
 * **co robi:**
-  * jeśli powodzenie zwraca JSON z danymi:
+  * jeśli powodzenie aktualizacji usera zwraca JSON z danymi:
     * status - *2*
     * description - *User updated.*
   * JSON z danymi jeśli niepowodzenie z powodu:
@@ -222,7 +306,29 @@ Domyślnie http://localhost:8080/
     * nowy adres email już jest zajęty:
         * status - *-2*
         * description - *Email is taken. Try another.*
-          
+    
+### ```/admin/user/{id}```
+
+* **metoda:** DELETE
+* **wymagania:** 
+  * wymaga autoryzacji
+  * w adresie *{id}* jest to id użytkownika, które chcemy usunąć  
+* **co robi:**
+  * jeśli powodzenie usunięcia usera zwraca JSON z danymi:
+    * jeśli admin sam siebie:
+        * status - *0*
+        * description - *Request completed with no errors.*
+        * redirect - */logout*
+    * jeśli admin innego użytkownika:
+        * status - *0*
+        * description - *Request completed with no errors.*
+  * JSON z danymi jeśli niepowodzenie z powodu:
+    * user nie istnieje - błędne *id*:
+        * status - *-1*
+        * description - *User doesn't exist.*
+    * użytkownik próbuje usunąć innego użytkownika:
+        * status - *-7*
+        * description - *You try to change data of different user.*           
         
         
         

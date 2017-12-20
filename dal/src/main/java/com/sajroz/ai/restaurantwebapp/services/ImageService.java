@@ -19,8 +19,12 @@ import java.util.UUID;
 public class ImageService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    private final JSONMessageGenerator jsonMessageGenerator;
+
     @Autowired
-    private JSONMessageGenerator jsonMessageGenerator;
+    public ImageService(JSONMessageGenerator jsonMessageGenerator) {
+        this.jsonMessageGenerator = jsonMessageGenerator;
+    }
 
     public String convertImageToBase64(String imagePath) {
         byte[] imageBytes;
@@ -33,7 +37,7 @@ public class ImageService {
         }
 
         imageBytes = Base64.getMimeEncoder().encode(imageBytes);
-        return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.OK, "image", new String(imageBytes)).toString();
+        return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.OK, "image", new String(imageBytes)).toString().replaceAll("\\\\r\\\\n", "");
     }
 
     public String convertBase64ToImage(ImageData userImage) {
