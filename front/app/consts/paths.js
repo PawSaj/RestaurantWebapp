@@ -1,4 +1,4 @@
-export const USER_PATHS = {
+export const MAIN_PATHS = {
     HOME: '/',
     MENU: '/menu',
     RESERVATIONS: '/reservations',
