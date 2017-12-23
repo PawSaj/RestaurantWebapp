@@ -1,18 +1,6 @@
-@mixin nav-link($padding,$font-size) {
-  padding: $padding;
-  font-size: $font-size;
-  color: $side-nav-a;
-
-  text-decoration: none;
-  cursor: pointer;
-  display: block;
-}
-
-@mixin positioned-element($position: fixed,$height:auto,$top:auto,$left:auto,$bottom:auto,$right:auto) {
-  position: $position;
-  height: $height;
+@mixin centered-elemnet($top:50%,$left:50%, $translate:translate(-50%,-50%)) {
+  position: absolute;
   top: $top;
   left: $left;
-  bottom: $bottom;
-  right: $right;
+  transform: $translate;
 }
