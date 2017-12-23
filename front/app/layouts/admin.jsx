@@ -11,6 +11,7 @@ const AdminLayout = () => {
                 <NavLink to={ADMIN_PATHS.TABLES} activeClassName="active">stolikami</NavLink>
                 <NavLink to={ADMIN_PATHS.MENU} activeClassName="active">menu</NavLink>
                 <NavLink to={ADMIN_PATHS.USERS} activeClassName="active">użytkownikami</NavLink>
+                <a>Wyloguj</a>
             </nav>
             <div className="content">
                 <Switch>

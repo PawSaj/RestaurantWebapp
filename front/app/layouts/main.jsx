@@ -5,12 +5,15 @@ import {MAIN_PATHS} from '../consts/paths';
 const MainLayout = () => {
     return (
         <div>
-            <nav className="header">
-                <NavLink exact to={MAIN_PATHS.HOME} activeClassName="active">Strona głowna</NavLink>
-                <NavLink exact to={MAIN_PATHS.MENU} activeClassName="active">Menu</NavLink>
-                <NavLink exact to={MAIN_PATHS.RESERVATIONS} activeClassName="active">Rezerwacje</NavLink>
-                <NavLink exact to={MAIN_PATHS.PROFILE} activeClassName="active">Profil</NavLink>
-            </nav>
+            <div className="side-nav">
+                <nav className="header">
+                    <NavLink exact to={MAIN_PATHS.HOME} activeClassName="active">Strona głowna</NavLink>
+                    <NavLink exact to={MAIN_PATHS.MENU} activeClassName="active">Menu</NavLink>
+                    <NavLink exact to={MAIN_PATHS.RESERVATIONS} activeClassName="active">Rezerwacje</NavLink>
+                    <NavLink exact to={MAIN_PATHS.PROFILE} activeClassName="active">Profil</NavLink>
+                    <a>Wyloguj</a>
+                </nav>
+            </div>
             <div className="content">
                 <Switch>
                     <Route exact path={MAIN_PATHS.HOME}>{}</Route>

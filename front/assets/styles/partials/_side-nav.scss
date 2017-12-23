@@ -1,0 +1,23 @@
+.side-nav {
+  @include positioned-element(fixed, 100%, 0, $side-nav-left);
+  width: $side-nav-width;
+  background-color: $side-nav-background;
+
+  z-index: 1;
+  overflow-x: hidden;
+  padding-top: 60px;
+  transition: 0.5s;
+
+  a {
+    @include nav-link(10px 32px, 25px);
+    transition: 0.3s;
+
+    &:hover, &.active {
+      color: $side-nav-a-active;
+    }
+
+    &.active {
+      background-color: $active-tab-background;
+    }
+  }
+}

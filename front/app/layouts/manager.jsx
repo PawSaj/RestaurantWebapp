@@ -8,6 +8,7 @@ const ManagerLayout = () => {
             <nav className="header">
                 <NavLink to={MANAGER_PATHS.REPORTS} activeClassName="active">Raporty</NavLink>
                 <NavLink to={MANAGER_PATHS.PROMOTIONS} activeClassName="active">Promocje</NavLink>
+                <a>Wyloguj</a>
             </nav>
             <div className="content">
                 <Switch>
