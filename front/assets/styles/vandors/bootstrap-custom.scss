@@ -1,0 +1,27 @@
+.navbar-nav {
+  li {
+    a {
+      &.active {
+        color: $active-tab-text !important;
+        background-color: $active-tab-background !important;
+      }
+    }
+  }
+}
+
+.greeting-box {
+  .btn-default {
+    margin: auto 25px;
+  }
+}
+
+.modal-dialog {
+  top: 10%;
+  .modal-body {
+    form {
+      .form-button {
+        text-align: right;
+      }
+    }
+  }
+}
