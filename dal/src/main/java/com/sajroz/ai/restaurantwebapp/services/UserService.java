@@ -56,14 +56,15 @@ public class UserService {
     }
 
     public String registerUser(UserDto userDto) {
-        if (isEmailExist(userDto)) {
+        User user = userMapper.mapFromDto(userDto);
+        if (isEmailExist(user)) {
             logger.debug("registerUser Registration failed - user already exist, email={}", userDto.getEmail());
             return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_EMAIL).toString();
         }
-        logger.info("saving user to database, user={}", userDto);
-        userDto.setRole("USER");
-        userDto.setId(null);
-        return saveUserToDatabase(mapUserFromDto(userDto));
+        logger.info("saving user to database, user={}", user);
+        user.setRole("USER");
+        user.setId(null);
+        return saveUserToDatabase(user);
     }
 
     private String saveUserToDatabase(User user) {
@@ -72,29 +73,26 @@ public class UserService {
         return jsonMessageGenerator.createSimpleRespons(ResponseMessages.USER_REGISTERED).toString();
     }
 
-    private User mapUserFromDto(UserDto userDto) {
-        return userMapper.mapFromDto(userDto);
-    }
-
     public String updateUser(Long userId, UserDto userDto, boolean admin) {
         logger.debug("updateUser, userId={}, user={}", userId, userDto);
+        User user = userMapper.mapFromDto(userDto);
         if (userRepository.exists(userId)) {
             logger.debug("updateUser User doesn't exist, wrong id, userId={}, user={}", userId, userDto);
             return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_USER).toString();
         }
 
-        if(!isSelfUpdate(userId, userDto)) {
+        if(!isSelfUpdate(userId, user)) {
             if(!admin) {
                 return jsonMessageGenerator.createSimpleRespons(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
             }
-            if (isEmailExist(userDto)) {
+            if (isEmailExist(user)) {
                 logger.debug("updateUser Update failed - user already exist, email={}", userDto.getEmail());
                 return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_EMAIL).toString();
             }
         }
 
 
-        User userToUpdate = createUpdatedUser(userId, userDto, admin);
+        User userToUpdate = createUpdatedUser(userId, user, admin);
         updateUserInThisSession(userId, userToUpdate);
         logger.debug("updateUser Update user to database, user={}", userToUpdate);
         userRepository.save(userToUpdate);
@@ -103,12 +101,12 @@ public class UserService {
 
     }
 
-    private boolean isSelfUpdate(Long userId, UserDto userDto) {
-        return userRepository.findOne(userId).getEmail().equals(userDto.getEmail());
+    private boolean isSelfUpdate(Long userId, User user) {
+        return userRepository.findOne(userId).getEmail().equals(user.getEmail());
     }
 
-    private boolean isEmailExist(UserDto userDto) {
-        return userRepository.findUserByEmail(userDto.getEmail()) != null;
+    private boolean isEmailExist(User user) {
+        return userRepository.findUserByEmail(user.getEmail()) != null;
     }
 
     private void updateUserInThisSession(Long userId, User userToUpdate) {
@@ -119,10 +117,9 @@ public class UserService {
         }
     }
 
-    private User createUpdatedUser(Long userId, UserDto userDto, boolean admin) {
+    private User createUpdatedUser(Long userId, User userWithUpdatedData, boolean admin) {
         User userToUpdate = userRepository.findOne(userId);
 
-        User userWithUpdatedData = userMapper.mapFromDto(userDto);
         userToUpdate.setEmail(userWithUpdatedData.getEmail());
         userToUpdate.setUsername(userWithUpdatedData.getUsername());
         userToUpdate.setSurname(userWithUpdatedData.getSurname());
@@ -141,14 +138,14 @@ public class UserService {
         List<User> users;
         users = userRepository.findAll();
         users.remove(userRepository.findUserByEmail(email));
-        List<UserDto> userDtos = new ArrayList<>();
+        List<UserDto> userDtos = new ArrayList<>(users.size());
 
         for (User u : users) {
             userDtos.add(userMapper.mapToDto(u));
         }
 
         logger.debug("getAllUsers, userDtos={}", userDtos);
-        return jsonMessageGenerator.generateJSONWithUsers(userDtos);
+        return jsonMessageGenerator.generateJSONWithUsers(userDtos).toString();
     }
 
     public String deleteUser(Long userId, boolean admin) {

@@ -2,6 +2,7 @@ package com.sajroz.ai.restaurantwebapp.returnMessages;
 
 import com.sajroz.ai.restaurantwebapp.dto.IngredientDto;
 import com.sajroz.ai.restaurantwebapp.dto.MealDto;
+import com.sajroz.ai.restaurantwebapp.dto.TablesDto;
 import com.sajroz.ai.restaurantwebapp.dto.UserDto;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,7 +35,7 @@ public class JSONMessageGenerator {
             jo.put("describe", m.getDescribe());
             JSONArray ingredients = new JSONArray();
             int index = 0;
-            for (IngredientDto in:  m.getIngredients()) {
+            for (IngredientDto in : m.getIngredients()) {
                 ingredients.put(index, in.getName());
                 index++;
             }
@@ -47,7 +48,7 @@ public class JSONMessageGenerator {
         return mainObject;
     }
 
-    public String generateJSONWithUsers(List<UserDto> userDtos) {
+    public JSONObject generateJSONWithUsers(List<UserDto> userDtos) {
         JSONObject mainObject = new JSONObject();
         for (UserDto u : userDtos) {
             JSONObject jo = new JSONObject();
@@ -62,6 +63,22 @@ public class JSONMessageGenerator {
             ja.put(jo);
             mainObject.put(u.getId().toString(), ja);
         }
-        return mainObject.toString();
+        return mainObject;
+    }
+
+    public JSONObject generateJSONWithTables(List<TablesDto> tablesDto) {
+        JSONObject mainObject = new JSONObject();
+        for (TablesDto t : tablesDto) {
+            JSONObject jo = new JSONObject();
+            jo.put("seats", t.getSeats());
+            jo.put("x", t.getX());
+            jo.put("y", t.getY());
+            jo.put("floor", t.getFloor());
+            jo.put("isFree", t.isFree());
+            JSONArray ja = new JSONArray();
+            ja.put(jo);
+            mainObject.put(t.getId().toString(), ja);
+        }
+        return mainObject;
     }
 }

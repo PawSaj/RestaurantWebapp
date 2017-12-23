@@ -8,7 +8,6 @@ import com.sajroz.ai.restaurantwebapp.model.entity.Ingredient;
 import com.sajroz.ai.restaurantwebapp.model.entity.Meal;
 import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
 import com.sajroz.ai.restaurantwebapp.returnMessages.ResponseMessages;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,45 +40,45 @@ public class MealService {
         this.jsonMessageGenerator = jsonMessageGenerator;
     }
 
-    public JSONObject getAllMealsForMenu() {
-        logger.info("getAllMealsForMenu");
+    public String getAllMealsForMenu() {
+        logger.debug("getAllMealsForMenu");
         List<Meal> meals;
         meals = mealRepository.findAll();
 
-        List<MealDto> mealDtos = new ArrayList<>();
+        List<MealDto> mealDtos = new ArrayList<>(meals.size());
         for (Meal m : meals) {
             mealDtos.add(mealMapper.mealToMealDto(m));
         }
-        logger.info("getAllMealsForMenu, mealDtos={}", mealDtos);
+        logger.debug("getAllMealsForMenu, mealDtos={}", mealDtos);
 
-        return jsonMessageGenerator.generateJSONWithMenu(mealDtos);
+        return jsonMessageGenerator.generateJSONWithMenu(mealDtos).toString();
     }
 
     public String addMeal(MealDto mealDto) {
-        if (isMealExist(mealDto)) {
+        Meal meal = mealMapper.mealDtoToMeal(mealDto);
+        if (isMealExist(meal)) {
             logger.warn("addMeal Meal adding failed - meal already exist, meal={}", mealDto);
             return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_MEAL).toString();
         }
-        mealDto.setId(null);
-        saveMeal(mealDto);
+        meal.setId(null);
+        saveMeal(meal);
         return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
     }
 
-    private void saveMeal(MealDto mealDto) {
-        Meal meal = mealMapper.mealDtoToMeal(mealDto);
+    private void saveMeal(Meal meal) {
         meal = correctIngredientsInMeal(meal);
 
         logger.debug("Saving meal with corrected ingredients information, meal={}", meal);
         mealRepository.save(meal);
     }
 
-    private boolean isMealExist(MealDto mealDto) {
-        return mealRepository.findByName(mealDto.getName()) != null;
+    private boolean isMealExist(Meal meal) {
+        return mealRepository.findByName(meal.getName()) != null;
 
     }
 
     private Meal correctIngredientsInMeal(Meal meal) {
-        Set<Ingredient> correctIngredients = new HashSet<>();
+        Set<Ingredient> correctIngredients = new HashSet<>(meal.getIngredients().size());
         for (Ingredient i : meal.getIngredients()) {
             Ingredient mealIngredient = ingredientRepository.findByName(i.getName());
             if (mealIngredient == null) {
@@ -93,20 +92,21 @@ public class MealService {
     }
 
     public String updateMeal(Long mealId, MealDto mealDto) {
+        Meal meal = mealMapper.mealDtoToMeal(mealDto);
         if (!mealRepository.exists(mealId)) {
             return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_MEAL).toString();
         }
-        if (isMealExist(mealDto) && !isSelfUpdate(mealId, mealDto)) {
+        if (isMealExist(meal) && !isSelfUpdate(mealId, meal)) {
             return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_MEAL).toString();
         }
 
-        mealDto.setId(mealId);
-        saveMeal(mealDto);
+        meal.setId(mealId);
+        saveMeal(meal);
         return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
     }
 
-    private boolean isSelfUpdate(Long mealId, MealDto mealDto) {
-        return mealRepository.findOne(mealId).getName().equals(mealDto.getName());
+    private boolean isSelfUpdate(Long mealId, Meal meal) {
+        return mealRepository.findOne(mealId).getName().equals(meal.getName());
     }
 
     public String deleteMeal(Long mealId) {

@@ -20,7 +20,7 @@ public class MenuController {
 
     @RequestMapping(value = "/menu", method = RequestMethod.GET, produces = "application/json")
     public String sendMenu() {
-        return mealService.getAllMealsForMenu().toString();
+        return mealService.getAllMealsForMenu();
     }
 
 
@@ -38,6 +38,7 @@ public class MenuController {
 
     @RequestMapping(value = "/admin/meal/{mealId}", method = RequestMethod.DELETE, produces = "application/json")
     public String deleteMeal(@PathVariable Long mealId) {
+        logger.debug("deleteMeal Deleting meal from database, mealId={}", mealId);
         return mealService.deleteMeal(mealId);
     }
 }

@@ -6,6 +6,8 @@ public enum ResponseMessages {
     USER_UPDATED(2, "User updated."),
     IMAGE_SAVED(1, "Image saved successfully."),
     OK(0, "Request completed with no errors."),
+    ACCESS_DENIED(403, "Forbidden, bad authorities, access denied"),
+    LOGIN_REQUIRED(401, "Unauthorized, login required"),
     NO_USER(-1, "User doesn't exist."),
     DUPLICATE_EMAIL(-2, "Email is taken. Try another."),
     NO_FILE(-3, "No file found."),
@@ -16,8 +18,8 @@ public enum ResponseMessages {
     LOGIN_FILED(-8, "Login failed, user doesn't exist."),
     DUPLICATE_MEAL(-9, "Meal is already exist."),
     NO_MEAL(-10, "Meal doesn't exist."),
-    ACCESS_DENIED(403, "Forbidden, bad authorities, access denied"),
-    LOGIN_REQUIRED(401, "Unauthorized, login required");
+    DUPLICATE_TABLE(-11, "Table already exists."),
+    NO_TABLE(-12, "Table doesn't exist");
 
     private final int code;
     private final String description;
