@@ -7,6 +7,7 @@ import {Navbar, Nav, NavItem} from 'react-bootstrap';
 import Home from '../components/home';
 
 const MainLayout = () => {
+
     return (
         <div>
             <Navbar inverse collapseOnSelect>

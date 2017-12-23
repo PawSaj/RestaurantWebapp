@@ -1,9 +1,32 @@
 import React from 'react';
-import {Button, FormGroup, FormControl, ControlLabel, Row, Col} from 'react-bootstrap';
+import {Button, Image, FormGroup, FormControl, ControlLabel, Row, Col} from 'react-bootstrap';
+import Dropzone from 'react-dropzone';
 
 const Registration = () => {
     return (
         <form>
+            <Row>
+                <Col xs={5}>
+                    <Dropzone className="dropzone" accept="image/*" multiple="false">
+                        <Button>Dodaj zdjęcie</Button>
+                    </Dropzone>
+                </Col>
+                <Col xs={7}>
+                    <FormGroup controlId="name">
+                        <ControlLabel>Imię:</ControlLabel>
+                        <FormControl placeholder="Wprowadź swoje imię" type="text"/>
+                    </FormGroup>
+                    <FormGroup controlId="surname">
+                        <ControlLabel>Nazwisko:</ControlLabel>
+                        <FormControl placeholder="Wprowadź swoje nazwisko" type="text"/>
+                    </FormGroup>
+                    <FormGroup controlId="phone">
+                        <ControlLabel>Numer telefonu:</ControlLabel>
+                        <FormControl placeholder="Wprowadź swój numer telefonu" type="text"/>
+                    </FormGroup>
+                </Col>
+            </Row>
+
             <Row>
                 <Col xs={12}>
                     <FormGroup controlId="email">
@@ -12,6 +35,7 @@ const Registration = () => {
                     </FormGroup>
                 </Col>
             </Row>
+
             <Row>
                 <Col xs={6}>
                     <FormGroup controlId="password">
@@ -20,23 +44,9 @@ const Registration = () => {
                     </FormGroup>
                 </Col>
                 <Col xs={6}>
-                    <FormGroup controlId="name">
-                        <ControlLabel>Imię:</ControlLabel>
-                        <FormControl placeholder="Wprowadź swoje imię" type="text"/>
-                    </FormGroup>
-                </Col>
-            </Row>
-            <Row>
-                <Col xs={6}>
                     <FormGroup controlId="passwordConfirm">
                         <ControlLabel>Potwierdzenie hasła:</ControlLabel>
                         <FormControl type="password"/>
-                    </FormGroup>
-                </Col>
-                <Col xs={6}>
-                    <FormGroup controlId="surname">
-                        <ControlLabel>Nazwisko:</ControlLabel>
-                        <FormControl placeholder="Wprowadź swoje nazwisko" type="text"/>
                     </FormGroup>
                 </Col>
             </Row>
@@ -47,6 +57,6 @@ const Registration = () => {
             </div>
         </form>
     )
-};
+    };
 
-export default Registration;
+    export default Registration;

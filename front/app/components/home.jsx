@@ -7,15 +7,15 @@ const Home = () => {
     let modalTitle = 'Rejestracja';
     return (
         <Grid>
-            {/*<Modal show={true}>*/}
-                {/*<Modal.Header closeButton>*/}
-                    {/*<Modal.Title>{modalTitle}</Modal.Title>*/}
-                {/*</Modal.Header>*/}
-                {/*<Modal.Body>*/}
-                   {/*/!*<Login/>*!/*/}
-                    {/*/!*<Registration/>*!/*/}
-                {/*</Modal.Body>*/}
-            {/*</Modal>*/}
+            <Modal show={true}>
+                <Modal.Header closeButton>
+                    <Modal.Title>{modalTitle}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                   {/*<Login/>*/}
+                    <Registration/>
+                </Modal.Body>
+            </Modal>
             <div className="greeting-box">
                 <div className="description">
                     <h2>Witaj na stronie naszej reasturacji</h2>
