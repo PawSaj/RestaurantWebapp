@@ -1,13 +1,25 @@
 import React from 'react';
 import {Button, Image, FormGroup, FormControl, ControlLabel, Row, Col} from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
+import base64 from 'base-64';
 
 const Registration = () => {
+    let avatar = null;
+
+    const onDrop = (files) => {
+        avatar = files[0];
+    };
+
     return (
         <form>
             <Row>
                 <Col xs={5}>
-                    <Dropzone className="dropzone" accept="image/*" multiple="false">
+                    <Dropzone
+                        className="dropzone"
+                        accept="image/jpg"
+                        multiple={false}
+                        onDrop={onDrop}
+                    >
                         <Button>Dodaj zdjęcie</Button>
                     </Dropzone>
                 </Col>
@@ -57,6 +69,6 @@ const Registration = () => {
             </div>
         </form>
     )
-    };
+};
 
-    export default Registration;
+export default Registration;
