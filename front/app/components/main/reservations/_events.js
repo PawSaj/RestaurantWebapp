@@ -4,8 +4,8 @@ export default [
     {
         'title': 'All Day Event very long title',
         'allDay': true,
-        'start': moment().toDate(),
-        'end': moment().add(4, "hours").toDate()
+        'start': moment('2017-12-25').toDate(),
+        'end': moment('2017-12-25').add(4, "hours").toDate()
     },
     {
         'title': 'Conference',

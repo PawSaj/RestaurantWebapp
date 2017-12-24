@@ -33,6 +33,5 @@ class BookTable extends React.Component {
         )
     }
 }
-;
 
 export default BookTable;

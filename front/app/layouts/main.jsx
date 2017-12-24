@@ -4,12 +4,12 @@ import {MAIN_PATHS, RESERVATIONS_PATHS} from '../consts/paths';
 import {Navbar, Nav, NavItem} from 'react-bootstrap';
 
 /* components */
-import Home from '../components/home';
-import Menu from '../components/menu';
-import Reservation from '../components/reservations/reservation';
-import Profile from '../components/profile';
-import BookLocal from '../components/reservations/bookLocal';
-import BookTable from '../components/reservations/bookTable';
+import Home from '../components/main/home';
+import Menu from '../components/main/menu';
+import Reservation from '../components/main/reservations/reservation';
+import Profile from '../components/main/profile';
+import BookLocal from '../components/main/reservations/bookLocal';
+import BookTable from '../components/main/reservations/bookTable';
 
 const MainLayout = () => {
 

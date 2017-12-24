@@ -11,6 +11,7 @@ export const MAIN_PATHS = {
 };
 
 export const ADMIN_PATHS = {
+    HOME: '/',
     RESERVATIONS: '/reservations',
     TABLES: '/tables',
     MENU: '/menu',
@@ -18,6 +19,7 @@ export const ADMIN_PATHS = {
 };
 
 export const MANAGER_PATHS = {
+    HOME: '/',
     REPORTS: '/reports',
     PROMOTIONS: '/promotions'
 };

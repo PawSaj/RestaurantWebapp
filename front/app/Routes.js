@@ -9,7 +9,8 @@ import ManagerLayout from './layouts/manager'
 const Routes = () => {
     return (
         <Router>
-           <MainLayout/>
+            {/*<MainLayout/>*/}
+            <AdminLayout/>
         </Router>
     );
 };
