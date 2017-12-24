@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Image, FormGroup, FormControl, ControlLabel, Row, Col} from 'react-bootstrap';
+import {Button, FormGroup, FormControl, ControlLabel, Row, Col} from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import base64 from 'base-64';
 
@@ -11,7 +11,7 @@ const Registration = () => {
     };
 
     return (
-        <form>
+        <form id="registration">
             <Row>
                 <Col xs={5}>
                     <Dropzone

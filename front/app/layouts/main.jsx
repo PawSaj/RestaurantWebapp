@@ -6,6 +6,7 @@ import {Navbar, Nav, NavItem} from 'react-bootstrap';
 /* components */
 import Home from '../components/home';
 import Menu from '../components/menu';
+import Profile from '../components/profile';
 
 const MainLayout = () => {
 
@@ -44,7 +45,7 @@ const MainLayout = () => {
                     <Route exact path={MAIN_PATHS.HOME} component={Home}/>
                     <Route exact path={MAIN_PATHS.MENU} component={Menu}/>
                     <Route exact path={MAIN_PATHS.RESERVATIONS}>{}</Route>
-                    <Route exact path={MAIN_PATHS.PROFILE}>{}</Route>
+                    <Route exact path={MAIN_PATHS.PROFILE} component={Profile}/>
                     <Redirect to={MAIN_PATHS.HOME}/>
                 </Switch>
             </div>
