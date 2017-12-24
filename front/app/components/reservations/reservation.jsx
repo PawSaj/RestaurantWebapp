@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Grid} from 'react-bootstrap';
 import {NavLink, Switch, Route} from 'react-router-dom';
-import {RESERVATIONS_PATHS} from '../consts/paths';
+import {RESERVATIONS_PATHS} from '../../consts/paths';
 
 const Reservation = (props) => {
     console.log('reservation props: ', props);

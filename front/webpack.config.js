@@ -33,7 +33,7 @@ module.exports = {
                 loaders: ['babel']
             },
             {
-                test: /\.scss$/,
+                test: /\.(css|scss)$/,
                 loaders: ["style-loader","css-loader","sass-loader"],
             },{
                 test: /\.(png|jpg|jpeg|gif)$/,
