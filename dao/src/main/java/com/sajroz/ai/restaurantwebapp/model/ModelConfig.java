@@ -1,9 +1,12 @@
 package com.sajroz.ai.restaurantwebapp.model;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -15,6 +18,12 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 @Configuration
 public class ModelConfig {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @PostConstruct
+    protected void init() {
+        logger.info("INITIALIZE ModelCongif");
+    }
 
     /**
      * Definicja beanu wymagana do poprawnego odczytywania properties za pomoca adnotacji PropertiySource.
@@ -48,6 +57,7 @@ public class ModelConfig {
      */
     @Bean
     public DataSource dataSource() {
+        //łączenie z bazą danych przez JNDI
         JndiDataSourceLookup lookup = new JndiDataSourceLookup();
         return lookup.getDataSource("jdbc/restaurant");
     }
@@ -74,7 +84,6 @@ public class ModelConfig {
         Properties properties = new Properties();
         // NIE WLACZAC - automatyczna aktualizacja schematu db
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
-        // TODO do properties
         properties.setProperty("hibernate.show_sql", "true");
         properties.setProperty("hibernate.format_sql", "true");
         properties.setProperty("hibernate.jdbc.fetch_size", "0");

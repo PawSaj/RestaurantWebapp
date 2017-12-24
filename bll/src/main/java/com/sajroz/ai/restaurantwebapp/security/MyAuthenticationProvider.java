@@ -17,22 +17,23 @@ import java.util.Collections;
 @Transactional
 public class MyAuthenticationProvider extends DaoAuthenticationProvider {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
-    public MyAuthenticationProvider(UserDetailsService userDetailsService) {
+    public MyAuthenticationProvider(UserDetailsService userDetailsService, UserService userService) {
         this.setUserDetailsService(userDetailsService);
+        this.userService = userService;
     }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
         if (authentication.getCredentials() != null && authentication.getPrincipal() != null) {
-            String username = (String) authentication.getPrincipal();
+            String email = (String) authentication.getPrincipal();
             String password = (String) authentication.getCredentials();
-            if (userService.userByNameAndPasswordExists(username, password)) {
-                return new UsernamePasswordAuthenticationToken(username, password, Collections.singletonList(new SimpleGrantedAuthority("ROLE")));
+            String role = userService.userByEmailAndPasswordExists(email, password);
+            if (role != null) {
+                return new UsernamePasswordAuthenticationToken(email, password, Collections.singletonList(new SimpleGrantedAuthority(role)));
             }
         }
 
