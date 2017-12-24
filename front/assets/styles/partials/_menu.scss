@@ -1,0 +1,28 @@
+.menu {
+  .menu-category {
+    padding: 10px 20px;
+    background-color: $table-background;;
+    color: white;
+    border-radius: 10px;
+
+    &-title {
+      font-weight: bold;
+      padding: 0 5px;
+      margin-bottom: 15px;
+    }
+  }
+
+  table {
+    &.table {
+      td {
+        white-space: normal !important;
+        &:first-of-type {
+          width: 20%;
+        }
+        &:last-of-type {
+          width: 15%;
+        }
+      }
+    }
+  }
+}
