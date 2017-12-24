@@ -20,10 +20,11 @@
     display: block;
     &-label {
       float: right;
+      text-transform: capitalize;
     }
   }
 
-  &-month {
+  &-month, &-time {
     &-view {
       display: block;
       background-color: $calendar-body-background;

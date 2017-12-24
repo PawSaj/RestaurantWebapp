@@ -9,6 +9,7 @@ import Menu from '../components/menu';
 import Reservation from '../components/reservations/reservation';
 import Profile from '../components/profile';
 import BookLocal from '../components/reservations/bookLocal';
+import BookTable from '../components/reservations/bookTable';
 
 const MainLayout = () => {
 
@@ -48,7 +49,7 @@ const MainLayout = () => {
                     <Route exact path={MAIN_PATHS.MENU} component={Menu}/>
                     <Route exact path={MAIN_PATHS.RESERVATIONS} component={Reservation}/>
                     <Route exact path={MAIN_PATHS.RESERVATIONS + RESERVATIONS_PATHS.LOCAL} component={BookLocal}/>
-                    <Route exact path={MAIN_PATHS.RESERVATIONS + RESERVATIONS_PATHS.TABLE}>{}</Route>
+                    <Route exact path={MAIN_PATHS.RESERVATIONS + RESERVATIONS_PATHS.TABLE} component={BookTable}/>
                     <Route exact path={MAIN_PATHS.PROFILE} component={Profile}/>
                     <Redirect to={MAIN_PATHS.HOME}/>
                 </Switch>

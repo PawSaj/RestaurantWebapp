@@ -1,19 +1,22 @@
 import React from 'react';
-import BigCalendar from 'react-big-calendar';
+import EventCalendar from 'react-big-calendar';
 import {Grid} from'react-bootstrap';
 import moment from 'moment';
-import events from './events';
+import events from './_events';
 
-BigCalendar.momentLocalizer(moment);
+moment.locale('pl');
+EventCalendar.momentLocalizer(moment);
 
 const BookLocal = () => {
     return (
         <div>
             <Grid>
-                <BigCalendar
+                <EventCalendar
                     events={events}
                     views={['month']}
-                    defaultDate={new Date(2015, 3, 1)}
+                    startAccessor='start'
+                    endAccessor='end'
+                    defaultDate={moment().toDate()}
                 />
             </Grid>
         </div>

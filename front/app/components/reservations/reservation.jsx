@@ -4,8 +4,6 @@ import {NavLink, Switch, Route} from 'react-router-dom';
 import {RESERVATIONS_PATHS} from '../../consts/paths';
 
 const Reservation = (props) => {
-    console.log('reservation props: ', props);
-
     let url = props.match.url;
 
     return (
