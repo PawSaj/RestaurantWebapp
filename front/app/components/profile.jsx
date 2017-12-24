@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, Button, FormGroup, FormControl, ControlLabel, Row, Col} from 'react-bootstrap';
+import {Grid, PageHeader, Button, FormGroup, FormControl, ControlLabel, Row, Col} from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 
 const Profile = () => {
@@ -12,6 +12,9 @@ const Profile = () => {
     return (
         <div className="profile">
             <Grid>
+                <PageHeader>
+                    Dane osobowe
+                </PageHeader>
                 <form>
                     <Row>
                         <Col xs={6} md={4}>
@@ -44,7 +47,7 @@ const Profile = () => {
                         <Col xs={12}>
                             <FormGroup controlId="email" className="email-input">
                                 <ControlLabel>Adres email:</ControlLabel>
-                                <FormControl disabled placeholder="Wprowaź swój adres email" type="email"/>
+                                <FormControl disabled type="email"/>
                             </FormGroup>
                         </Col>
                     </Row>
