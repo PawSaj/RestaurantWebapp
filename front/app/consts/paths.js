@@ -1,3 +1,8 @@
+export const RESERVATIONS_PATHS = {
+    LOCAL: '/local',
+    TABLE: '/table'
+};
+
 export const MAIN_PATHS = {
     HOME: '/',
     MENU: '/menu',

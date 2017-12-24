@@ -1,11 +1,12 @@
 import React from 'react';
 import {NavLink, Route, Redirect, Switch} from 'react-router-dom';
-import {MAIN_PATHS} from '../consts/paths';
+import {MAIN_PATHS, RESERVATIONS_PATHS} from '../consts/paths';
 import {Navbar, Nav, NavItem} from 'react-bootstrap';
 
 /* components */
 import Home from '../components/home';
 import Menu from '../components/menu';
+import Reservation from '../components/reservation';
 import Profile from '../components/profile';
 
 const MainLayout = () => {
@@ -44,7 +45,9 @@ const MainLayout = () => {
                 <Switch>
                     <Route exact path={MAIN_PATHS.HOME} component={Home}/>
                     <Route exact path={MAIN_PATHS.MENU} component={Menu}/>
-                    <Route exact path={MAIN_PATHS.RESERVATIONS}>{}</Route>
+                    <Route exact path={MAIN_PATHS.RESERVATIONS} component={Reservation}/>
+                    <Route exact path={MAIN_PATHS.RESERVATIONS +RESERVATIONS_PATHS.LOCAL}>{}</Route>
+                    <Route exact path={MAIN_PATHS.RESERVATIONS +RESERVATIONS_PATHS.TABLE}>{}</Route>
                     <Route exact path={MAIN_PATHS.PROFILE} component={Profile}/>
                     <Redirect to={MAIN_PATHS.HOME}/>
                 </Switch>
