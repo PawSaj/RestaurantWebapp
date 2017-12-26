@@ -10,8 +10,8 @@ const Routes = () => {
     return (
         <Router>
             {/*<MainLayout/>*/}
-            {/*<AdminLayout/>*/}
-            <ManagerLayout/>
+            <AdminLayout/>
+            {/*<ManagerLayout/>*/}
         </Router>
     );
 };

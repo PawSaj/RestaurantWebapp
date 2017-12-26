@@ -29,19 +29,53 @@
   .row {
     margin-bottom: 15px;
   }
+}
 
-  .btn-panel {
-    width: 100%;
-    background-color: $main-background;
-    border-color: $panel-button-border;
+.btn-panel {
+  width: 100%;
+  background-color: $main-background;
+  border-color: $panel-button-border;
 
-    &:hover, &:focus {
-      background-color: $active-tab-background;
-      color: white;
-    }
+  &:hover, &:focus {
+    background-color: $active-tab-background;
+    color: white;
+  }
 
-    a {
-      color: white;
+  a {
+    color: white;
+  }
+}
+
+.table-container {
+  padding: 10px 20px;
+  background-color: $table-background;;
+  color: white;
+  border-radius: 10px;
+
+  .table-category-title {
+    font-weight: bold;
+    padding: 0 5px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+  }
+
+  table {
+    &.table {
+      td {
+        white-space: normal !important;
+        width: 20%;
+        &:nth-child(2) {
+          width: 60%;
+        }
+      }
+      &.modify {
+        td {
+          width: 15%;
+          &:nth-child(2) {
+            width: 40%;
+          }
+        }
+      }
     }
   }
 }

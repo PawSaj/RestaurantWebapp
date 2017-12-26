@@ -10,6 +10,7 @@ import BookTable from '../../components/main/reservations/bookTable';
 
 /* components admin */
 import AdminPanel from '../../components/admin/panel';
+import AdminMenu from '../../components/admin/menu';
 
 /* components manager */
 import ManagerPanel from '../../components/manager/panel';
@@ -50,7 +51,7 @@ export const ADMIN_CONTENT = {
             component: null
         }, {
             path: ADMIN_PATHS.MENU,
-            component: null
+            component: AdminMenu
         }, {
             path: ADMIN_PATHS.TABLES,
             component: null

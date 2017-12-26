@@ -2,7 +2,7 @@ import React from 'react';
 import TableCalendar from 'react-big-calendar';
 import {Grid} from'react-bootstrap';
 import moment from 'moment';
-import events from './_events';
+import events from '../../../_consts/_events';
 
 moment.locale('pl');
 TableCalendar.momentLocalizer(moment);

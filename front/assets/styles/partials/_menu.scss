@@ -17,11 +17,17 @@
     &.table {
       td {
         white-space: normal !important;
-        &:first-of-type {
-          width: 20%;
+        width: 20%;
+        &:nth-child(2) {
+          width: 60%;
         }
-        &:last-of-type {
+      }
+      &.modyfied{
+        td {
           width: 15%;
+          &:nth-child(2) {
+            width: 40%;
+          }
         }
       }
     }
