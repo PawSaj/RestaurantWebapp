@@ -9,9 +9,7 @@ const MainLayout = () => {
         content: MAIN_CONTENT
     };
 
-    return (
-        <Layout {...layoutProp}/>
-    );
+    return <Layout {...layoutProp}/>;
 };
 
 export default MainLayout;

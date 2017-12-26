@@ -9,9 +9,7 @@ const AdminLayout = () => {
         content: ADMIN_CONTENT
     };
 
-    return (
-        <Layout {...layoutProp}/>
-    );
+    return <Layout {...layoutProp}/>;
 };
 
 export default AdminLayout;

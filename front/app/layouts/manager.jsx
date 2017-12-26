@@ -1,23 +1,14 @@
 import React from 'react';
-import {NavLink, Route, Switch} from 'react-router-dom';
-import {MANAGER_PATHS} from '../_consts/paths';
-
+import Layout from './custom/layout';
+import {MANAGER_NAV} from './_consts/navigations';
+import {MANAGER_CONTENT} from './_consts/contents';
 const ManagerLayout = () => {
-    return (
-        <div>
-            <nav className="header">
-                <NavLink to={MANAGER_PATHS.REPORTS} activeClassName="active">Raporty</NavLink>
-                <NavLink to={MANAGER_PATHS.PROMOTIONS} activeClassName="active">Promocje</NavLink>
-                <a>Wyloguj</a>
-            </nav>
-            <div className="content">
-                <Switch>
-                    <Route path={MANAGER_PATHS.REPORTS}>{}</Route>
-                    <Route path={MANAGER_PATHS.PROMOTIONS}>{}</Route>
-                </Switch>
-            </div>
-        </div>
-    );
+    let layoutProp = {
+        navigation: MANAGER_NAV,
+        content: MANAGER_CONTENT
+    };
+
+    return <Layout {...layoutProp}/>;
 };
 
 export default ManagerLayout;

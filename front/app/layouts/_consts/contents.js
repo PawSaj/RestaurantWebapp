@@ -59,3 +59,20 @@ export const ADMIN_CONTENT = {
         }
     ]
 };
+
+
+export const MANAGER_CONTENT = {
+    urlToRedirect: MANAGER_PATHS.HOME,
+    routes: [
+        {
+            path: MANAGER_PATHS.HOME,
+            component: null
+        }, {
+            path: MANAGER_PATHS.PROMOTIONS,
+            component: null
+        }, {
+            path: MANAGER_PATHS.REPORTS,
+            component: null
+        }
+    ]
+};

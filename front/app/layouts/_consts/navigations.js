@@ -38,7 +38,7 @@ export const ADMIN_NAV = {
     navs: [
         {
             link: ADMIN_PATHS.HOME,
-            desc: 'Strona główna',
+            desc: 'Panel',
             exact: true
         }, {
             link: ADMIN_PATHS.RESERVATIONS,
@@ -55,6 +55,31 @@ export const ADMIN_NAV = {
         }, {
             link: ADMIN_PATHS.USERS,
             desc: 'Użytkownicy',
+            exact: true
+        }
+    ],
+    right: [
+        {
+            link: null,
+            desc: 'Wyloguj',
+            key: 1,
+        }
+    ]
+};
+
+export const MANAGER_NAV = {
+    navs: [
+        {
+            link: MANAGER_PATHS.HOME,
+            desc: 'Panel',
+            exact: true
+        }, {
+            link: MANAGER_PATHS.PROMOTIONS,
+            desc: 'Promocje',
+            exact: true
+        }, {
+            link: MANAGER_PATHS.REPORTS,
+            desc: 'Raporty',
             exact: true
         }
     ],
