@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom'
 import {ADMIN_PATHS} from '../../_consts/paths';
-import CustomPanel from '../custom/panel';
+import CustomPanel from '../_custom/panel';
 
 const AdminPanel = () => {
     let panelProperties = {

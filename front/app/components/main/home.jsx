@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomPanel from '../custom/panel';
+import CustomPanel from '../_custom/panel';
 import Login from './login';
 import Registration from './registration';
 

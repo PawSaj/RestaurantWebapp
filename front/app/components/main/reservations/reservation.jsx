@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
-import CustomPanel from '../../custom/panel';
+import CustomPanel from '../../_custom/panel';
 import {RESERVATIONS_PATHS} from '../../../_consts/paths';
 
 const Reservation = (props) => {
