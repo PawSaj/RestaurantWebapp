@@ -12,6 +12,7 @@ import BookTable from '../../components/main/reservations/bookTable';
 import AdminPanel from '../../components/admin/panel';
 
 /* components manager */
+import ManagerPanel from '../../components/manager/panel';
 
 export const MAIN_CONTENT = {
     urlToRedirect: MAIN_PATHS.HOME,
@@ -66,7 +67,7 @@ export const MANAGER_CONTENT = {
     routes: [
         {
             path: MANAGER_PATHS.HOME,
-            component: null
+            component: ManagerPanel
         }, {
             path: MANAGER_PATHS.PROMOTIONS,
             component: null
