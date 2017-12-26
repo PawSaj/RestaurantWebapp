@@ -18,5 +18,16 @@ export default [
                 price: '15,00'
             }
         ]
+    }, {
+        category: 'Zupy',
+        modify: true,
+        headsTitles: ['Nazwa', 'Składniki', 'Cena'],
+        body: [
+            {
+                name: 'Rosół z kury',
+                ingredients: 'kura, makaron, marchewka, cebula, pietruszka, seler, por, liście laurowe, ziele angielskie',
+                price: '10,50'
+            }
+        ]
     }
 ]
