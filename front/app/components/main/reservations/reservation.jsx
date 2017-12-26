@@ -1,24 +1,25 @@
 import React from 'react';
-import {Button, Grid} from 'react-bootstrap';
-import {NavLink, Switch, Route} from 'react-router-dom';
-import {RESERVATIONS_PATHS} from '../../../consts/paths';
+import {NavLink} from 'react-router-dom';
+import CustomPanel from '../../custom/panel';
+import {RESERVATIONS_PATHS} from '../../../_consts/paths';
 
 const Reservation = (props) => {
     let url = props.match.url;
+    let panelProperties = {
+        header: <div className="description">
+            <h2>Rezerwacje</h2>
+            <p>W naszej restauracji możliwa jest rezerwacja całego lokalu
+                na imprezy okolicznościowe, bądź pojedyńczego stolika</p>
+        </div>,
+        buttons: [
+            <NavLink exact to={url + RESERVATIONS_PATHS.LOCAL}>Lokal</NavLink>,
+            <NavLink exact to={url + RESERVATIONS_PATHS.TABLE}>Stolik</NavLink>
+        ]
+    };
 
     return (
-        <Grid>
-            <div className="greeting-box">
-                <div className="description">
-                    <h2>Rezerwacje</h2>
-                    <p>W naszej restauracji możliwa jest rezerwacja całego lokalu
-                        na imprezy okolicznościowe, bądź pojedyńczego stolika</p>
-                </div>
-                <Button><NavLink exact to={url  + RESERVATIONS_PATHS.LOCAL}>Lokal</NavLink></Button>
-                <Button><NavLink exact to={url  + RESERVATIONS_PATHS.TABLE}>Stolik</NavLink></Button>
-            </div>
-        </Grid>
-    )
+        <CustomPanel {...panelProperties}/>
+    );
 };
 
 export default Reservation;

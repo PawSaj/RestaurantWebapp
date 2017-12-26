@@ -9,12 +9,6 @@
   }
 }
 
-.greeting-box {
-  .btn-default {
-    margin: auto 25px;
-  }
-}
-
 .modal-dialog {
   top: 10%;
   .modal-body {
@@ -25,3 +19,30 @@
     }
   }
 }
+
+.panel-grid {
+  text-align: center;
+  color: white;
+  position: relative;
+  top: 24vh;
+
+  .row {
+    margin-bottom: 15px;
+  }
+
+  .btn-panel {
+    width: 100%;
+    background-color: $main-background;
+    border-color: $panel-button-border;
+
+    &:hover, &:focus {
+      background-color: $active-tab-background;
+      color: white;
+    }
+
+    a {
+      color: white;
+    }
+  }
+}
+

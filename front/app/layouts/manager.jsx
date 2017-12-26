@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavLink, Route, Switch} from 'react-router-dom';
-import {MANAGER_PATHS} from '../consts/paths';
+import {MANAGER_PATHS} from '../_consts/paths';
 
 const ManagerLayout = () => {
     return (

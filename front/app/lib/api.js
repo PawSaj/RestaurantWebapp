@@ -6,7 +6,7 @@ import {
     MAIN_ENDPOINTS,
     IMAGE_ENDPOINTS,
     ADMIN_ENDPOINTS
-} from '../consts/api'
+} from '../_consts/api'
 
 class API {
     constructor() {

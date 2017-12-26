@@ -9,8 +9,8 @@ export default [
     },
     {
         'title': 'Conference',
-        'start': moment().toDate(),
-        'end': moment().add(4, "hours").toDate(),
-        desc: 'Big conference for important people'
+        'start': moment('2017-12-26').toDate(),
+        'end': moment('2017-12-26').add(4, "hours").toDate(),
+        'desc': 'Big conference for important people'
     }
 ]
