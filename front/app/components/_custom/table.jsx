@@ -1,5 +1,6 @@
 import React from 'react';
 import {Table, ModalTitle, Button} from 'react-bootstrap';
+import {NavLink} from 'react-router-dom';
 
 const createHeadRow = (headsTitles) => {
     return headsTitles.map((title, index) => <th key={index}>{title}</th>)
@@ -23,13 +24,21 @@ const insertHeadRow = (heads, modify) => {
     );
 };
 
-const createBodyRow = (element) => {
+const createBodyRow = (element, links) => {
+    let {filed, path} = links, value = null;
+
     return Object.keys(element).map((key) => {
         if (key === 'price') {
-            return <td key={key}>{element[key]} zł</td>
+            value = `${element[key]} zł`;
         } else {
-            return <td key={key}>{element[key]}</td>
+            value = element[key];
         }
+
+        if (links && key === filed) {
+            return <td key={key}><NavLink to={path}>{value}</NavLink></td>;
+        }
+
+        return <td key={key}>{value}</td>;
     });
 
 };
@@ -52,7 +61,7 @@ const insertBodyRow = (row, modify, index) => {
     );
 };
 
-const CustomTable = ({category = null, modify = false, headsTitles, body}) => {
+const CustomTable = ({category = null, modify = false, headsTitles, body, links = {}}) => {
     let tableClassName = null;
     if (modify === true) {
         tableClassName = 'modify';
@@ -66,7 +75,7 @@ const CustomTable = ({category = null, modify = false, headsTitles, body}) => {
                 {insertHeadRow(createHeadRow(headsTitles), modify)}
                 </thead>
                 <tbody>
-                {body.map((element, index) => insertBodyRow(createBodyRow(element), modify, index))}
+                {body.map((element, index) => insertBodyRow(createBodyRow(element, links), modify, index))}
                 </tbody>
             </Table>
         </div>
