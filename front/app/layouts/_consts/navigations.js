@@ -55,7 +55,7 @@ export const ADMIN_NAV = {
         }, {
             link: ADMIN_PATHS.USERS,
             desc: 'Użytkownicy',
-            exact: true
+            exact: false
         }
     ],
     right: [

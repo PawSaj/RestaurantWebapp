@@ -13,6 +13,7 @@ import AdminPanel from '../../components/admin/panel';
 import AdminMenu from '../../components/admin/menu/menu';
 import AdminReservation from '../../components/admin/reservations/reservations';
 import AdminUsers from '../../components/admin/users/users';
+import AdminUser from '../../components/admin/users/userForm';
 
 /* components manager */
 import ManagerPanel from '../../components/manager/panel';
@@ -60,6 +61,9 @@ export const ADMIN_CONTENT = {
         }, {
             path: ADMIN_PATHS.USERS,
             component: AdminUsers
+        }, {
+            path: ADMIN_PATHS.USER,
+            component: AdminUser
         }
     ]
 };

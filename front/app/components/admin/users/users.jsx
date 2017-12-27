@@ -3,14 +3,37 @@ import {Grid} from 'react-bootstrap';
 import CustomTable from '../../_custom/table';
 import CustomTabs from '../../_custom/tabs';
 import USERS from '../../../_consts/mocks/users';
-import {getParam} from '../../../lib/helpers/urlHelpers';
+import {ADMIN_PATHS} from '../../../_consts/paths';
 
 
 const Users = (props) => {
-    let {location} = props;
-    let userID = getParam({search: location.search, name: 'dama'});
+    let {match} = props;
 
-    return null;
+    let tableProps = {
+        headsTitles: ['Id', 'Imię', 'Nazwisko', 'Rola'],
+        modify: true,
+        body: USERS,
+        links: {
+            filed: 'id',
+            path: ADMIN_PATHS.USERS
+        }
+    };
+
+    let tabsProps = {
+        id: "users-tab",
+        tabs: [
+            {
+                title: 'Edycja użytkowników',
+                content: <CustomTable {...tableProps}/>
+            }
+        ],
+    };
+
+    return (
+        <Grid>
+            <CustomTabs {...tabsProps}/>
+        </Grid>
+    );
 };
 
 export default Users;

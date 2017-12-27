@@ -108,8 +108,18 @@
 
 #reservation-tab {
   @include table-data-width(25%, 25%, 14%, 10%);
-  td{
-    a{
+  td {
+    a {
+      color: white;
+      text-decoration: underline;
+    }
+  }
+}
+
+#users-tab {
+  @include table-data-width(25%, 25%, 16.7%, 16.8%);
+  td {
+    a {
       color: white;
       text-decoration: underline;
     }

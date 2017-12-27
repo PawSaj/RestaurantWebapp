@@ -35,7 +35,7 @@ const createBodyRow = (element, links) => {
         }
 
         if (links && key === filed) {
-            return <td key={key}><NavLink to={path}>{value}</NavLink></td>;
+            return <td key={key}><NavLink to={path + '/' + value}>{value}</NavLink></td>;
         }
 
         return <td key={key}>{value}</td>;
