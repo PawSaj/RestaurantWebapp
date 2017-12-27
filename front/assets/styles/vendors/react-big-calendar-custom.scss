@@ -1,0 +1,37 @@
+.rbc {
+  &-btn-group {
+    button {
+      color: $active-tab-text;
+    }
+  }
+
+  &-event{
+  background-color: $active-tab-background;
+  }
+
+  &-calendar {
+    padding: 15px;
+    border-radius: 10px;
+    background-color: $main-background;
+  }
+
+  &-toolbar {
+    color: white;
+    display: block;
+    &-label {
+      float: right;
+      text-transform: capitalize;
+    }
+  }
+
+  &-month, &-time {
+    &-view {
+      display: block;
+      background-color: $calendar-body-background;
+      border-radius: 5px;
+    }
+    &-row {
+      min-height: 80px;
+    }
+  }
+}
