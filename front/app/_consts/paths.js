@@ -18,7 +18,8 @@ export const ADMIN_PATHS = {
     USERS: '/users',
     USER: '/users/:id',
     DISH: '/menu/:id',
-    RESERVATION: '/reservations/:id'
+    RESERVATION: '/reservations/:id',
+    TABLE: '/tables/:id'
 };
 
 export const MANAGER_PATHS = {

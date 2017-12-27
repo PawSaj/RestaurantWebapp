@@ -1,12 +1,14 @@
 .edit-form {
   background-color: $table-background;
   color: white;
-  box-sizing: content-box;
+  box-sizing: border-box;
   padding: 20px;
+  margin-bottom: 30px;
 }
 
 .tab-content {
   border: 1px solid white;
+  margin-bottom: 30px;
 }
 
 .nav-tabs {
@@ -104,6 +106,10 @@
 
 #menu-tab {
   @include table-data-width(10%, 60%, 16%, 20%);
+  .edit-form{
+    margin-bottom: 0;
+    width: 100%;
+  }
 }
 
 #reservation-tab {
@@ -112,5 +118,11 @@
 
 #users-tab {
   @include table-data-width(25%, 25%, 16.7%, 16.8%);
+}
 
+#tables-tab {
+  @include table-data-width(33.3%, 33.3%, 20%, 20%);
+  .edit-form{
+    margin-bottom: 0;
+  }
 }

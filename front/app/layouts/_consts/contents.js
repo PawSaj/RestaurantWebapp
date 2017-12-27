@@ -16,6 +16,7 @@ import AdminUsers from '../../components/admin/users/users';
 import AdminUser from '../../components/admin/users/userForm';
 import AdminDish from '../../components/admin/menu/dishForm';
 import AdminSingleReservation from '../../components/admin/reservations/reservationForm';
+import AdminTables from '../../components/admin/tables/tables';
 
 /* components manager */
 import ManagerPanel from '../../components/manager/panel';
@@ -59,6 +60,9 @@ export const ADMIN_CONTENT = {
             component: AdminMenu
         }, {
             path: ADMIN_PATHS.TABLES,
+            component: AdminTables
+        }, {
+            path: ADMIN_PATHS.TABLE,
             component: null
         }, {
             path: ADMIN_PATHS.USERS,

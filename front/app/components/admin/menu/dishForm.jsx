@@ -2,9 +2,11 @@ import React from 'react';
 import {Button, Grid, Col, Row} from 'react-bootstrap';
 import FieldGroup from '../../_custom/fieldGroup';
 
-const DishForm = ({values = null} = {}) => {
-    return (
-        <Grid className="edit-form">
+const DishForm = ({addingEl = false} = {}) => {
+    let values = {};
+
+    let content =
+        <div>
             <FieldGroup
                 id="name"
                 type="text"
@@ -17,7 +19,7 @@ const DishForm = ({values = null} = {}) => {
                 label="Kategoria"
                 componentClass="select"
                 placeholder="pizza"
-                value={values ? values.category : null}>
+                value={values ? values.category : undefined}>
                 <option value="pizza">Pizza</option>
                 <option value="soup">Zupa</option>
             </FieldGroup>
@@ -36,8 +38,22 @@ const DishForm = ({values = null} = {}) => {
                 value={values ? values.price : ''}
             />
             <Button bsClass="btn btn-panel">Zapisz</Button>
+        </div>;
+
+    if (addingEl === true) {
+        return (
+            <div className="edit-form">
+                {content}
+            </div>
+        );
+    }
+
+    return (
+        <Grid className="edit-form">
+            {content}
         </Grid>
     );
+
 };
 
 export default DishForm;

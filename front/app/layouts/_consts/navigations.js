@@ -42,20 +42,16 @@ export const ADMIN_NAV = {
             exact: true
         }, {
             link: ADMIN_PATHS.RESERVATIONS,
-            desc: 'Rezerwacje',
-            exact: false
+            desc: 'Rezerwacje'
         }, {
             link: ADMIN_PATHS.MENU,
-            desc: 'Menu',
-            exact: false
+            desc: 'Menu'
         }, {
             link: ADMIN_PATHS.TABLES,
-            desc: 'Stoliki',
-            exact: true
+            desc: 'Stoliki'
         }, {
             link: ADMIN_PATHS.USERS,
-            desc: 'Użytkownicy',
-            exact: false
+            desc: 'Użytkownicy'
         }
     ],
     right: [

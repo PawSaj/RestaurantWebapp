@@ -16,7 +16,7 @@ const Menu = (props) => {
                 content: menu
             }, {
                 title: 'Dodawanie dań',
-                content: <NewDish/>
+                content: <NewDish addingNew=""/>
             }
         ],
     };
