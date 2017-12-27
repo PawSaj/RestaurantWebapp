@@ -7,10 +7,15 @@ const AdminPanel = () => {
     let panelProperties = {
         header: <h2>Witaj w panelu administarcyjnym</h2>,
         buttons: [
-            <NavLink exact to={ADMIN_PATHS.RESERVATIONS} activeClassName="active">Rezerwacje</NavLink>,
-            <NavLink exact to={ADMIN_PATHS.TABLES} activeClassName="active">Stoliki</NavLink>,
-            <NavLink exact to={ADMIN_PATHS.MENU} activeClassName="active">Menu</NavLink>,
-            <NavLink exact to={ADMIN_PATHS.USERS} activeClassName="active">Użytkownicy</NavLink>
+            {
+                name: <NavLink exact to={ADMIN_PATHS.RESERVATIONS} activeClassName="active">Rezerwacje</NavLink>
+            }, {
+                name: <NavLink exact to={ADMIN_PATHS.TABLES} activeClassName="active">Stoliki</NavLink>
+            }, {
+                name: <NavLink exact to={ADMIN_PATHS.MENU} activeClassName="active">Menu</NavLink>
+            }, {
+                name: <NavLink exact to={ADMIN_PATHS.USERS} activeClassName="active">Użytkownicy</NavLink>
+            }
         ]
     };
 

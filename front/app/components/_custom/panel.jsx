@@ -4,8 +4,9 @@ import {Grid, Row, Col, Button} from 'react-bootstrap';
 const createButtonRow = (buttons) => {
     return buttons.map((button, index) =>
         (<Col key={index} xs={6}>
-            <Button bsClass="btn btn-panel">
-                {button}
+            <Button bsClass="btn btn-panel"
+                    onClick={(button.callback) ? () => button.callback() : () => false}>
+                {button.name}
             </Button>
         </Col>)
     );

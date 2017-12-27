@@ -8,8 +8,11 @@ const ManagerPanel = () => {
     let panelProperties = {
         header: <h2>Witaj w panelu kierownika</h2>,
         buttons: [
-            <NavLink exact to={MANAGER_PATHS.PROMOTIONS} activeClassName="active">Promocje</NavLink>,
-            <NavLink exact to={MANAGER_PATHS.REPORTS} activeClassName="active">Raporty</NavLink>
+            {
+                name: <NavLink exact to={MANAGER_PATHS.PROMOTIONS} activeClassName="active">Promocje</NavLink>
+            }, {
+                name: <NavLink exact to={MANAGER_PATHS.REPORTS} activeClassName="active">Raporty</NavLink>
+            }
         ]
     };
 
