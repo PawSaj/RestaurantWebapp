@@ -3,7 +3,7 @@ import CustomTable from '../../_custom/table';
 import MenuData from '../../../_consts/mocks/menu';
 import CustomTabs from '../../_custom/tabs';
 import {Grid} from 'react-bootstrap';
-import NewDish from './newDish';
+import NewDish from './dishForm';
 
 const Menu = () => {
     let menu = MenuData.map(element => <CustomTable {...element}/>);
@@ -16,7 +16,7 @@ const Menu = () => {
                 content: menu
             }, {
                 title: 'Dodawanie dań',
-                content: NewDish
+                content: NewDish()
             }
         ],
     };
