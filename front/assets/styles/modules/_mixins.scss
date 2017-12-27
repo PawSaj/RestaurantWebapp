@@ -5,14 +5,14 @@
   transform: $translate;
 }
 
-@mixin table-data-width($width,$secondWidth,$modified,$modifiedSecond) {
+@mixin table-data-width($width,$thirdWidth,$modified,$modifiedThird) {
   table {
     &.table {
       td {
         white-space: normal !important;
         width: $width;
-        &:nth-child(2) {
-          width: $secondWidth;
+        &:nth-child(3) {
+          width: $thirdWidth;
         }
         a {
           color: white;
@@ -27,8 +27,8 @@
       &.modify {
         td {
           width: $modified;
-          &:nth-child(2) {
-            width: $modifiedSecond;
+          &:nth-child(3) {
+            width: $modifiedThird;
           }
         }
       }

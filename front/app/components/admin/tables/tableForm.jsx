@@ -32,7 +32,7 @@ const TableForm = () => {
                 </Col>
             </Row>
         </Grid>
-    );
+    )
 };
 
 export default TableForm;

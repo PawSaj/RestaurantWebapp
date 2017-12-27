@@ -105,7 +105,7 @@
 }
 
 #menu-tab {
-  @include table-data-width(10%, 60%, 16%, 20%);
+  @include table-data-width(15%, 55%, 10%, 40%);
   .edit-form{
     margin-bottom: 0;
     width: 100%;
@@ -113,7 +113,7 @@
 }
 
 #reservation-tab {
-  @include table-data-width(20%, 20%, 14%, 16%);
+  @include table-data-width(20%, 20%, 15%, 10%);
 }
 
 #users-tab {
@@ -121,7 +121,7 @@
 }
 
 #tables-tab {
-  @include table-data-width(33.3%, 33.3%, 20%, 20%);
+  @include table-data-width(33.3%, 33.3%, 15%, 40%);
   .edit-form{
     margin-bottom: 0;
   }
