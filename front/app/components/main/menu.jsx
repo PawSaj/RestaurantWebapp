@@ -1,6 +1,6 @@
 import React from 'react';
 import CustomTable from '../_custom/table';
-import MenuData from '../../_consts/_menu';
+import MenuData from '../../_consts/mocks/menu';
 import {Grid} from 'react-bootstrap';
 
 const Menu = () => {
