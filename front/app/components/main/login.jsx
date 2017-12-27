@@ -1,17 +1,22 @@
 import React from 'react';
-import {Button, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import FieldGroup from '../_custom/fieldGroup';
+import {Button} from 'react-bootstrap';
 
 const Login = () => {
     return (
         <form>
-            <FormGroup controlId="email">
-                <ControlLabel>Adres email:</ControlLabel>
-                <FormControl placeholder="Wprowaź swój adres email" type="email"/>
-            </FormGroup>
-            <FormGroup controlId="password">
-                <ControlLabel>Hasło:</ControlLabel>
-                <FormControl type="password"/>
-            </FormGroup>
+            <FieldGroup
+                id="email"
+                type="email"
+                label="Adres email"
+                placeholder="Wprowadź swoj adres email"
+            />
+            <FieldGroup
+                id="password"
+                type="password"
+                label="Hasło"
+                placeholder="Wprowadź swoje hasło"
+            />
             <div className="form-button">
                 <Button type="submit">
                     Logowanie

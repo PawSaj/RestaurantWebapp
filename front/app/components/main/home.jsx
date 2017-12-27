@@ -2,6 +2,7 @@ import React from 'react';
 import CustomPanel from '../_custom/panel';
 import Login from './login';
 import Registration from './registration';
+import {Modal} from 'react-bootstrap';
 
 const Home = () => {
     let modalTitle = 'Rejestracja';
@@ -19,13 +20,13 @@ const Home = () => {
     return (
         <div id="home">
             {/*<Modal show={true}>*/}
-            {/*<Modal.Header closeButton>*/}
-            {/*<Modal.Title>{modalTitle}</Modal.Title>*/}
-            {/*</Modal.Header>*/}
-            {/*<Modal.Body>*/}
-            {/*/!*<Login/>*!/*/}
-            {/*/!*<Registration/>*!/*/}
-            {/*</Modal.Body>*/}
+                {/*<Modal.Header closeButton>*/}
+                    {/*<Modal.Title>{modalTitle}</Modal.Title>*/}
+                {/*</Modal.Header>*/}
+                {/*<Modal.Body>*/}
+                    {/*/!*<Login/>*!/*/}
+                    {/*/!*<Registration/>*!/*/}
+                {/*</Modal.Body>*/}
             {/*</Modal>*/}
             <CustomPanel {...panelProperties}/>
         </div>

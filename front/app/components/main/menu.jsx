@@ -1,6 +1,7 @@
 import React from 'react';
 import CustomTable from '../_custom/table';
 import MenuData from '../../_consts/_menu';
+import {Grid} from 'react-bootstrap';
 
 const Menu = () => {
     let menu = MenuData.map(element => {
@@ -8,7 +9,7 @@ const Menu = () => {
         return <CustomTable {...element}/>
     });
 
-    return <div className="menu">{menu}</div>
+    return <Grid>{menu}</Grid>
 
 };
 

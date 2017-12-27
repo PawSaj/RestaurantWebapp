@@ -56,22 +56,20 @@ const CustomTable = ({category = null, modify = false, headsTitles, body}) => {
     }
 
     return (
-        <Grid>
-            <div className="table-container">
-                {(category !== null) ?
-                    <ModalTitle className="table-category-title">{category}</ModalTitle>
-                    : null
-                }
-                <Table responsive className={tableClassName}>
-                    <thead>
-                    {tableHead(headsTitles, modify)}
-                    </thead>
-                    <tbody>
-                    {body.map(element => insertBodyRow(element, modify))}
-                    </tbody>
-                </Table>
-            </div>
-        </Grid>
+        <div className="table-container">
+            {(category !== null) ?
+                <ModalTitle className="table-category-title">{category}</ModalTitle>
+                : null
+            }
+            <Table responsive className={tableClassName}>
+                <thead>
+                {tableHead(headsTitles, modify)}
+                </thead>
+                <tbody>
+                {body.map(element => insertBodyRow(element, modify))}
+                </tbody>
+            </Table>
+        </div>
     );
 };
 

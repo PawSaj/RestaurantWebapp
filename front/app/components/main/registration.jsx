@@ -1,5 +1,6 @@
 import React from 'react';
-import {Button, FormGroup, FormControl, ControlLabel, Row, Col} from 'react-bootstrap';
+import {Button, Row, Col} from 'react-bootstrap';
+import FieldGroup from '../_custom/fieldGroup';
 import Dropzone from 'react-dropzone';
 import base64 from 'base-64';
 
@@ -24,42 +25,52 @@ const Registration = () => {
                     </Dropzone>
                 </Col>
                 <Col xs={7}>
-                    <FormGroup controlId="name">
-                        <ControlLabel>Imię:</ControlLabel>
-                        <FormControl placeholder="Wprowadź swoje imię" type="text"/>
-                    </FormGroup>
-                    <FormGroup controlId="surname">
-                        <ControlLabel>Nazwisko:</ControlLabel>
-                        <FormControl placeholder="Wprowadź swoje nazwisko" type="text"/>
-                    </FormGroup>
-                    <FormGroup controlId="phone">
-                        <ControlLabel>Numer telefonu:</ControlLabel>
-                        <FormControl placeholder="Wprowadź swój numer telefonu" type="text"/>
-                    </FormGroup>
+                    <FieldGroup
+                        id="name"
+                        type="text"
+                        label="Imię"
+                        placeholder="Wprowadź swoje imię"
+                    />
+                    <FieldGroup
+                        id="surname"
+                        type="text"
+                        label="Nazwisko"
+                        placeholder="Wprowadź swoje nazwisko"
+                    />
+                    <FieldGroup
+                        id="phone"
+                        type="text"
+                        label="Numer telefonu"
+                        placeholder="Wprowadź swój numer telefonu"
+                    />
                 </Col>
             </Row>
 
             <Row>
                 <Col xs={12}>
-                    <FormGroup controlId="email">
-                        <ControlLabel>Adres email:</ControlLabel>
-                        <FormControl placeholder="Wprowaź swój adres email" type="email"/>
-                    </FormGroup>
+                    <FieldGroup
+                        id="email"
+                        type="email"
+                        label="Adres email"
+                        placeholder="Wprowadź swoj adres email"
+                    />
                 </Col>
             </Row>
 
             <Row>
                 <Col xs={6}>
-                    <FormGroup controlId="password">
-                        <ControlLabel>Hasło:</ControlLabel>
-                        <FormControl type="password"/>
-                    </FormGroup>
+                    <FieldGroup
+                        id="password"
+                        type="password"
+                        label="Hasło"
+                    />
                 </Col>
                 <Col xs={6}>
-                    <FormGroup controlId="passwordConfirm">
-                        <ControlLabel>Potwierdzenie hasła:</ControlLabel>
-                        <FormControl type="password"/>
-                    </FormGroup>
+                    <FieldGroup
+                        id="passwordConfirm"
+                        type="password"
+                        label="Potwierdzenie hasła"
+                    />
                 </Col>
             </Row>
             <div className="form-button">

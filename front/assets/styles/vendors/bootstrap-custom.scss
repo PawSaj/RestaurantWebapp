@@ -1,3 +1,43 @@
+.edit-form{
+  background-color: $table-background;
+  color: white;
+}
+
+.tab-content{
+  border: 1px solid white;
+}
+
+.nav-tabs {
+  color: white;
+  border-bottom: 1px solid white;
+
+  li {
+    &.active {
+      a {
+        &, &:hover, &:focus {
+          color: white;
+          background-color: $active-tab-background;
+          border-bottom-color: white;
+        }
+      }
+    }
+
+    a {
+      color: $inactive-tab-pill-text;
+      background-color: $table-background;
+      border-color: $tab-pill-border;
+      border-bottom-color: white;
+
+      &:hover {
+        color: white;
+        background-color: $table-background;
+        border-color: $tab-pill-border;
+        border-bottom-color: white;
+      }
+    }
+  }
+}
+
 .navbar-nav {
   li {
     a {
@@ -50,7 +90,7 @@
   padding: 10px 20px;
   background-color: $table-background;;
   color: white;
-  border-radius: 10px;
+  border-radius: 0 0 10px 10px;
 
   .table-category-title {
     font-weight: bold;
