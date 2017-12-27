@@ -44,8 +44,11 @@ const ReservationForm = ({values = null} = {}) => {
                     />
                 </Col>
             </Row>
-
-            <Button bsClass="btn btn-panel">Zapisz</Button>
+            <Row>
+                <Col xs={12}>
+                    <Button bsClass="btn btn-panel">Zapisz</Button>
+                </Col>
+            </Row>
         </div>
     );
 };

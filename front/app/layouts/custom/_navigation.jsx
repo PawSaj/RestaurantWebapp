@@ -5,6 +5,7 @@ import {BRAND} from '../_consts/navigations';
 
 const links = (links) => {
     return links.map((nav, index) => {
+
         if (nav.link !== null) {
             return (
                 <li key={index} role="presentation">

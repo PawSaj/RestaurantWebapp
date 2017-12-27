@@ -108,4 +108,10 @@
 
 #reservation-tab {
   @include table-data-width(25%, 25%, 14%, 10%);
+  td{
+    a{
+      color: white;
+      text-decoration: underline;
+    }
+  }
 }
