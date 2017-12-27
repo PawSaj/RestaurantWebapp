@@ -11,7 +11,7 @@ import BookTable from '../../components/main/reservations/bookTable';
 /* components admin */
 import AdminPanel from '../../components/admin/panel';
 import AdminMenu from '../../components/admin/menu/menu';
-import AdminReservation from '../../components/admin/reservations';
+import AdminReservation from '../../components/admin/reservations/reservations';
 
 /* components manager */
 import ManagerPanel from '../../components/manager/panel';

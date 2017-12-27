@@ -4,3 +4,25 @@
   left: $left;
   transform: $translate;
 }
+
+@mixin table-data-width($width,$secondWidth,$modified,$modifiedSecond) {
+  table {
+    &.table {
+      td {
+        white-space: normal !important;
+        width: $width;
+        &:nth-child(2) {
+          width: $secondWidth;
+        }
+      }
+      &.modify {
+        td {
+          width: $modified;
+          &:nth-child(2) {
+            width: $modifiedSecond;
+          }
+        }
+      }
+    }
+  }
+}
