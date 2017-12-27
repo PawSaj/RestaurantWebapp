@@ -3,7 +3,6 @@ import {Grid} from 'react-bootstrap';
 import CustomTable from '../../_custom/table';
 import CustomTabs from '../../_custom/tabs';
 import USERS from '../../../_consts/mocks/users';
-import {ADMIN_PATHS} from '../../../_consts/paths';
 
 
 const Users = (props) => {
@@ -12,11 +11,7 @@ const Users = (props) => {
     let tableProps = {
         headsTitles: ['Id', 'Imię', 'Nazwisko', 'Rola'],
         modify: true,
-        body: USERS,
-        links: {
-            filed: 'id',
-            path: ADMIN_PATHS.USERS
-        }
+        body: USERS
     };
 
     let tabsProps = {
@@ -24,7 +19,7 @@ const Users = (props) => {
         tabs: [
             {
                 title: 'Edycja użytkowników',
-                content: <CustomTable {...tableProps}/>
+                content: <CustomTable {...Object.assign({}, tableProps, props)}/>
             }
         ],
     };

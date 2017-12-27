@@ -25,7 +25,7 @@ const insertHeadRow = (heads, modify) => {
 };
 
 const createBodyRow = (element, links) => {
-    let {filed, path} = links, value = null;
+    let {field, path} = links ? links : {}, value = null;
 
     return Object.keys(element).map((key) => {
         if (key === 'price') {
@@ -34,7 +34,7 @@ const createBodyRow = (element, links) => {
             value = element[key];
         }
 
-        if (links && key === filed) {
+        if (links && key === field) {
             return <td key={key}><NavLink to={path + '/' + value}>{value}</NavLink></td>;
         }
 
@@ -43,12 +43,17 @@ const createBodyRow = (element, links) => {
 
 };
 
-const insertBodyRow = (row, modify, index) => {
+const insertBodyRow = ({element, modify, index, links, url}) => {
+    let row = createBodyRow(element, links);
     if (modify === true) {
         return (
             <tr key={index}>
                 {row}
-                <td><Button bsClass="btn btn-panel">Edytuj</Button></td>
+                <td>
+                    <Button bsClass="btn btn-panel">
+                        <NavLink exact to={url + '/' + element['id']}>Edytuj</NavLink>
+                    </Button>
+                </td>
                 <td><Button bsClass="btn btn-panel">Usuń</Button></td>
             </tr>
         );
@@ -61,8 +66,11 @@ const insertBodyRow = (row, modify, index) => {
     );
 };
 
-const CustomTable = ({category = null, modify = false, headsTitles, body, links = {}}) => {
+const CustomTable = (props) => {
     let tableClassName = null;
+    let {headsTitles, category, modify, body, match} = props;
+    let url = match.path;
+
     if (modify === true) {
         tableClassName = 'modify';
     }
@@ -75,7 +83,7 @@ const CustomTable = ({category = null, modify = false, headsTitles, body, links 
                 {insertHeadRow(createHeadRow(headsTitles), modify)}
                 </thead>
                 <tbody>
-                {body.map((element, index) => insertBodyRow(createBodyRow(element, links), modify, index))}
+                {body.map((element, index) => insertBodyRow({element, index, url, ...props}))}
                 </tbody>
             </Table>
         </div>

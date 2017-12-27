@@ -1,10 +1,10 @@
 import React from 'react';
-import {Button, Row, Col} from 'react-bootstrap';
+import {Button, Grid, Row, Col} from 'react-bootstrap';
 import FieldGroup from '../../_custom/fieldGroup';
 
 const ReservationForm = ({values = null} = {}) => {
     return (
-        <div className="edit-form">
+        <Grid className="edit-form">
             <Row>
                 <Col xs={12}>
                     <FieldGroup
@@ -49,7 +49,7 @@ const ReservationForm = ({values = null} = {}) => {
                     <Button bsClass="btn btn-panel">Zapisz</Button>
                 </Col>
             </Row>
-        </div>
+        </Grid>
     );
 };
 

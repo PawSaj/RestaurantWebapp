@@ -1,10 +1,10 @@
 import React from 'react';
-import {Button} from 'react-bootstrap';
+import {Button, Grid, Col, Row} from 'react-bootstrap';
 import FieldGroup from '../../_custom/fieldGroup';
 
 const DishForm = ({values = null} = {}) => {
     return (
-        <div className="edit-form">
+        <Grid className="edit-form">
             <FieldGroup
                 id="name"
                 type="text"
@@ -16,8 +16,8 @@ const DishForm = ({values = null} = {}) => {
                 id="category"
                 label="Kategoria"
                 componentClass="select"
-                placeholder="Wybierz kategorię"
-                value={values ? values.category : ''}>
+                placeholder="pizza"
+                value={values ? values.category : null}>
                 <option value="pizza">Pizza</option>
                 <option value="soup">Zupa</option>
             </FieldGroup>
@@ -36,7 +36,7 @@ const DishForm = ({values = null} = {}) => {
                 value={values ? values.price : ''}
             />
             <Button bsClass="btn btn-panel">Zapisz</Button>
-        </div>
+        </Grid>
     );
 };
 

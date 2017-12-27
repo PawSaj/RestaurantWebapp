@@ -43,11 +43,11 @@ export const ADMIN_NAV = {
         }, {
             link: ADMIN_PATHS.RESERVATIONS,
             desc: 'Rezerwacje',
-            exact: true
+            exact: false
         }, {
             link: ADMIN_PATHS.MENU,
             desc: 'Menu',
-            exact: true
+            exact: false
         }, {
             link: ADMIN_PATHS.TABLES,
             desc: 'Stoliki',

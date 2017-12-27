@@ -11,9 +11,11 @@ import BookTable from '../../components/main/reservations/bookTable';
 /* components admin */
 import AdminPanel from '../../components/admin/panel';
 import AdminMenu from '../../components/admin/menu/menu';
-import AdminReservation from '../../components/admin/reservations/reservations';
+import AdminReservations from '../../components/admin/reservations/reservations';
 import AdminUsers from '../../components/admin/users/users';
 import AdminUser from '../../components/admin/users/userForm';
+import AdminDish from '../../components/admin/menu/dishForm';
+import AdminSingleReservation from '../../components/admin/reservations/reservationForm';
 
 /* components manager */
 import ManagerPanel from '../../components/manager/panel';
@@ -51,7 +53,7 @@ export const ADMIN_CONTENT = {
             component: AdminPanel
         }, {
             path: ADMIN_PATHS.RESERVATIONS,
-            component: AdminReservation
+            component: AdminReservations
         }, {
             path: ADMIN_PATHS.MENU,
             component: AdminMenu
@@ -64,6 +66,12 @@ export const ADMIN_CONTENT = {
         }, {
             path: ADMIN_PATHS.USER,
             component: AdminUser
+        }, {
+            path: ADMIN_PATHS.DISH,
+            component: AdminDish
+        }, {
+            path: ADMIN_PATHS.RESERVATION,
+            component: AdminSingleReservation
         }
     ]
 };

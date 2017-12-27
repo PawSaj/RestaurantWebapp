@@ -103,25 +103,14 @@
 }
 
 #menu-tab {
-  @include table-data-width(20%, 60%, 15%, 40%);
+  @include table-data-width(10%, 60%, 16%, 20%);
 }
 
 #reservation-tab {
-  @include table-data-width(25%, 25%, 14%, 10%);
-  td {
-    a {
-      color: white;
-      text-decoration: underline;
-    }
-  }
+  @include table-data-width(20%, 20%, 14%, 16%);
 }
 
 #users-tab {
   @include table-data-width(25%, 25%, 16.7%, 16.8%);
-  td {
-    a {
-      color: white;
-      text-decoration: underline;
-    }
-  }
+
 }

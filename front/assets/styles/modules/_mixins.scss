@@ -14,6 +14,15 @@
         &:nth-child(2) {
           width: $secondWidth;
         }
+        a {
+          color: white;
+          text-decoration: underline;
+        }
+      }
+      button {
+        a {
+          text-decoration: none;
+        }
       }
       &.modify {
         td {

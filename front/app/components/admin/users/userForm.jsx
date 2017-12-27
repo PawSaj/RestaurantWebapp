@@ -4,7 +4,6 @@ import FieldGroup from "../../_custom/fieldGroup";
 
 const User = (props) => {
     let {params} = props.match;
-    console.log("params: ", params);
 
     return (
         <Grid className="edit-form">

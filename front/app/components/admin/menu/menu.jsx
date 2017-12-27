@@ -5,8 +5,8 @@ import CustomTabs from '../../_custom/tabs';
 import {Grid} from 'react-bootstrap';
 import NewDish from './dishForm';
 
-const Menu = () => {
-    let menu = MenuData.map((element, index) => <CustomTable key={index} {...element}/>);
+const Menu = (props) => {
+    let menu = MenuData.map((element, index) => <CustomTable key={index} {...Object.assign({}, element, props)}/>);
 
     let tabsProps = {
         id: "menu-tab",

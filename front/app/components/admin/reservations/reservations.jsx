@@ -5,13 +5,13 @@ import CustomTabs from '../../_custom/tabs';
 import {ADMIN_PATHS} from '../../../_consts/paths';
 import RES_DATA from '../../../_consts/mocks/reservations';
 
-const Reservations = () => {
+const Reservations = (props) => {
     let tableProps = {
-        headsTitles: ['Rezerwujący', 'Opis', 'Początek', 'Koniec'],
+        headsTitles: ['Id', 'Rezerwujący', 'Opis', 'Początek', 'Koniec'],
         modify: true,
         body: RES_DATA,
         links: {
-            filed: 'bookerId',
+            field: 'bookerId',
             path: ADMIN_PATHS.USERS
         }
     };
@@ -21,7 +21,7 @@ const Reservations = () => {
         tabs: [
             {
                 title: 'Edycja rezerwacji',
-                content: <CustomTable {...tableProps}/>
+                content: <CustomTable {...Object.assign({}, tableProps, props)}/>
             }
         ],
     };
