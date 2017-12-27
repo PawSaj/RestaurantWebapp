@@ -32,7 +32,7 @@ const Home = () => {
     return (
         <div id="home">
             {/*<Modal {...{title: 'Logowanie', body: <Login/>, show: true}}/>*/}
-            <Modal {...{title: 'Rejestracja', body: <Registration/>, show: true}}/>
+            {/*<Modal {...{title: 'Rejestracja', body: <Registration/>, show: true}}/>*/}
             <CustomPanel {...panelProperties}/>
         </div>
     );
