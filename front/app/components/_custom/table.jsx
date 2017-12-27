@@ -1,11 +1,11 @@
 import React from 'react';
-import {Table, Grid, ModalTitle, Button} from 'react-bootstrap';
+import {Table, ModalTitle, Button} from 'react-bootstrap';
 
-const tableHead = (headsTitles, modify) => {
-    let heads = headsTitles.map(title =>
-        <th>{title}</th>
-    );
+const createHeadRow = (headsTitles) => {
+    return headsTitles.map((title, index) => <th key={index}>{title}</th>)
+};
 
+const insertHeadRow = (heads, modify) => {
     if (modify === true) {
         return (
             <tr>
@@ -23,18 +23,21 @@ const tableHead = (headsTitles, modify) => {
     );
 };
 
-const insertBodyRow = (element, modify) => {
-    let row = Object.keys(element).map(key => {
+const createBodyRow = (element) => {
+    return Object.keys(element).map((key) => {
         if (key === 'price') {
-            return <td>{element[key]} zł</td>
+            return <td key={key}>{element[key]} zł</td>
         } else {
-            return <td>{element[key]}</td>
+            return <td key={key}>{element[key]}</td>
         }
     });
 
+};
+
+const insertBodyRow = (row, modify, index) => {
     if (modify === true) {
         return (
-            <tr>
+            <tr key={index}>
                 {row}
                 <td><Button bsClass="btn btn-panel">Edytuj</Button></td>
                 <td><Button bsClass="btn btn-panel">Usuń</Button></td>
@@ -43,7 +46,7 @@ const insertBodyRow = (element, modify) => {
     }
 
     return (
-        <tr>
+        <tr key={index}>
             {row}
         </tr>
     );
@@ -60,10 +63,10 @@ const CustomTable = ({category = null, modify = false, headsTitles, body}) => {
             {category && <ModalTitle className="table-category-title">{category}</ModalTitle>}
             <Table responsive className={tableClassName}>
                 <thead>
-                {tableHead(headsTitles, modify)}
+                {insertHeadRow(createHeadRow(headsTitles), modify)}
                 </thead>
                 <tbody>
-                {body.map(element => insertBodyRow(element, modify))}
+                {body.map((element, index) => insertBodyRow(createBodyRow(element), modify, index))}
                 </tbody>
             </Table>
         </div>

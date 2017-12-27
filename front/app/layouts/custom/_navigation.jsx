@@ -4,21 +4,17 @@ import {NavLink} from 'react-router-dom';
 import {BRAND} from '../_consts/navigations';
 
 const links = (links) => {
-    let navLinksElements = [];
-    for (let nav of links) {
-        let element = null;
+    return links.map((nav, index) => {
         if (nav.link !== null) {
-            element =
-                <li role="presentation">
+            return (
+                <li key={index} role="presentation">
                     <NavLink exact={nav.exact} to={nav.link} activeClassName="active">{nav.desc}</NavLink>
-                </li>;
+                </li>);
         } else {
-            element = <NavItem eventKey={nav.key}>{nav.desc}</NavItem>;
+            return (<NavItem key={index} eventKey={index}>{nav.desc}</NavItem>);
         }
-        navLinksElements.push(element);
-    }
+    });
 
-    return navLinksElements;
 };
 
 const Navigation = (props) => {

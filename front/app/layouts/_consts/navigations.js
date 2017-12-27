@@ -61,8 +61,7 @@ export const ADMIN_NAV = {
     right: [
         {
             link: null,
-            desc: 'Wyloguj',
-            key: 1,
+            desc: 'Wyloguj'
         }
     ]
 };

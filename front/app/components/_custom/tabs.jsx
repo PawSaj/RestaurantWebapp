@@ -5,7 +5,7 @@ const CustomTabs = ({tabs, id, aniamtion = false, defaultActive = 0}) => {
     return (
         <Tabs defaultActiveKey={defaultActive} animation={aniamtion} id={id}>
             {tabs.map((tab, index) =>
-                <Tab eventKey={index} title={tab.title}>{tab.content}</Tab>
+                <Tab key={index} eventKey={index} title={tab.title}>{tab.content}</Tab>
             )}
         </Tabs>
     );

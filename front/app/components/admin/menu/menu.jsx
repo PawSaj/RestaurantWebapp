@@ -6,7 +6,7 @@ import {Grid} from 'react-bootstrap';
 import NewDish from './dishForm';
 
 const Menu = () => {
-    let menu = MenuData.map(element => <CustomTable {...element}/>);
+    let menu = MenuData.map((element, index) => <CustomTable key={index} {...element}/>);
 
     let tabsProps = {
         id: "menu-tab",

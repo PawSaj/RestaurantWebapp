@@ -10,14 +10,14 @@ const DishForm = ({values = null} = {}) => {
                 type="text"
                 label="Nazwa"
                 placeholder="Wprowadź nazwę"
-                value={values && values.name}
+                value={values ? values.name : ''}
             />
             <FieldGroup
                 id="category"
                 label="Kategoria"
                 componentClass="select"
                 placeholder="Wybierz kategorię"
-                value={values && values.category}>
+                value={values ? values.category : ''}>
                 <option value="pizza">Pizza</option>
                 <option value="soup">Zupa</option>
             </FieldGroup>
@@ -26,14 +26,14 @@ const DishForm = ({values = null} = {}) => {
                 label="Składniki"
                 componentClass="textarea"
                 placeholder="Uzupełnij składniki"
-                value={values && values.ingredients}
+                value={values ? values.ingredients : ''}
             />
             <FieldGroup
                 id="price"
                 type="text"
                 label="Cena"
                 placeholder="Wprowadź cenę"
-                value={values && values.price}
+                value={values ? values.price : ''}
             />
             <Button bsClass="btn btn-panel">Zapisz</Button>
         </div>
