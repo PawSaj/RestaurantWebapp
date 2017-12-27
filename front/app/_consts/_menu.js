@@ -27,6 +27,14 @@ export default [
                 name: 'Rosół z kury',
                 ingredients: 'kura, makaron, marchewka, cebula, pietruszka, seler, por, liście laurowe, ziele angielskie',
                 price: '10,50'
+            }, {
+                name: 'Margherita',
+                ingredients: 'sos, mozarella, oregano',
+                price: '12,00'
+            }, {
+                name: 'Pepperoni',
+                ingredients: 'pepperoni, ser, sos',
+                price: '15,00'
             }
         ]
     }

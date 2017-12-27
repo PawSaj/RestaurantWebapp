@@ -57,10 +57,7 @@ const CustomTable = ({category = null, modify = false, headsTitles, body}) => {
 
     return (
         <div className="table-container">
-            {(category !== null) ?
-                <ModalTitle className="table-category-title">{category}</ModalTitle>
-                : null
-            }
+            {category && <ModalTitle className="table-category-title">{category}</ModalTitle>}
             <Table responsive className={tableClassName}>
                 <thead>
                 {tableHead(headsTitles, modify)}

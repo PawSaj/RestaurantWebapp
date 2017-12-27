@@ -5,7 +5,7 @@ const FieldGroup = ({id, label, help, className = null, ...props}) => {
     return (
         <FormGroup controlId={id} className={className}>
             <ControlLabel>{label}</ControlLabel>
-            <FormControl {...props} />
+            <FormControl {...props}>{props.children}</FormControl>
             {help && <HelpBlock>{help}</HelpBlock>}
         </FormGroup>
     );

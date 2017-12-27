@@ -1,9 +1,11 @@
-.edit-form{
+.edit-form {
   background-color: $table-background;
   color: white;
+  box-sizing: content-box;
+  padding: 20px;
 }
 
-.tab-content{
+.tab-content {
   border: 1px solid white;
 }
 
