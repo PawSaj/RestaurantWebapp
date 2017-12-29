@@ -4,6 +4,7 @@ import Login from './login';
 import Registration from './registration';
 import Modal from '../_custom/modal';
 
+
 const loginCallback = () => {
     console.log('h1');
 };
