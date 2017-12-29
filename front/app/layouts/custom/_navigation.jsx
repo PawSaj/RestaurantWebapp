@@ -1,7 +1,7 @@
 import React from 'react';
 import {Navbar, Nav, NavItem} from 'react-bootstrap';
 import {NavLink} from 'react-router-dom';
-import {BRAND} from '../_consts/navigations';
+import {BRAND} from '../../_consts/layouts/navigations';
 
 const links = (links) => {
     return links.map((nav, index) => {

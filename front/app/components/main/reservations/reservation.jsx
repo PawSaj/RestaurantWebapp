@@ -12,8 +12,11 @@ const Reservation = (props) => {
                 na imprezy okolicznościowe, bądź pojedyńczego stolika</p>
         </div>,
         buttons: [
-            <NavLink exact to={url + RESERVATIONS_PATHS.LOCAL}>Lokal</NavLink>,
-            <NavLink exact to={url + RESERVATIONS_PATHS.TABLE}>Stolik</NavLink>
+            {
+                name: <NavLink exact to={url + RESERVATIONS_PATHS.LOCAL}>Lokal</NavLink>
+            }, {
+                name: <NavLink exact to={url + RESERVATIONS_PATHS.TABLE}>Stolik</NavLink>
+            }
         ]
     };
 

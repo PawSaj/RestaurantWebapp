@@ -46,7 +46,7 @@ public class MealService {
         List<Meal> meals;
         meals = mealRepository.findAll();
 
-        List<MealDto> mealDtos = new ArrayList<>();
+        List<MealDto> mealDtos = new ArrayList<MealDto>();
         for (Meal m : meals) {
             mealDtos.add(mealMapper.mealToMealDto(m));
         }
@@ -79,7 +79,7 @@ public class MealService {
     }
 
     private Meal correctIngredientsInMeal(Meal meal) {
-        Set<Ingredient> correctIngredients = new HashSet<>();
+        Set<Ingredient> correctIngredients = new HashSet<Ingredient>();
         for (Ingredient i : meal.getIngredients()) {
             Ingredient mealIngredient = ingredientRepository.findByName(i.getName());
             if (mealIngredient == null) {

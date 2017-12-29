@@ -1,4 +1,4 @@
-import {MAIN_PATHS, ADMIN_PATHS, MANAGER_PATHS} from '../../_consts/paths';
+import {MAIN_PATHS, ADMIN_PATHS, MANAGER_PATHS} from '../paths';
 
 export const BRAND = {
     link: MAIN_PATHS.HOME,

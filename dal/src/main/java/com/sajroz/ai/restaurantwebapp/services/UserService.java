@@ -141,7 +141,7 @@ public class UserService {
         List<User> users;
         users = userRepository.findAll();
         users.remove(userRepository.findUserByEmail(email));
-        List<UserDto> userDtos = new ArrayList<>();
+        List<UserDto> userDtos = new ArrayList<UserDto>();
 
         for (User u : users) {
             userDtos.add(userMapper.mapToDto(u));

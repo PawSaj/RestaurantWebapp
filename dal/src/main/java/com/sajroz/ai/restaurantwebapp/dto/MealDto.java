@@ -16,7 +16,7 @@ public class MealDto {
 
     private String image;
 
-    private Set<IngredientDto> ingredients = new HashSet<>();
+    private Set<IngredientDto> ingredients = new HashSet<IngredientDto>();
 
     public Long getId() {
         return id;

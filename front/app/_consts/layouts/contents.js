@@ -1,4 +1,4 @@
-import {MAIN_PATHS, RESERVATIONS_PATHS, ADMIN_PATHS, MANAGER_PATHS} from '../../_consts/paths';
+import {MAIN_PATHS, RESERVATIONS_PATHS, ADMIN_PATHS, MANAGER_PATHS} from '../paths';
 
 /* components main */
 import Home from '../../components/main/home';
