@@ -1,7 +1,9 @@
 package com.sajroz.ai.restaurantwebapp.dto;
 
 
-public class IngredientDto {
+import java.io.Serializable;
+
+public class IngredientDto implements Serializable {
 
     private Long id;
 

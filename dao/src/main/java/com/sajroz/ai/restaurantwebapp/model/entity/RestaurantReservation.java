@@ -1,7 +1,5 @@
 package com.sajroz.ai.restaurantwebapp.model.entity;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;

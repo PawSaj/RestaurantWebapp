@@ -4,11 +4,14 @@ import com.sajroz.ai.restaurantwebapp.model.entity.ReservationHistory;
 import com.sajroz.ai.restaurantwebapp.model.entity.TableReservation;
 import com.sajroz.ai.restaurantwebapp.model.entity.TrafficHistory;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public class TablesDto {
+public class TablesDto implements Serializable {
 
     private Long id;
+
+    private short tableNumber;
 
     private short seats;
 
@@ -28,6 +31,14 @@ public class TablesDto {
 
     public Long getId() {
         return id;
+    }
+
+    public short getTableNumber() {
+        return tableNumber;
+    }
+
+    public void setTableNumber(short tableNumber) {
+        this.tableNumber = tableNumber;
     }
 
     public void setId(Long id) {
@@ -100,8 +111,9 @@ public class TablesDto {
 
     @Override
     public String toString() {
-        return "Table{" +
+        return "TablesDto{" +
                 "id=" + id +
+                ", tableNumber=" + tableNumber +
                 ", seats=" + seats +
                 ", x=" + x +
                 ", y=" + y +

@@ -47,6 +47,10 @@ public class TablesService {
         return jsonMessageGenerator.generateJSONWithTables(tablesDto).toString();
     }
 
+    public Tables getTable(Long tableId) {
+        return tablesRepository.findOne(tableId);
+    }
+
     public String saveTable(Long tableId, TablesDto tableDto) {
         Tables table = tablesMapper.tablesDtoToTables(tableDto);
         if (isTableExist(table)){
@@ -59,7 +63,7 @@ public class TablesService {
     }
 
     private boolean isTableExist(Tables table) {
-        return tablesRepository.findByXAndYAndFloor(table.getX(), table.getY(), table.getFloor()).size() > 0;
+        return tablesRepository.findByTableNumber(table.getTableNumber()).size() > 0;
     }
 
     public String deleteTable(Long tableId) {
@@ -70,33 +74,4 @@ public class TablesService {
         tablesRepository.delete(tableId);
         return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

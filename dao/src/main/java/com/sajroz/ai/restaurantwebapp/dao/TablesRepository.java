@@ -10,5 +10,5 @@ import java.util.List;
 @Transactional(propagation = Propagation.MANDATORY)
 public interface TablesRepository extends JpaRepository<Tables, Long> {
 
-    List<Tables> findByXAndYAndFloor (short tableX, short tableY, short tableFloor);
+    List<Tables> findByTableNumber(short tableNumber);
 }

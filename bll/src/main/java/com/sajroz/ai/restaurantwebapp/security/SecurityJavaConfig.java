@@ -62,7 +62,7 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
 
                 .none();
         // zabezpieczenie przed atakiem clickjacking
-        http.headers().frameOptions().sameOrigin();
+        http.headers().disable();
 
         // token CSRF
         http.csrf().disable();

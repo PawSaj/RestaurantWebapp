@@ -1,10 +1,11 @@
 package com.sajroz.ai.restaurantwebapp.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MealDto {
+public class MealDto implements Serializable {
 
     private Long id;
 

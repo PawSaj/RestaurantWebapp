@@ -23,7 +23,7 @@ public class UserController {
 
     @RequestMapping(value = "/user", method = RequestMethod.GET, produces = "application/json")
     public UserDto getUser() {
-        return userService.getUserByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        return userService.getUserDtoByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = "application/json")

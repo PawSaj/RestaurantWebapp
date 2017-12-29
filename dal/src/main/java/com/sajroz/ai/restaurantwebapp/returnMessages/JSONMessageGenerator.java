@@ -1,9 +1,6 @@
 package com.sajroz.ai.restaurantwebapp.returnMessages;
 
-import com.sajroz.ai.restaurantwebapp.dto.IngredientDto;
-import com.sajroz.ai.restaurantwebapp.dto.MealDto;
-import com.sajroz.ai.restaurantwebapp.dto.TablesDto;
-import com.sajroz.ai.restaurantwebapp.dto.UserDto;
+import com.sajroz.ai.restaurantwebapp.dto.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -51,14 +48,7 @@ public class JSONMessageGenerator {
     public JSONObject generateJSONWithUsers(List<UserDto> userDtos) {
         JSONObject mainObject = new JSONObject();
         for (UserDto u : userDtos) {
-            JSONObject jo = new JSONObject();
-            jo.put("username", u.getUsername());
-            jo.put("surname", u.getSurname());
-            jo.put("email", u.getEmail());
-            jo.put("password", u.getPassword());
-            jo.put("phone", u.getPhone());
-            jo.put("role", u.getRole());
-            jo.put("image", u.getImage());
+            JSONObject jo = convertUserToJSON(u);
             JSONArray ja = new JSONArray();
             ja.put(jo);
             mainObject.put(u.getId().toString(), ja);
@@ -66,18 +56,50 @@ public class JSONMessageGenerator {
         return mainObject;
     }
 
+    public JSONObject convertUserToJSON(UserDto userDto) {
+        JSONObject jo = new JSONObject();
+        jo.put("id", userDto.getId());
+        jo.put("username", userDto.getUsername());
+        jo.put("surname", userDto.getSurname());
+        jo.put("email", userDto.getEmail());
+        jo.put("password", userDto.getPassword());
+        jo.put("phone", userDto.getPhone());
+        jo.put("role", userDto.getRole());
+        jo.put("image", userDto.getImage());
+        return jo;
+    }
+
     public JSONObject generateJSONWithTables(List<TablesDto> tablesDto) {
         JSONObject mainObject = new JSONObject();
         for (TablesDto t : tablesDto) {
-            JSONObject jo = new JSONObject();
-            jo.put("seats", t.getSeats());
-            jo.put("x", t.getX());
-            jo.put("y", t.getY());
-            jo.put("floor", t.getFloor());
-            jo.put("isFree", t.isFree());
+            JSONObject jo = convertTableToJSON(t);
             JSONArray ja = new JSONArray();
             ja.put(jo);
             mainObject.put(t.getId().toString(), ja);
+        }
+        return mainObject;
+    }
+
+    public JSONObject convertTableToJSON(TablesDto tablesDto) {
+        JSONObject jo = new JSONObject();
+        jo.put("id", tablesDto.getId());
+        jo.put("number", tablesDto.getTableNumber());
+        jo.put("seats", tablesDto.getSeats());
+        //jo.put("x", t.getX());
+        //jo.put("y", t.getY());
+        jo.put("floor", tablesDto.getFloor());
+        //jo.put("isFree", t.isFree());
+        return jo;
+    }
+
+    public JSONArray generateJSONWithTableReservationsForUser(List<TableReservationDto> tableReservationDto) {
+        JSONArray mainObject = new JSONArray();
+        for (TableReservationDto t : tableReservationDto) {
+            JSONObject reservation = new JSONObject();
+            reservation.put("id", t.getId());
+            reservation.put("date", t.getTableReservationDate().toString());
+            reservation.put("table", convertTableToJSON(t.getTable()));
+            mainObject.put(reservation);
         }
         return mainObject;
     }

@@ -13,6 +13,9 @@ public class Tables implements Serializable {
     @Column(name = "table_id")
     private Long id;
 
+    @Column(name = "tableNumber", unique = true)
+    private short tableNumber;
+
     @Column(name = "seats", nullable = false)
     private short seats;
 
@@ -43,6 +46,14 @@ public class Tables implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public short getTableNumber() {
+        return tableNumber;
+    }
+
+    public void setTableNumber(short tableNumber) {
+        this.tableNumber = tableNumber;
     }
 
     public short getSeats() {

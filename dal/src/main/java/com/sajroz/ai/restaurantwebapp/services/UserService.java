@@ -37,14 +37,20 @@ public class UserService {
         this.jsonMessageGenerator = jsonMessageGenerator;
     }
 
-    public UserDto getUserByEmail(String email) {
-        logger.debug("getUserByEmail, email={}", email);
+    public UserDto getUserDtoByEmail(String email) {
+        logger.debug("getUserDtoByEmail, email={}", email);
         User user = userRepository.findUserByEmail(email);
         return userMapper.mapToDto(user);
     }
 
-    private UserDto getUserById(Long userId) {
-        logger.debug("getUserById, userId={}", userId);
+    public User getUserByEmail(String email) {
+        logger.debug("getUserByEmail, email={}", email);
+        User user = userRepository.findUserByEmail(email);
+        return user;
+    }
+
+    private UserDto getUserDtoById(Long userId) {
+        logger.debug("getUserDtoById, userId={}", userId);
         User user = userRepository.findOne(userId);
         return userMapper.mapToDto(user);
     }
@@ -110,7 +116,7 @@ public class UserService {
     }
 
     private void updateUserInThisSession(Long userId, User userToUpdate) {
-        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals(getUserById(userId).getEmail())) {
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals(getUserDtoById(userId).getEmail())) {
             logger.debug("updateUserInThisSession Update user in this session, user={}", userToUpdate);//correct logged user info
             Authentication request = new UsernamePasswordAuthenticationToken(userToUpdate.getEmail(), userToUpdate.getPassword(), SecurityContextHolder.getContext().getAuthentication().getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(request);

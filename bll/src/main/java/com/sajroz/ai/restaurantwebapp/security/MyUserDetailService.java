@@ -29,7 +29,7 @@ public class MyUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         logger.debug("loadUserByEmail, email={}", email);
 
-        UserDto user = userService.getUserByEmail(email);
+        UserDto user = userService.getUserDtoByEmail(email);
 
         if(user == null) {
             logger.debug("loadUserByEmail failed - user not found, email={}", email);
