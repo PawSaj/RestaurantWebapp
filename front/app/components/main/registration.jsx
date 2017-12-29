@@ -2,7 +2,18 @@ import React from 'react';
 import {Button, Row, Col} from 'react-bootstrap';
 import FieldGroup from '../_custom/fieldGroup';
 import Dropzone from 'react-dropzone';
+import {serializeFrom} from '../../lib/helpers/formHelpers';
+import API from '../../lib/api';
 import base64 from 'base-64';
+
+let api = new API();
+
+const handleSubmission = (event) => {
+    event.preventDefault();
+    let serializedObj = serializeFrom({formId: 'registration'});
+    api.register(serializedObj);
+};
+
 
 const Registration = () => {
     let avatar = null;
@@ -16,6 +27,7 @@ const Registration = () => {
             <Row>
                 <Col xs={5}>
                     <Dropzone
+                        inputProps={{id: 'image'}}
                         className="dropzone"
                         accept="image/jpg"
                         multiple={false}
@@ -26,7 +38,7 @@ const Registration = () => {
                 </Col>
                 <Col xs={7}>
                     <FieldGroup
-                        id="name"
+                        id="username"
                         type="text"
                         label="Imię"
                         placeholder="Wprowadź swoje imię"
@@ -74,7 +86,7 @@ const Registration = () => {
                 </Col>
             </Row>
             <div className="form-button">
-                <Button type="submit">
+                <Button type="submit" onClick={handleSubmission}>
                     Rejestracja
                 </Button>
             </div>

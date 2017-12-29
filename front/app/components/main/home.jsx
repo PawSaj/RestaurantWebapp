@@ -4,39 +4,51 @@ import Login from './login';
 import Registration from './registration';
 import Modal from '../_custom/modal';
 
+class Home extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            showLoginModal: false,
+            showRegisterModal: false
+        };
+        this.panelProperties = {
+            header: <div className="description">
+                <h2>Witaj na stronie naszej reasturacji</h2>
+                <p>Zaloguj się, a jeśli nie masz jeszcze konta to zarejestruj się!</p>
+            </div>,
+            buttons: [
+                {
+                    name: 'Logowanie',
+                    callback: () => this.loginCallback()
+                }, {
+                    name: 'Rejestracja',
+                    callback: () => this.registerCallback()
+                }
+            ]
+        }
+        ;
 
-const loginCallback = () => {
-    console.log('h1');
-};
+        this.loginCallback = this.loginCallback.bind(this);
+        this.registerCallback = this.registerCallback.bind(this);
+    }
 
-const registrationCallback = () => {
-    console.log('h2');
-};
-
-const Home = () => {
-    let panelProperties = {
-        header: <div className="description">
-            <h2>Witaj na stronie naszej reasturacji</h2>
-            <p>Zaloguj się, a jeśli nie masz jeszcze konta to zarejestruj się!</p>
-        </div>,
-        buttons: [
-            {
-                name: 'Logowanie',
-                callback: () => loginCallback()
-            }, {
-                name: 'Rejestracja',
-                callback: () => registrationCallback()
-            }
-        ]
+    loginCallback() {
+        this.setState({showLoginModal: true, showRegisterModal: false});
     };
 
-    return (
-        <div id="home">
-            {/*<Modal {...{title: 'Logowanie', body: <Login/>, show: true}}/>*/}
-            {/*<Modal {...{title: 'Rejestracja', body: <Registration/>, show: true}}/>*/}
-            <CustomPanel {...panelProperties}/>
-        </div>
-    );
-};
+    registerCallback() {
+        this.setState({showLoginModal: false, showRegisterModal: true});
+    };
+
+    render() {
+        return (
+            <div id="home">
+                <Modal {...{title: 'Logowanie', body: <Login/>, show: this.state.showLoginModal}}/>
+                <Modal {...{title: 'Rejestracja', body: <Registration/>, show: this.state.showRegisterModal}}/>
+                <CustomPanel {...this.panelProperties}/>
+            </div>
+        )
+    }
+}
 
 export default Home;
