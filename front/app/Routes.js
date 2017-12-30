@@ -1,18 +1,29 @@
 import React from 'react';
 import {BrowserRouter as Router} from 'react-router-dom';
+import {Provider} from 'react-redux';
 
 /*  user imports    */
-import MainLayout from './layouts/main';
+import MainLayout from './containers/main';
 import AdminLayout from './layouts/admin';
 import ManagerLayout from './layouts/manager'
 
-const Routes = () => {
+const Routes = ({store}) => {
+    let element = null, user = store.getState().main.user;
+
+    if (user.length === undefined || user.role === 'USER') {
+        element = <MainLayout/>;
+    } else if (user.role === 'ADMIN') {
+        element = <AdminLayout/>
+    } else if (user.role === 'MANAGER') {
+        element = <ManagerLayout/>
+    }
+
     return (
-        <Router>
-            <MainLayout/>
-            {/*<AdminLayout/>*/}
-            {/*<ManagerLayout/>*/}
-        </Router>
+        <Provider store={store}>
+            <Router>
+                {element}
+            </Router>
+        </Provider>
     );
 };
 

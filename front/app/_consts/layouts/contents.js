@@ -42,7 +42,8 @@ export const MAIN_CONTENT = {
             component: Menu
         }, {
             path: MAIN_PATHS.PROFILE,
-            component: Profile
+            component: Profile,
+            login: true
         }
     ]
 };

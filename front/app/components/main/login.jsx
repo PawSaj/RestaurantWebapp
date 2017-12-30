@@ -2,13 +2,11 @@ import React from 'react';
 import FieldGroup from '../_custom/fieldGroup';
 import {Button} from 'react-bootstrap';
 import {serializeFrom} from '../../lib/helpers/formHelpers';
-import API from '../../lib/api';
-let api = new API();
 
 const handleSubmission = (event) => {
     event.preventDefault();
     let serializedObj = serializeFrom({formId: 'login-form'});
-    api.login(serializedObj);
+    console.log('serializedObj: ', serializedObj);
 };
 
 

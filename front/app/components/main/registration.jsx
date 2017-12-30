@@ -3,15 +3,12 @@ import {Button, Row, Col} from 'react-bootstrap';
 import FieldGroup from '../_custom/fieldGroup';
 import Dropzone from 'react-dropzone';
 import {serializeFrom} from '../../lib/helpers/formHelpers';
-import API from '../../lib/api';
 import base64 from 'base-64';
-
-let api = new API();
 
 const handleSubmission = (event) => {
     event.preventDefault();
     let serializedObj = serializeFrom({formId: 'registration'});
-    api.register(serializedObj);
+    console.log('serializedObj: ', serializedObj);
 };
 
 

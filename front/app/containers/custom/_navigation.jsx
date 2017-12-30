@@ -19,7 +19,7 @@ const links = (links) => {
 };
 
 const Navigation = (props) => {
-    let {navs, right} = props;
+    let {navs, right} = props.navigation;
 
     return (
         <Navbar inverse collapseOnSelect>
@@ -31,7 +31,7 @@ const Navigation = (props) => {
             </Navbar.Header>
             <Navbar.Collapse>
                 <Nav>{links(navs)}</Nav>
-                <Nav pullRight>{links(right)}</Nav>
+                {props.loggedIn && <Nav pullRight>{links(right)}</Nav>}
             </Navbar.Collapse>
         </Navbar>
     );

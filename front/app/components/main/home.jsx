@@ -25,8 +25,7 @@ class Home extends React.Component {
                     callback: () => this.registerCallback()
                 }
             ]
-        }
-        ;
+        };
 
         this.loginCallback = this.loginCallback.bind(this);
         this.registerCallback = this.registerCallback.bind(this);

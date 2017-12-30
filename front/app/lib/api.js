@@ -6,7 +6,7 @@ import {
     MAIN_ENDPOINTS,
     IMAGE_ENDPOINTS,
     ADMIN_ENDPOINTS
-} from '../_consts/api'
+} from '../_consts/api/api'
 
 class API {
     constructor() {
@@ -21,32 +21,21 @@ class API {
     }
 
     login(user) {
-        this.request.post(USER_ENDPOINTS.LOGIN, user).then((response) => {
-            console.log(response);
-        }).catch((error) => {
-            console.log(error);
-        })
+        return this.request.post(USER_ENDPOINTS.LOGIN, user);
     }
 
     logout() {
-        this.request.get(USER_ENDPOINTS.LOGOUT).then((response) => {
-            console.log(response);
-        }).catch((error) => {
-            console.log(error);
-        })
+        return this.request.get(USER_ENDPOINTS.LOGOUT);
     }
 
     register(user) {
-        this.request.post(USER_ENDPOINTS.REGISTRATION, user).then((response) => {
-            console.log(response);
-        }).catch((error) => {
-            console.log(error);
-        })
+        return this.request.post(USER_ENDPOINTS.REGISTRATION, user);
     }
 
     currentUser() {
         this.request.get(USER_ENDPOINTS.USERS).then((response) => {
-            console.log(response);
+            let {data} = response;
+            console.log(data);
         }).catch((error) => {
             console.log(error);
         })
