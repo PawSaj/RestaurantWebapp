@@ -3,6 +3,7 @@ import {Route, Redirect, Switch} from 'react-router-dom';
 
 const Content = (props) => {
     let {content} = props;
+
     return (
         <div className="content">
             <Switch>
@@ -10,8 +11,10 @@ const Content = (props) => {
                     if (route.login && props.loggedIn === false) {
                         return null;
                     }
+                    let Component = route.component;
+
                     return <Route key={index} exact path={route.path}
-                                  component={route.component} {...props}/>
+                                  render={() => <Component passed={props}/>}/>
                 })}
                 <Redirect to={content.urlToRedirect}/>
             </Switch>

@@ -4,13 +4,6 @@ import API from '../lib/api';
 let api = new API();
 
 
-function sendRequest() {
-    return {
-        type: ACTION.SEND_REQUEST
-    }
-}
-
-
 /* LOGIN */
 function successLogin(user) {
     return {
@@ -108,6 +101,11 @@ export function logout() {
 }
 
 /* GET MENU */
+function fetchMenu() {
+    return {
+        type: ACTION.MENU_PENDING
+    }
+}
 
 function getMenuSuccess(menu) {
     return {
@@ -118,7 +116,7 @@ function getMenuSuccess(menu) {
 
 export function getMenu() {
     return dispatch => {
-        dispatch(sendRequest());
+        dispatch(fetchMenu());
 
         return api.getMenu()
             .then(response => response.data)

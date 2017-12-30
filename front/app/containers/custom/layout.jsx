@@ -1,5 +1,7 @@
 import React from 'react';
 import Navigation from './_navigation';
+import {Switch, Redirect, Route} from 'react-router-dom';
+import Menu from '../../components/main/menu';
 import Content from './_content';
 
 

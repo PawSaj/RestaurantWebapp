@@ -82,11 +82,7 @@ class API {
     }
 
     getMenu() {
-        this.request.get(MAIN_ENDPOINTS.MENU).then((response) => {
-            console.log(response);
-        }).catch((error) => {
-            console.log(error);
-        })
+        return this.request.get(MAIN_ENDPOINTS.MENU);
     }
 
     getImage(name) {
