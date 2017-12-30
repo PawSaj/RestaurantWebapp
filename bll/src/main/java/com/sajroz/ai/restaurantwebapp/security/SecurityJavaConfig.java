@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 
 import javax.annotation.PostConstruct;
 
@@ -29,10 +30,13 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
 
     private final DaoAuthenticationProvider authenticationProvider;
 
+    private final MyCorsFilter myCorsFilter;
+
     @Autowired
-    public SecurityJavaConfig(RestAuthenticationEntryPoint restAuthenticationEntryPoint, DaoAuthenticationProvider authenticationProvider) {
+    public SecurityJavaConfig(RestAuthenticationEntryPoint restAuthenticationEntryPoint, DaoAuthenticationProvider authenticationProvider, MyCorsFilter myCorsFilter) {
         this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
         this.authenticationProvider = authenticationProvider;
+        this.myCorsFilter = myCorsFilter;
     }
 
     @PostConstruct
@@ -66,6 +70,9 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
 
         // token CSRF
         http.csrf().disable();
+
+        //CORS
+        http.addFilterBefore(myCorsFilter, ChannelProcessingFilter.class);
 
         // uwierzytelnianie
         http.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint)
