@@ -1,0 +1,37 @@
+@mixin centered-elemnet($top:50%,$left:50%, $translate:translate(-50%,-50%)) {
+  position: absolute;
+  top: $top;
+  left: $left;
+  transform: $translate;
+}
+
+@mixin table-data-width($width,$thirdWidth,$modified,$modifiedThird) {
+  table {
+    &.table {
+      td {
+        white-space: normal !important;
+        width: $width;
+        &:nth-child(3) {
+          width: $thirdWidth;
+        }
+        a {
+          color: white;
+          text-decoration: underline;
+        }
+      }
+      button {
+        a {
+          text-decoration: none;
+        }
+      }
+      &.modify {
+        td {
+          width: $modified;
+          &:nth-child(3) {
+            width: $modifiedThird;
+          }
+        }
+      }
+    }
+  }
+}

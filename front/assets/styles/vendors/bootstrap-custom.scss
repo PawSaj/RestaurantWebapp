@@ -1,0 +1,128 @@
+.edit-form {
+  background-color: $table-background;
+  color: white;
+  box-sizing: border-box;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.tab-content {
+  border: 1px solid white;
+  margin-bottom: 30px;
+}
+
+.nav-tabs {
+  color: white;
+  border-bottom: 1px solid white;
+
+  li {
+    &.active {
+      a {
+        &, &:hover, &:focus {
+          color: white;
+          background-color: $active-tab-background;
+          border-bottom-color: white;
+        }
+      }
+    }
+
+    a {
+      color: $inactive-tab-pill-text;
+      background-color: $table-background;
+      border-color: $tab-pill-border;
+      border-bottom-color: white;
+
+      &:hover {
+        color: white;
+        background-color: $table-background;
+        border-color: $tab-pill-border;
+        border-bottom-color: white;
+      }
+    }
+  }
+}
+
+.navbar-nav {
+  li {
+    a {
+      &.active {
+        color: $active-tab-text !important;
+        background-color: $active-tab-background !important;
+      }
+    }
+  }
+}
+
+.modal-dialog {
+  top: 10%;
+  .modal-body {
+    form {
+      .form-button {
+        text-align: right;
+      }
+    }
+  }
+}
+
+.panel-grid {
+  text-align: center;
+  color: white;
+  position: relative;
+  top: 24vh;
+
+  .row {
+    margin-bottom: 15px;
+  }
+}
+
+.btn-panel {
+  width: 100%;
+  background-color: $main-background;
+  border-color: $panel-button-border;
+
+  &:hover, &:focus {
+    background-color: $active-tab-background;
+    color: white;
+  }
+
+  a {
+    color: white;
+  }
+}
+
+.table-container {
+  padding: 10px 20px;
+  background-color: $table-background;;
+  color: white;
+  border-radius: 0 0 10px 10px;
+
+  .table-category-title {
+    font-weight: bold;
+    padding: 0 5px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+  }
+}
+
+#menu-tab {
+  @include table-data-width(15%, 55%, 10%, 40%);
+  .edit-form{
+    margin-bottom: 0;
+    width: 100%;
+  }
+}
+
+#reservation-tab {
+  @include table-data-width(20%, 20%, 15%, 10%);
+}
+
+#users-tab {
+  @include table-data-width(25%, 25%, 16.7%, 16.8%);
+}
+
+#tables-tab {
+  @include table-data-width(33.3%, 33.3%, 15%, 40%);
+  .edit-form{
+    margin-bottom: 0;
+  }
+}

@@ -1,0 +1,28 @@
+.profile {
+
+  .container {
+    background-color: white;
+    min-height: 85vh;
+    padding: 0 40px 40px 40px;
+    border-radius: 10px;
+    box-sizing: border-box;
+
+    .page-header {
+      margin-top: 0;
+      h1 {
+        font-size: 23px;
+        margin-bottom: 0;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .email-input {
+    margin-top: 20px;
+  }
+
+  .form-button {
+    text-align: right;
+  }
+}
