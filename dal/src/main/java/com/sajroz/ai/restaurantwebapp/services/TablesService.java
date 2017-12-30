@@ -47,19 +47,33 @@ public class TablesService {
         return jsonMessageGenerator.generateJSONWithTables(tablesDto).toString();
     }
 
-    public Tables getTable(Long tableId) {
+    Tables getTable(Long tableId) {
         return tablesRepository.findOne(tableId);
     }
 
     public String saveTable(Long tableId, TablesDto tableDto) {
         Tables table = tablesMapper.tablesDtoToTables(tableDto);
-        if (isTableExist(table)){
-            logger.warn("addTable Table adding failed - table already exist, tableDto={}", tableDto);
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_TABLE).toString();
+        String verifyTableDataResponse = verifyTableData(table);
+        if(verifyTableDataResponse == null) {
+            if (isTableExist(table)){
+                logger.warn("addTable Table adding failed - table already exist, tableDto={}", tableDto);
+                return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_TABLE).toString();
+            }
+            table.setId(tableId);
+            tablesRepository.save(table);
+            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+        } else {
+            return verifyTableDataResponse;
         }
-        table.setId(tableId);
-        tablesRepository.save(table);
-        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+    }
+
+    private String verifyTableData(Tables table) {
+        if (table.getTableNumber() == 0) {
+            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "tableNumber").toString();
+        } else if (table.getSeats() == 0) {
+            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "seats").toString();
+        }
+        return null;
     }
 
     private boolean isTableExist(Tables table) {

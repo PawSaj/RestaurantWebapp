@@ -56,13 +56,25 @@ public class MealService {
 
     public String addMeal(MealDto mealDto) {
         Meal meal = mealMapper.mealDtoToMeal(mealDto);
-        if (isMealExist(meal)) {
-            logger.warn("addMeal Meal adding failed - meal already exist, meal={}", mealDto);
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_MEAL).toString();
+        String verifyMealDataResponse = verifyMealData(meal);
+        if (verifyMealDataResponse == null) {
+            if (isMealExist(meal)) {
+                logger.warn("addMeal Meal adding failed - meal already exist, meal={}", mealDto);
+                return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_MEAL).toString();
+            }
+            meal.setId(null);
+            saveMeal(meal);
+            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+        } else {
+            return verifyMealDataResponse;
         }
-        meal.setId(null);
-        saveMeal(meal);
-        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+    }
+
+    private String verifyMealData(Meal meal) {
+        if (meal.getName() == null) {
+            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "name").toString();
+        }
+        return null;
     }
 
     private void saveMeal(Meal meal) {
@@ -93,16 +105,22 @@ public class MealService {
 
     public String updateMeal(Long mealId, MealDto mealDto) {
         Meal meal = mealMapper.mealDtoToMeal(mealDto);
-        if (!mealRepository.exists(mealId)) {
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_MEAL).toString();
-        }
-        if (isMealExist(meal) && !isSelfUpdate(mealId, meal)) {
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_MEAL).toString();
+        String verifyMealDataResponse = verifyMealData(meal);
+        if (verifyMealDataResponse == null) {
+            if (!mealRepository.exists(mealId)) {
+                return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_MEAL).toString();
+            }
+            if (isMealExist(meal) && !isSelfUpdate(mealId, meal)) {
+                return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_MEAL).toString();
+            }
+
+            meal.setId(mealId);
+            saveMeal(meal);
+            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+        } else {
+            return verifyMealDataResponse;
         }
 
-        meal.setId(mealId);
-        saveMeal(meal);
-        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
     }
 
     private boolean isSelfUpdate(Long mealId, Meal meal) {
@@ -113,7 +131,7 @@ public class MealService {
         if (!mealRepository.exists(mealId)) {
             return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_MEAL).toString();
         }
-        
+
         mealRepository.delete(mealId);
         return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
     }

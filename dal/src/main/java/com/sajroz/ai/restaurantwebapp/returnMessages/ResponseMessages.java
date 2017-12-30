@@ -20,7 +20,8 @@ public enum ResponseMessages {
     NO_MEAL(-10, "Meal doesn't exist."),
     DUPLICATE_TABLE(-11, "Table already exists."),
     NO_TABLE(-12, "Table doesn't exist"),
-    TABLE_OCCUPIED(-13, "Table is occupied");
+    TABLE_OCCUPIED(-13, "Table is occupied"),
+    MISSING_DATA(-14, "Missing data");
 
     private final int code;
     private final String description;

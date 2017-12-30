@@ -70,6 +70,10 @@ public class TableReservationService {
 
     public String saveTableReservation(TableReservationDto tableReservationDto, Long tableReservationId) {
         logger.debug("saveTableReservation Saving tableReservation to database, tableReservationDto={}", tableReservationDto);
+        if (tableReservationDto.getTable().getId() == 0) {
+            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "tableId").toString();
+        }
+
         if(!isTableExist(tableReservationDto.getTable().getId())) {
             return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_TABLE).toString();
         }
