@@ -1,6 +1,7 @@
 package com.sajroz.ai.restaurantwebapp.services;
 
 import com.sajroz.ai.restaurantwebapp.dao.IngredientRepository;
+import com.sajroz.ai.restaurantwebapp.dao.MealCategoryRepository;
 import com.sajroz.ai.restaurantwebapp.dao.MealRepository;
 import com.sajroz.ai.restaurantwebapp.dto.MealDto;
 import com.sajroz.ai.restaurantwebapp.mapping.MealMapper;
@@ -30,20 +31,23 @@ public class MealService {
 
     private final MealMapper mealMapper;
 
+    private final MealCategoryRepository mealCategoryRepository;
+
     private final JSONMessageGenerator jsonMessageGenerator;
 
     @Autowired
-    public MealService(MealRepository mealRepository, IngredientRepository ingredientRepository, MealMapper mealMapper, JSONMessageGenerator jsonMessageGenerator) {
+    public MealService(MealRepository mealRepository, IngredientRepository ingredientRepository, MealMapper mealMapper, JSONMessageGenerator jsonMessageGenerator, MealCategoryRepository mealCategoryRepository) {
         this.mealRepository = mealRepository;
         this.ingredientRepository = ingredientRepository;
         this.mealMapper = mealMapper;
         this.jsonMessageGenerator = jsonMessageGenerator;
+        this.mealCategoryRepository = mealCategoryRepository;
     }
 
     public String getAllMealsForMenu() {
         logger.debug("getAllMealsForMenu");
         List<Meal> meals;
-        meals = mealRepository.findAll();
+        meals = mealRepository.findAllByOrderByMealCategory();
 
         List<MealDto> mealDtos = new ArrayList<>(meals.size());
         for (Meal m : meals) {
@@ -73,15 +77,27 @@ public class MealService {
     private String verifyMealData(Meal meal) {
         if (meal.getName() == null) {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "name").toString();
+        } else if (!checkCategoryExists(meal.getMealCategory().getName())) {
+            //return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_MEAL_CATEGORY).toString();
+            mealCategoryRepository.save(meal.getMealCategory());
         }
         return null;
     }
 
+    private boolean checkCategoryExists(String mealCategory) {
+        return mealCategoryRepository.findByName(mealCategory) != null;
+    }
+
     private void saveMeal(Meal meal) {
         meal = correctIngredientsInMeal(meal);
-
+        meal = correctMealCategory(meal);
         logger.debug("Saving meal with corrected ingredients information, meal={}", meal);
         mealRepository.save(meal);
+    }
+
+    private Meal correctMealCategory(Meal meal) {
+        meal.setMealCategory(mealCategoryRepository.findByName(meal.getMealCategory().getName()));
+        return meal;
     }
 
     private boolean isMealExist(Meal meal) {
@@ -131,8 +147,11 @@ public class MealService {
         if (!mealRepository.exists(mealId)) {
             return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_MEAL).toString();
         }
-
+        Long mealCategoryId = mealRepository.findOne(mealId).getMealCategory().getId();
         mealRepository.delete(mealId);
+        if (mealRepository.categoryIsEmpty(mealCategoryId)) {
+            mealCategoryRepository.delete(mealCategoryId);
+        }
         return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
     }
 }

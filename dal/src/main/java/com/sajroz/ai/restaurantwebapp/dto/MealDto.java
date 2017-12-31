@@ -19,6 +19,8 @@ public class MealDto implements Serializable {
 
     private Set<IngredientDto> ingredients = new HashSet<>();
 
+    private MealCategoryDto mealCategory;
+
     public Long getId() {
         return id;
     }
@@ -67,14 +69,24 @@ public class MealDto implements Serializable {
         this.ingredients = ingredients;
     }
 
+    public MealCategoryDto getMealCategory() {
+        return mealCategory;
+    }
+
+    public void setMealCategory(MealCategoryDto mealCategory) {
+        this.mealCategory = mealCategory;
+    }
+
     @Override
     public String toString() {
-        return "MealDto{" +
-                "name='" + name + '\'' +
+        return "Meal{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", price=" + price +
                 ", describe='" + describe + '\'' +
                 ", image='" + image + '\'' +
                 ", ingredients=" + ingredients +
+                ", mealCategory=" + mealCategory +
                 '}';
     }
 }

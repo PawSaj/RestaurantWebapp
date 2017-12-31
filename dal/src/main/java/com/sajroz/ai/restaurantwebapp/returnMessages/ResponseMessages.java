@@ -22,7 +22,8 @@ public enum ResponseMessages {
     NO_TABLE(-12, "Table doesn't exist."),
     TABLE_OCCUPIED(-13, "Table is occupied."),
     MISSING_DATA(-14, "Missing data"),
-    NO_TABLE_RESERVATION(-15, "Table reservation doesn't exist.");
+    NO_TABLE_RESERVATION(-15, "Table reservation doesn't exist."),
+    NO_MEAL_CATEGORY(-16, "Meal category doesn't exists.");
 
     private final int code;
     private final String description;

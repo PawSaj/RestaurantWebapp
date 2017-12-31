@@ -31,10 +31,14 @@ public class Meal implements Serializable {
     @JoinTable(name = "MEAL_INGREDIENT",
             joinColumns = {@JoinColumn(name = "meal_id")},
             inverseJoinColumns = {@JoinColumn(name = "ingredient_id")})
-    private Set<Ingredient> ingredients = new HashSet<Ingredient>();
+    private Set<Ingredient> ingredients = new HashSet<>();
 
     @OneToMany(mappedBy="meal")
     private Set<MealOrderHistory> mealOrderHistories;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category", referencedColumnName = "category_id", nullable = false)
+    private MealCategory mealCategory;
 
     public Long getId() {
         return id;
@@ -92,6 +96,14 @@ public class Meal implements Serializable {
         this.mealOrderHistories = mealOrderHistories;
     }
 
+    public MealCategory getMealCategory() {
+        return mealCategory;
+    }
+
+    public void setMealCategory(MealCategory mealCategory) {
+        this.mealCategory = mealCategory;
+    }
+
     @Override
     public String toString() {
         return "Meal{" +
@@ -102,6 +114,7 @@ public class Meal implements Serializable {
                 ", image='" + image + '\'' +
                 ", ingredients=" + ingredients +
                 ", mealOrderHistories=" + mealOrderHistories +
+                ", mealCategory=" + mealCategory +
                 '}';
     }
 }
