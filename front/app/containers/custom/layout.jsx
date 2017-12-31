@@ -15,12 +15,12 @@ const setLoggedIn = (user) =>{
 
 // {navigation, content}
 const Layout = (props) => {
-    let {navigation, user} = props;
+    let {navigation, user, logoutUser} = props;
     let loggedIn = setLoggedIn(user);
 
     return (
         <div>
-            <Navigation navigation={navigation} loggedIn={loggedIn}/>
+            <Navigation navigation={navigation} loggedIn={loggedIn} logoutUser={logoutUser}/>
             <Content {...props} loggedIn={loggedIn}/>
         </div>
     );

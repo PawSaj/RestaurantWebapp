@@ -72,7 +72,6 @@ class Home extends React.Component {
 
 
     render() {
-        console.log(this.passed);
         return (
             <div id="home">
                 {(this.passed.loggedIn) ? loggedInComponent(this.passed.user.data) : unloggedComponent({

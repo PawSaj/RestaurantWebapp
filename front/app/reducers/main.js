@@ -1,5 +1,5 @@
 import {
-    MENU_SUCCESS, MENU_PENDING, LOGIN_PENDING, LOGIN_FAILURE, LOGIN_SUCCESS
+    MENU_SUCCESS, MENU_PENDING, LOGIN_PENDING, LOGIN_FAILURE, LOGIN_SUCCESS, LOGOUT_SUCCESS
 } from '../_consts/actions';
 
 const errors = (state = {}, action) => {
@@ -24,6 +24,8 @@ const menu = (state = {}, action) => {
 
 const user = (state = {}, action) => {
     switch (action.type) {
+        case LOGOUT_SUCCESS:
+            return {};
         case LOGIN_PENDING:
             return Object.assign({}, state, {pending: true});
         case LOGIN_SUCCESS:

@@ -90,7 +90,6 @@ function failLogout() {
 
 export function logout() {
     return dispatch => {
-        dispatch(sendRequest());
 
         return api.logout()
             .then(response => response.data)

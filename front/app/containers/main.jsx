@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom'
 import {MAIN_NAV} from '../_consts/layouts/navigations';
 import {MAIN_CONTENT} from '../_consts/layouts/contents';
-import {getMenu, login} from '../actions/index';
+import {getMenu, login ,logout} from '../actions/index';
 
 let layoutProp = {
     navigation: MAIN_NAV,
@@ -27,6 +27,9 @@ const mapDispatchToProps = dispatch => {
         },
         loginUser: (userData) => {
             dispatch(login(userData));
+        },
+        logoutUser: () => {
+            dispatch(logout());
         }
     }
 };
