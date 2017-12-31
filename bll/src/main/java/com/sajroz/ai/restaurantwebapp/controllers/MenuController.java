@@ -23,11 +23,16 @@ public class MenuController {
         return mealService.getAllMealsForMenu();
     }
 
+
     @RequestMapping(value = "/menu/{mealId}", method = RequestMethod.GET, produces = "application/json")
     public String sendMeal(@PathVariable Long mealId) {
         return mealService.getMeal(mealId);
     }
 
+    @RequestMapping(value = "/admin/meal/categories", method = RequestMethod.GET, produces = "application/json")
+    public String sendMealCategories() {
+        return mealService.getMealCategories();
+    }
 
     @RequestMapping(value = "/admin/meal", method = RequestMethod.POST, produces = "application/json")
     public String addMeal(@RequestBody MealDto mealDto) {

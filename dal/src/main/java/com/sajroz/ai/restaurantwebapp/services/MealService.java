@@ -3,10 +3,13 @@ package com.sajroz.ai.restaurantwebapp.services;
 import com.sajroz.ai.restaurantwebapp.dao.IngredientRepository;
 import com.sajroz.ai.restaurantwebapp.dao.MealCategoryRepository;
 import com.sajroz.ai.restaurantwebapp.dao.MealRepository;
+import com.sajroz.ai.restaurantwebapp.dto.MealCategoryDto;
 import com.sajroz.ai.restaurantwebapp.dto.MealDto;
+import com.sajroz.ai.restaurantwebapp.mapping.MealCategoryMapper;
 import com.sajroz.ai.restaurantwebapp.mapping.MealMapper;
 import com.sajroz.ai.restaurantwebapp.model.entity.Ingredient;
 import com.sajroz.ai.restaurantwebapp.model.entity.Meal;
+import com.sajroz.ai.restaurantwebapp.model.entity.MealCategory;
 import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
 import com.sajroz.ai.restaurantwebapp.returnMessages.ResponseMessages;
 import org.slf4j.Logger;
@@ -35,13 +38,16 @@ public class MealService {
 
     private final JSONMessageGenerator jsonMessageGenerator;
 
+    private final MealCategoryMapper mealCategoryMapper;
+
     @Autowired
-    public MealService(MealRepository mealRepository, IngredientRepository ingredientRepository, MealMapper mealMapper, JSONMessageGenerator jsonMessageGenerator, MealCategoryRepository mealCategoryRepository) {
+    public MealService(MealRepository mealRepository, IngredientRepository ingredientRepository, MealMapper mealMapper, JSONMessageGenerator jsonMessageGenerator, MealCategoryRepository mealCategoryRepository, MealCategoryMapper mealCategoryMapper) {
         this.mealRepository = mealRepository;
         this.ingredientRepository = ingredientRepository;
         this.mealMapper = mealMapper;
         this.jsonMessageGenerator = jsonMessageGenerator;
         this.mealCategoryRepository = mealCategoryRepository;
+        this.mealCategoryMapper = mealCategoryMapper;
     }
 
     public String getAllMealsForMenu() {
@@ -160,5 +166,14 @@ public class MealService {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_MEAL).toString();
         }
         return jsonMessageGenerator.convertMealToJSON(mealMapper.mealToMealDto(mealRepository.findOne(mealId))).toString();
+    }
+
+    public String getMealCategories() {
+        List<MealCategory> mealCategories = mealCategoryRepository.findAll();
+        List<MealCategoryDto> mealCategoryDto = new ArrayList<>(mealCategories.size());
+        for(MealCategory mc : mealCategories) {
+            mealCategoryDto.add(mealCategoryMapper.mealCategoryToMealCategoryDto(mc));
+        }
+        return jsonMessageGenerator.generateJSONWithMealsCategories(mealCategoryDto).toString();
     }
 }

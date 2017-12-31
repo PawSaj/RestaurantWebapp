@@ -1,6 +1,7 @@
 package com.sajroz.ai.restaurantwebapp.returnMessages;
 
 import com.sajroz.ai.restaurantwebapp.dto.*;
+import com.sajroz.ai.restaurantwebapp.model.entity.MealCategory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -137,6 +138,14 @@ public class JSONMessageGenerator {
             reservation.put("user", t.getUser().getId());
             reservation.put("table", convertTableToJSON(t.getTable()));
             mainObject.put(reservation);
+        }
+        return mainObject;
+    }
+
+    public JSONArray generateJSONWithMealsCategories(List<MealCategoryDto> mealCategoryDto) {
+        JSONArray mainObject = new JSONArray();
+        for(MealCategoryDto m : mealCategoryDto) {
+            mainObject.put(m.getName());
         }
         return mainObject;
     }
