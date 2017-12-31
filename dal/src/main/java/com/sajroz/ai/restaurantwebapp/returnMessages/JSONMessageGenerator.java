@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public class JSONMessageGenerator {
 
-    public JSONObject createSimpleRespons(ResponseMessages message) {
+    public JSONObject createSimpleResponse(ResponseMessages message) {
         JSONObject response = new JSONObject();
         response.put("status", message.getCode());
         response.put("description", message.getDescription());
@@ -18,13 +18,13 @@ public class JSONMessageGenerator {
     }
 
     public JSONObject createResponseWithAdditionalInfo(ResponseMessages message, String infoKey, String info) {
-        JSONObject response = createSimpleRespons(message);
+        JSONObject response = createSimpleResponse(message);
         response.put(infoKey, info);
         return response;
     }
 
     public JSONObject createResponseWithAdditionalInfo(ResponseMessages message, String infoKey, JSONObject info) {
-        JSONObject response = createSimpleRespons(message);
+        JSONObject response = createSimpleResponse(message);
         response.put(infoKey, info);
         return response;
     }
@@ -56,7 +56,7 @@ public class JSONMessageGenerator {
         return mainObject;
     }
 
-    private JSONObject convertMealToJSON(MealDto mealDto) {
+    public JSONObject convertMealToJSON(MealDto mealDto) {
         JSONObject mealJSON = new JSONObject();
         mealJSON.put("id", mealDto.getId());
         mealJSON.put("name", mealDto.getName());
@@ -73,13 +73,11 @@ public class JSONMessageGenerator {
         return mealJSON;
     }
 
-    public JSONObject generateJSONWithUsers(List<UserDto> userDtos) {
-        JSONObject mainObject = new JSONObject();
+    public JSONArray generateJSONWithUsers(List<UserDto> userDtos) {
+        JSONArray mainObject = new JSONArray();
         for (UserDto u : userDtos) {
             JSONObject jo = convertUserToJSON(u);
-            JSONArray ja = new JSONArray();
-            ja.put(jo);
-            mainObject.put(u.getId().toString(), ja);
+            mainObject.put(jo);
         }
         return mainObject;
     }
@@ -97,18 +95,16 @@ public class JSONMessageGenerator {
         return jo;
     }
 
-    public JSONObject generateJSONWithTables(List<TablesDto> tablesDto) {
-        JSONObject mainObject = new JSONObject();
+    public JSONArray generateJSONWithTables(List<TablesDto> tablesDto) {
+        JSONArray mainObject = new JSONArray();
         for (TablesDto t : tablesDto) {
             JSONObject jo = convertTableToJSON(t);
-            JSONArray ja = new JSONArray();
-            ja.put(jo);
-            mainObject.put(t.getId().toString(), ja);
+            mainObject.put(jo);
         }
         return mainObject;
     }
 
-    private JSONObject convertTableToJSON(TablesDto tablesDto) {
+    public JSONObject convertTableToJSON(TablesDto tablesDto) {
         JSONObject jo = new JSONObject();
         jo.put("id", tablesDto.getId());
         jo.put("number", tablesDto.getTableNumber());

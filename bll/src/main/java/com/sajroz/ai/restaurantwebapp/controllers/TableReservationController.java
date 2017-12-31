@@ -31,7 +31,7 @@ public class TableReservationController {
         return tableReservationService.getTableReservation(tableReservationId);
     }
 
-    @RequestMapping(value = "/getFreeTables/{date}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/getReservedTables/{date}", method = RequestMethod.GET, produces = "application/json")
     public String getFreeTablesForDate(@PathVariable(value = "date") OffsetDateTime date) {
         return tableReservationService.getReservedTables(date);
     }

@@ -64,11 +64,11 @@ public class MealService {
         if (verifyMealDataResponse == null) {
             if (isMealExist(meal)) {
                 logger.warn("addMeal Meal adding failed - meal already exist, meal={}", mealDto);
-                return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_MEAL).toString();
+                return jsonMessageGenerator.createSimpleResponse(ResponseMessages.DUPLICATE_MEAL).toString();
             }
             meal.setId(null);
             saveMeal(meal);
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.OK).toString();
         } else {
             return verifyMealDataResponse;
         }
@@ -78,7 +78,7 @@ public class MealService {
         if (meal.getName() == null) {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "name").toString();
         } else if (!checkCategoryExists(meal.getMealCategory().getName())) {
-            //return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_MEAL_CATEGORY).toString();
+            //return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_MEAL_CATEGORY).toString();
             mealCategoryRepository.save(meal.getMealCategory());
         }
         return null;
@@ -124,15 +124,15 @@ public class MealService {
         String verifyMealDataResponse = verifyMealData(meal);
         if (verifyMealDataResponse == null) {
             if (!mealRepository.exists(mealId)) {
-                return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_MEAL).toString();
+                return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_MEAL).toString();
             }
             if (isMealExist(meal) && !isSelfUpdate(mealId, meal)) {
-                return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_MEAL).toString();
+                return jsonMessageGenerator.createSimpleResponse(ResponseMessages.DUPLICATE_MEAL).toString();
             }
 
             meal.setId(mealId);
             saveMeal(meal);
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.OK).toString();
         } else {
             return verifyMealDataResponse;
         }
@@ -145,13 +145,20 @@ public class MealService {
 
     public String deleteMeal(Long mealId) {
         if (!mealRepository.exists(mealId)) {
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_MEAL).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_MEAL).toString();
         }
         Long mealCategoryId = mealRepository.findOne(mealId).getMealCategory().getId();
         mealRepository.delete(mealId);
         if (mealRepository.categoryIsEmpty(mealCategoryId)) {
             mealCategoryRepository.delete(mealCategoryId);
         }
-        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+        return jsonMessageGenerator.createSimpleResponse(ResponseMessages.OK).toString();
+    }
+
+    public String getMeal(Long mealId) {
+        if (!mealRepository.exists(mealId)) {
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_MEAL).toString();
+        }
+        return jsonMessageGenerator.convertMealToJSON(mealMapper.mealToMealDto(mealRepository.findOne(mealId))).toString();
     }
 }

@@ -33,7 +33,7 @@ public class ImageService {
             imageBytes = Files.readAllBytes(fileLocation);
         } catch (IOException e) {
             logger.info("No file found, filePath={}", imagePath);
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_FILE).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_FILE).toString();
         }
 
         imageBytes = Base64.getMimeEncoder().encode(imageBytes);
@@ -46,7 +46,7 @@ public class ImageService {
             decodedImage = Base64.getMimeDecoder().decode(userImage.getImage());
         }  catch (IllegalArgumentException e) {
             logger.info("No data to save, decode error, e={}", e.getMessage());
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.BASE64_ERROR).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.BASE64_ERROR).toString();
         }
 
         if (decodedImage != null) {
@@ -56,11 +56,11 @@ public class ImageService {
                 return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.IMAGE_SAVED, "filename", filename).toString();
             } else {
                 logger.warn("Saving user image failed");
-                return jsonMessageGenerator.createSimpleRespons(ResponseMessages.IMAGE_SAVING_ERROR).toString();
+                return jsonMessageGenerator.createSimpleResponse(ResponseMessages.IMAGE_SAVING_ERROR).toString();
             }
         } else {
             logger.info("No data to save");
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.EMPTY_IMAGE_DATA).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.EMPTY_IMAGE_DATA).toString();
         }
     }
 

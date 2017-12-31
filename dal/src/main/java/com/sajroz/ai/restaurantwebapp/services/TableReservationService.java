@@ -74,7 +74,7 @@ public class TableReservationService {
         } else if(hasAdminRole()) {
             return jsonMessageGenerator.generateJSONWithTableReservationsForAdmin(tableReservationDtoList).toString();
         } else {
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
         }
     }
 
@@ -97,7 +97,7 @@ public class TableReservationService {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "tableId").toString();
         }
         if (!isTableExist(tableReservationDto.getTable().getId())) {
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_TABLE).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_TABLE).toString();
         }
 
         TableReservation tableReservationToUpdate = tableReservationRepository.findOne(tableReservationId);
@@ -116,9 +116,9 @@ public class TableReservationService {
             tableReservation.setTable(tablesService.getTable(tableReservationDto.getTable().getId()));
             tableReservation.setId(tableReservationId);
             tableReservationRepository.save(tableReservation);
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.OK).toString();
         } else {
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.TABLE_OCCUPIED).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.TABLE_OCCUPIED).toString();
         }
     }
 
@@ -146,7 +146,7 @@ public class TableReservationService {
                 || hasAdminRole()) {
             return saveTableReservation(tableReservationDto, tableReservationId);
         } else {
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
         }
 
     }
@@ -170,13 +170,13 @@ public class TableReservationService {
         if ((SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals(tableReservationRepository.findOne(tableReservationId).getUser().getEmail())
                 || hasAdminRole()) {
             if (tableReservationRepository.exists(tableReservationId)) {
-                return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_TABLE_RESERVATION).toString();
+                return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_TABLE_RESERVATION).toString();
             }
             tableReservationRepository.delete(tableReservationId);
             logger.debug("deleteTableReservation Deleting tableReservation from database successful");
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.OK).toString();
         } else {
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
         }
     }
 }

@@ -47,6 +47,14 @@ public class TablesService {
         return jsonMessageGenerator.generateJSONWithTables(tablesDto).toString();
     }
 
+    public String getTableAsJSON(Long tableId) {
+        if (!tablesRepository.exists(tableId)) {
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_TABLE).toString();
+        }
+
+        return jsonMessageGenerator.convertTableToJSON(tablesMapper.tablesToTablesDto(tablesRepository.findOne(tableId))).toString();
+    }
+
     Tables getTable(Long tableId) {
         return tablesRepository.findOne(tableId);
     }
@@ -57,11 +65,11 @@ public class TablesService {
         if(verifyTableDataResponse == null) {
             if (isTableExist(table)){
                 logger.warn("addTable Table adding failed - table already exist, tableDto={}", tableDto);
-                return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_TABLE).toString();
+                return jsonMessageGenerator.createSimpleResponse(ResponseMessages.DUPLICATE_TABLE).toString();
             }
             table.setId(tableId);
             tablesRepository.save(table);
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.OK).toString();
         } else {
             return verifyTableDataResponse;
         }
@@ -82,10 +90,10 @@ public class TablesService {
 
     public String deleteTable(Long tableId) {
         if (!tablesRepository.exists(tableId)) {
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_TABLE).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_TABLE).toString();
         }
 
         tablesRepository.delete(tableId);
-        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+        return jsonMessageGenerator.createSimpleResponse(ResponseMessages.OK).toString();
     }
 }

@@ -21,8 +21,12 @@ public class TablesController {
 
     @RequestMapping(value = "/admin/tables", method = RequestMethod.GET, produces = "application/json")
     public String sendTables() {
-        logger.debug("sendTables Getting all tables.");
         return tablesService.getAllTables();
+    }
+
+    @RequestMapping(value = "/admin/tables/{tableId}", method = RequestMethod.GET, produces = "application/json")
+    public String sendTables(@PathVariable Long tableId) {
+        return tablesService.getTableAsJSON(tableId);
     }
 
 
