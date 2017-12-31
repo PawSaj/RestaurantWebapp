@@ -56,7 +56,7 @@ public class JSONMessageGenerator {
         return mainObject;
     }
 
-    public JSONObject convertUserToJSON(UserDto userDto) {
+    private JSONObject convertUserToJSON(UserDto userDto) {
         JSONObject jo = new JSONObject();
         jo.put("id", userDto.getId());
         jo.put("username", userDto.getUsername());
@@ -80,7 +80,7 @@ public class JSONMessageGenerator {
         return mainObject;
     }
 
-    public JSONObject convertTableToJSON(TablesDto tablesDto) {
+    private JSONObject convertTableToJSON(TablesDto tablesDto) {
         JSONObject jo = new JSONObject();
         jo.put("id", tablesDto.getId());
         jo.put("number", tablesDto.getTableNumber());
@@ -98,6 +98,19 @@ public class JSONMessageGenerator {
             JSONObject reservation = new JSONObject();
             reservation.put("id", t.getId());
             reservation.put("date", t.getTableReservationDate().toString());
+            reservation.put("table", convertTableToJSON(t.getTable()));
+            mainObject.put(reservation);
+        }
+        return mainObject;
+    }
+
+    public JSONArray generateJSONWithTableReservationsForAdmin(List<TableReservationDto> tableReservationDto) {
+        JSONArray mainObject = new JSONArray();
+        for (TableReservationDto t : tableReservationDto) {
+            JSONObject reservation = new JSONObject();
+            reservation.put("id", t.getId());
+            reservation.put("date", t.getTableReservationDate().toString());
+            reservation.put("user", t.getUser().getId());
             reservation.put("table", convertTableToJSON(t.getTable()));
             mainObject.put(reservation);
         }

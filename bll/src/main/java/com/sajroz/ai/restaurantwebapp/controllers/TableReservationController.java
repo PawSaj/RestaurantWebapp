@@ -23,17 +23,17 @@ public class TableReservationController {
 
     @RequestMapping(value = "/tableReservation", method = RequestMethod.GET, produces = "application/json")
     public String getUserTableReservations() {
-        return tableReservationService.getAllTableReservationsByUser();
+        return tableReservationService.getAllTableReservations();
     }
 
     @RequestMapping(value = "/tableReservation/{tableReservationId}", method = RequestMethod.GET, produces = "application/json")
     public String getUserTableReservations(@PathVariable Long tableReservationId) {
-        return tableReservationService.getTableReservationByUser(tableReservationId);
+        return tableReservationService.getTableReservation(tableReservationId);
     }
 
     @RequestMapping(value = "/getFreeTables/{date}", method = RequestMethod.GET, produces = "application/json")
     public String getFreeTablesForDate(@PathVariable(value = "date") OffsetDateTime date) {
-        return tableReservationService.getFreeTables(date);
+        return tableReservationService.getReservedTables(date);
     }
 
     @RequestMapping(value = "/tableReservation", method = RequestMethod.POST, produces = "application/json")
@@ -51,29 +51,35 @@ public class TableReservationController {
     @RequestMapping(value = "/tableReservation/{tableReservationId}", method = RequestMethod.DELETE, produces = "application/json")
     public String deleteTableReservation(@PathVariable Long tableReservationId) {
         logger.debug("deleteTableReservation Deleting tableReservation, tableReservationId={}", tableReservationId);
-        return null;
+        return tableReservationService.deleteTableReservation(tableReservationId);
     }
 
     @RequestMapping(value = "/admin/tableReservation", method = RequestMethod.GET, produces = "application/json")
     public String adminGetAllTableReservations() {
-        return null;
+        return tableReservationService.getAllTableReservations();
     }
 
-    @RequestMapping(value = "/admin/tableReservation/{userId}", method = RequestMethod.GET, produces = "application/json")
-    public String adminGetUserTableReservations(@PathVariable(value = "userId") Long userId) {
-        return null;
+    @RequestMapping(value = "/admin/tableReservation/{tableReservationId}", method = RequestMethod.GET, produces = "application/json")
+    public String adminGetUserTableReservations(@PathVariable(value = "tableReservationId") Long tableReservationId) {
+        return tableReservationService.getTableReservation(tableReservationId);
+    }
+
+    @RequestMapping(value = "/admin/tableReservation", method = RequestMethod.POST, produces = "application/json")
+    public String adminAddTableReservation(@RequestBody TableReservationDto tableReservationDto) {
+        logger.debug("tableReservation Inserting to database, tableReservationDto={}", tableReservationDto);
+        return tableReservationService.saveTableReservation(tableReservationDto, null);
     }
 
     @RequestMapping(value = "/admin/tableReservation/{tableReservationId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = "application/json")
     public String adminUpdateUserTableReservation(@PathVariable(value = "tableReservationId") Long tableReservationId, @RequestBody TableReservationDto tableReservationDto) {
         logger.info("adminUpdateUser Updating by admin to, tableReservation={}", tableReservationDto);
-        return null;
+        return tableReservationService.saveTableReservation(tableReservationDto, tableReservationId);
     }
 
     @RequestMapping(value = "/admin/tableReservation/{tableReservationId}", method = RequestMethod.DELETE, produces = "application/json")
     public String adminDeleteUserTableReservation(@PathVariable Long tableReservationId) {
         logger.debug("adminDeleteUserTableReservation Deleting tableReservation, tableReservationId={}", tableReservationId);
-        return null;
+        return tableReservationService.deleteTableReservation(tableReservationId);
     }
 
 }

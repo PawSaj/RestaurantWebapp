@@ -15,11 +15,20 @@ public interface TableReservationRepository extends JpaRepository<TableReservati
 
     List<TableReservation> findAllByUser(User user);
 
-    @Query(value = "SELECT *" +
+    @Query(value = "SELECT * " +
             "FROM table_reservation t " +
-            "WHERE t.table_reservation_timestamp >= ?1 " +
+            "WHERE t.table_reservation_timestamp > DATE_SUB(?1, INTERVAL 2 HOUR) " +
             "AND t.table_reservation_timestamp < DATE_ADD(?1, INTERVAL 2 HOUR) " +
             "AND t.reserved_table = ?2 " +
-            "LIMIT 1", nativeQuery=true)
-    TableReservation checkTableIsFree(OffsetDateTime date, Long tableId);
+            "ORDER BY t.table_reservation_timestamp ASC "
+            , nativeQuery=true)
+    List<TableReservation> checkTableIsFree(OffsetDateTime date, Long tableId);
+
+    @Query(value = "SELECT * " +
+            "FROM table_reservation t " +
+            "WHERE t.table_reservation_timestamp >= ?1 " +
+            "AND t.table_reservation_timestamp < DATE_ADD(?1, INTERVAL 1 WEEK) " +
+            "ORDER BY t.table_reservation_timestamp ASC "
+            , nativeQuery=true)
+    List<TableReservation> getReservedTablesInWeek(OffsetDateTime startDate);
 }
