@@ -4,8 +4,8 @@ import {Provider} from 'react-redux';
 
 /*  user imports    */
 import MainLayout from './containers/main';
-import AdminLayout from './layouts/admin';
-import ManagerLayout from './layouts/manager'
+import AdminLayout from './containers/admin';
+import ManagerLayout from './containers/manager'
 
 const Routes = ({store}) => {
     let element = null, user = store.getState().main.user;

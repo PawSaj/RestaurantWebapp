@@ -6,7 +6,6 @@ let dataFetched = false;
 
 
 const Menu = ({passed}) => {
-    console.log(passed);
     let {menu, getMenu} = passed;
     // let menu = MenuData.map((element, index) => {
     //     element.modify = false;

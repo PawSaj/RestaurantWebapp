@@ -1,10 +1,10 @@
 import React from 'react';
 import Layout from './custom/layout';
 import {connect} from 'react-redux';
-import { withRouter } from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 import {MAIN_NAV} from '../_consts/layouts/navigations';
 import {MAIN_CONTENT} from '../_consts/layouts/contents';
-import {getMenu} from '../actions/index';
+import {getMenu, login} from '../actions/index';
 
 let layoutProp = {
     navigation: MAIN_NAV,
@@ -24,6 +24,9 @@ const mapDispatchToProps = dispatch => {
     return {
         getMenu: () => {
             dispatch(getMenu());
+        },
+        loginUser: (userData) => {
+            dispatch(login(userData));
         }
     }
 };

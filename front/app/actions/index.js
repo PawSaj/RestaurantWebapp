@@ -5,6 +5,12 @@ let api = new API();
 
 
 /* LOGIN */
+function pendingLogin() {
+    return {
+        type: ACTION.LOGIN_PENDING
+    }
+}
+
 function successLogin(user) {
     return {
         type: ACTION.LOGIN_SUCCESS,
@@ -21,16 +27,14 @@ function failLogin(errorText) {
 
 export function login(userData) {
     return dispatch => {
-        dispatch(sendRequest());
+        dispatch(pendingLogin());
 
         return api.login(userData)
             .then(response => response.data)
             .then(data => {
-                console.log('data: ', data);
-                if (response.status !== undefined) {
-                    let errorText = API_ERRORS[response.status];
+                if (data.status !== undefined) {
+                    let errorText = API_ERRORS[data.status];
                     dispatch(failLogin(errorText));
-                    (failLogin())
                 } else {
                     dispatch(successLogin(data));
                 }
@@ -121,7 +125,7 @@ export function getMenu() {
         return api.getMenu()
             .then(response => response.data)
             .then(data => {
-                    dispatch(getMenuSuccess(data));
+                dispatch(getMenuSuccess(data));
             })
     }
 }

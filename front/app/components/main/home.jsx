@@ -4,9 +4,34 @@ import Login from './login';
 import Registration from './registration';
 import Modal from '../_custom/modal';
 
+const unloggedComponent = ({passed, showLoginModal, showRegisterModal, panelProperties}) => {
+    return (
+        <div>
+            <Modal {...{
+                title: 'Logowanie',
+                body: <Login callback={passed.loginUser} pending={passed.user.pending}/>,
+                show: showLoginModal
+            }}/>
+            <Modal {...{title: 'Rejestracja', body: <Registration/>, show: showRegisterModal}}/>
+            <CustomPanel {...panelProperties}/>
+        </div>
+    )
+};
+
+const loggedInComponent = (user) => {
+    return (
+        <div className="greeting-box">
+            <h2>Witaj, {user.username + user.surname} !</h2>
+            <p>Zachęcamy do przejrzenia naszego menu oraz składania rezerwacji.</p>
+        </div>
+    )
+};
+
+
 class Home extends React.Component {
     constructor(props) {
         super(props);
+        this.passed = props.passed;
         this.state = {
             showLoginModal: false,
             showRegisterModal: false
@@ -39,12 +64,23 @@ class Home extends React.Component {
         this.setState({showLoginModal: false, showRegisterModal: true});
     };
 
+
+    componentWillReceiveProps(nextProps) {
+        this.passed = nextProps.passed;
+        this.setState({showLoginModal: false, showRegisterModal: false});
+    }
+
+
     render() {
+        console.log(this.passed);
         return (
             <div id="home">
-                <Modal {...{title: 'Logowanie', body: <Login/>, show: this.state.showLoginModal}}/>
-                <Modal {...{title: 'Rejestracja', body: <Registration/>, show: this.state.showRegisterModal}}/>
-                <CustomPanel {...this.panelProperties}/>
+                {(this.passed.loggedIn) ? loggedInComponent(this.passed.user.data) : unloggedComponent({
+                    passed: this.passed,
+                    showLoginModal: this.state.showLoginModal,
+                    showRegisterModal: this.state.showRegisterModal,
+                    panelProperties: this.panelProperties
+                })}
             </div>
         )
     }

@@ -3,14 +3,25 @@ import FieldGroup from '../_custom/fieldGroup';
 import {Button} from 'react-bootstrap';
 import {serializeFrom} from '../../lib/helpers/formHelpers';
 
-const handleSubmission = (event) => {
+const handleSubmission = (event, callback) => {
     event.preventDefault();
     let serializedObj = serializeFrom({formId: 'login-form'});
-    console.log('serializedObj: ', serializedObj);
+    callback();
 };
 
 
-const Login = () => {
+const Login = ({callback, pending}) => {
+    let button =
+        <Button type="submit" onClick={(event) => handleSubmission(event, callback)}>
+            Logowanie
+        </Button>;
+
+    if(pending === true){
+        button =
+            <Button type="submit" onClick={(event) => handleSubmission(event, callback)} disabled>
+                ...
+            </Button>;
+    }
 
     return (
         <form id="login-form">
@@ -27,9 +38,7 @@ const Login = () => {
                 placeholder="Wprowadź swoje hasło"
             />
             <div className="form-button">
-                <Button type="submit" onClick={handleSubmission}>
-                    Logowanie
-                </Button>
+                {button}
             </div>
         </form>
     )
