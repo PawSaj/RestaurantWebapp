@@ -56,7 +56,7 @@ public class JSONMessageGenerator {
         return mainObject;
     }
 
-    private JSONObject convertUserToJSON(UserDto userDto) {
+    public JSONObject convertUserToJSON(UserDto userDto) {
         JSONObject jo = new JSONObject();
         jo.put("id", userDto.getId());
         jo.put("username", userDto.getUsername());

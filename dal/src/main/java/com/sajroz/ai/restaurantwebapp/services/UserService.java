@@ -37,6 +37,11 @@ public class UserService {
         this.jsonMessageGenerator = jsonMessageGenerator;
     }
 
+    public String userInfoResponse(String email) {
+        User user = userRepository.findUserByEmail(email);
+        return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.OK, "user", jsonMessageGenerator.convertUserToJSON(userMapper.mapToDto(user)).toString()).toString();
+    }
+
     public UserDto getUserDtoByEmail(String email) {
         logger.debug("getUserDtoByEmail, email={}", email);
         User user = userRepository.findUserByEmail(email);

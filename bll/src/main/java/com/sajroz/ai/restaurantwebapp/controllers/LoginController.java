@@ -26,8 +26,8 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/successfulLogin", produces = "application/json")
-    public UserDto successfulLogin() {
-        return userService.getUserDtoByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    public String successfulLogin() {
+        return userService.userInfoResponse((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
     @RequestMapping(value = "/failedLogin", produces = "application/json")
