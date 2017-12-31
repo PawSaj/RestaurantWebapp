@@ -6,7 +6,7 @@ import {serializeFrom} from '../../lib/helpers/formHelpers';
 const handleSubmission = (event, callback) => {
     event.preventDefault();
     let serializedObj = serializeFrom({formId: 'login-form'});
-    callback();
+    callback(serializedObj);
 };
 
 

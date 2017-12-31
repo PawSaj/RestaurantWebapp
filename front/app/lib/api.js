@@ -42,11 +42,7 @@ class API {
     }
 
     updateUser(id, user) {
-        this.request.put(USER_ENDPOINTS.USERS + `/${id}`, user).then((response) => {
-            console.log(response);
-        }).catch((error) => {
-            console.log(error);
-        })
+        return this.request.put(USER_ENDPOINTS.USERS + `/${id}`, user);
     }
 
     deleteUser(id) {

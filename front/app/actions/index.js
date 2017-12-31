@@ -128,3 +128,40 @@ export function getMenu() {
             })
     }
 }
+
+/* Change user data*/
+function pendingChange() {
+    return {
+        type: ACTION.UPDATE_USER_PENDING
+    }
+}
+
+function successChange(user) {
+    return {
+        type: ACTION.UPDATE_USER_SUCCESS,
+        user
+    }
+}
+
+function failChange(errorText) {
+    return {
+        type: ACTION.UPDATE_USER_FAILURE,
+        errorText
+    }
+}
+
+export function changeUserData(id, userData) {
+    return dispatch => {
+        dispatch(pendingChange());
+
+        return api.updateUser(id, userData)
+            .then(response => response.data)
+            .then(data => {
+                if (API_SUCCESS_CODES.includes(data.status)) {
+                    dispatch(successChange(userData));
+                } else {
+                    dispatch(failChange());
+                }
+            });
+    }
+}

@@ -1,5 +1,12 @@
 import {
-    MENU_SUCCESS, MENU_PENDING, LOGIN_PENDING, LOGIN_FAILURE, LOGIN_SUCCESS, LOGOUT_SUCCESS
+    MENU_SUCCESS,
+    MENU_PENDING,
+    LOGIN_PENDING,
+    LOGIN_FAILURE,
+    LOGIN_SUCCESS,
+    LOGOUT_SUCCESS,
+    UPDATE_USER_SUCCESS,
+    UPDATE_USER_FAILURE
 } from '../_consts/actions';
 
 const errors = (state = {}, action) => {
@@ -30,6 +37,10 @@ const user = (state = {}, action) => {
             return Object.assign({}, state, {pending: true});
         case LOGIN_SUCCESS:
             return Object.assign({}, state, {pending: false, data: action.user});
+        case UPDATE_USER_SUCCESS:
+            return Object.assign({}, state, {pending: false, data: action.user});
+        case UPDATE_USER_FAILURE:
+            return Object.assign({},state);
         default:
             return state;
     }
