@@ -32,6 +32,7 @@ export function login(userData) {
         return api.login(userData)
             .then(response => response.data)
             .then(data => {
+                console.log('login data: ', data);
                 if (data.status !== undefined) {
                     let errorText = API_ERRORS[data.status];
                     dispatch(failLogin(errorText));
@@ -64,6 +65,7 @@ export function register(registerData) {
         return api.register(registerData)
             .then(response => response.data)
             .then(data => {
+                console.log('register data: ', data);
                 let status = data.status;
                 if (API_SUCCESS_CODES.includes(status)) {
                     dispatch(successRegister());
@@ -94,6 +96,7 @@ export function logout() {
         return api.logout()
             .then(response => response.data)
             .then(data => {
+                console.log('logout data: ', data);
                 if (API_SUCCESS_CODES.includes(data.status)) {
                     dispatch(successLogout());
                 } else {
@@ -124,6 +127,7 @@ export function getMenu() {
         return api.getMenu()
             .then(response => response.data)
             .then(data => {
+                console.log('get menu user: ', data);
                 dispatch(getMenuSuccess(data));
             })
     }
@@ -157,6 +161,7 @@ export function changeUserData(id, userData) {
         return api.updateUser(id, userData)
             .then(response => response.data)
             .then(data => {
+                console.log('user update: ', data);
                 if (API_SUCCESS_CODES.includes(data.status)) {
                     dispatch(successChange(userData));
                 } else {

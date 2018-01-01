@@ -20,7 +20,7 @@ const mapStateToProps = state => {
     }
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         getMenu: () => {
             dispatch(getMenu());
@@ -29,7 +29,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(login(userData));
         },
         logoutUser: () => {
-            dispatch(logout());
+            dispatch(logout()).then(() => ownProps.history.push('/'));
         },
         changeUserData: (id, userData) => {
             dispatch(changeUserData(id, userData));

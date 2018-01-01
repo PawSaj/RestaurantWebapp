@@ -23,7 +23,7 @@ const menu = (state = {}, action) => {
         case MENU_PENDING:
             return Object.assign({}, state, {pending: true});
         case MENU_SUCCESS:
-            return Object.assign({}, state, {pending: false, menu: action.menu});
+            return Object.assign({}, state, {pending: false, data: action.menu});
         default:
             return state;
     }
