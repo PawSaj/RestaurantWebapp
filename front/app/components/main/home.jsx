@@ -5,14 +5,25 @@ import Registration from './registration';
 import Modal from '../_custom/modal';
 
 const unloggedComponent = ({passed, showLoginModal, showRegisterModal, panelProperties}) => {
+    let {sharedFunctions, shared, mainFunctions, main} = passed;
     return (
         <div>
             <Modal {...{
                 title: 'Logowanie',
-                body: <Login callback={passed.loginUser} pending={passed.user.pending}/>,
+                body: <Login callback={sharedFunctions.loginUser} pending={shared.user.pending} success={{
+                    status: !shared.errors.login,
+                    errorText: shared.errors.login
+                }}/>,
                 show: showLoginModal
             }}/>
-            <Modal {...{title: 'Rejestracja', body: <Registration/>, show: showRegisterModal}}/>
+            <Modal {...{
+                title: 'Rejestracja',
+                body: <Registration callback={mainFunctions.registerUser} success={{
+                    status: !main.errors.registration,
+                    errorText: main.errors.registration
+                }}/>,
+                show: showRegisterModal
+            }}/>
             <CustomPanel {...panelProperties}/>
         </div>
     )
@@ -67,14 +78,20 @@ class Home extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         this.passed = nextProps.passed;
-        this.setState({showLoginModal: false, showRegisterModal: false});
+        if (!!this.passed.shared.errors.login) {
+            this.setState((state) => ({showLoginModal: true, showRegisterModal: state.showRegisterModal}));
+        } else if (!!this.passed.main.errors.registration) {
+            this.setState((state) => ({showLoginModal: state.showLoginModal, showRegisterModal: true}));
+        } else {
+            this.setState({showLoginModal: false, showRegisterModal: false});
+        }
     }
 
 
     render() {
         return (
             <div id="home">
-                {(this.passed.loggedIn) ? loggedInComponent(this.passed.user.data) : unloggedComponent({
+                {(this.passed.loggedIn) ? loggedInComponent(this.passed.shared.user.data) : unloggedComponent({
                     passed: this.passed,
                     showLoginModal: this.state.showLoginModal,
                     showRegisterModal: this.state.showRegisterModal,

@@ -10,13 +10,13 @@ const handleSubmission = (event, callback) => {
 };
 
 
-const Login = ({callback, pending}) => {
+const Login = ({callback, pending, success}) => {
     let button =
         <Button type="submit" onClick={(event) => handleSubmission(event, callback)}>
             Logowanie
         </Button>;
 
-    if(pending === true){
+    if (pending === true) {
         button =
             <Button type="submit" onClick={(event) => handleSubmission(event, callback)} disabled>
                 ...
@@ -25,8 +25,9 @@ const Login = ({callback, pending}) => {
 
     return (
         <form id="login-form">
+            {!success.status && <div className="error-form-msg">{success.errorText}</div>}
             <FieldGroup
-                id="email"
+                id="username"
                 type="email"
                 label="Adres email"
                 placeholder="Wprowadź swoj adres email"

@@ -4,9 +4,9 @@ import {Switch, Redirect, Route} from 'react-router-dom';
 import Menu from '../../components/main/menu';
 import Content from './_content';
 
-const setLoggedIn = (user) =>{
+const setLoggedIn = (user) => {
     for (let key in user) {
-        if (user.hasOwnProperty(key)) {
+        if (user.hasOwnProperty(key) && key === 'data') {
             return true;
         }
     }
@@ -15,7 +15,7 @@ const setLoggedIn = (user) =>{
 
 // {navigation, content}
 const Layout = (props) => {
-    let {navigation, user, logoutUser} = props;
+    let {navigation} = props.main, {logoutUser} = props.mainFunctions, {user} = props.shared;
     let loggedIn = setLoggedIn(user);
 
     return (

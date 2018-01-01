@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom'
 import {MAIN_NAV} from '../_consts/layouts/navigations';
 import {MAIN_CONTENT} from '../_consts/layouts/contents';
-import {getMenu, login, logout, changeUserData} from '../actions/index';
+import {getMenu, register, login, logout, changeUserData} from '../actions/index';
 
 let layoutProp = {
     navigation: MAIN_NAV,
@@ -12,27 +12,41 @@ let layoutProp = {
 };
 
 const mapStateToProps = state => {
-    let store = state.main;
+    let store = state;
     return {
-        user: store.user,
-        menu: store.menu,
-        ...layoutProp
+        shared: {
+            user: store.user,
+            menu: store.menu,
+            errors: store.errors
+        },
+        main: {
+            errors: store.main.errors,
+            registration: store.main.registration,
+            ...layoutProp
+        }
     }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        getMenu: () => {
-            dispatch(getMenu());
+        sharedFunctions: {
+            getMenu: () => {
+                dispatch(getMenu());
+            },
+            loginUser: (userData) => {
+                dispatch(login(userData));
+            },
+            logoutUser: () => {
+                dispatch(logout()).then(() => ownProps.history.push('/'));
+            },
+            changeUserData: (id, userData) => {
+                dispatch(changeUserData(id, userData));
+            }
         },
-        loginUser: (userData) => {
-            dispatch(login(userData));
-        },
-        logoutUser: () => {
-            dispatch(logout()).then(() => ownProps.history.push('/'));
-        },
-        changeUserData: (id, userData) => {
-            dispatch(changeUserData(id, userData));
+        mainFunctions: {
+            registerUser: (userData) => {
+                dispatch(register(userData));
+            }
         }
     }
 };

@@ -7,9 +7,9 @@ import {Grid, Button} from 'react-bootstrap';
 class Menu extends React.Component {
     constructor(props) {
         super(props);
-        this.getMenu = props.passed.getMenu;
+        this.getMenu = props.passed.sharedFunctions.getMenu;
         this.state = {
-            menu: props.passed.menu.data
+            menu: props.passed.shared.menu.data
         };
     }
 
@@ -20,7 +20,7 @@ class Menu extends React.Component {
     // });
 
     componentWillReceiveProps(nextProps) {
-        this.setState({menu: nextProps.passed.menu.data});
+        this.setState({menu: nextProps.passed.shared.menu.data});
     }
 
     componentDidMount() {
@@ -30,9 +30,7 @@ class Menu extends React.Component {
     }
 
     render() {
-        return <Grid id="menu-tab">
-            <Button>Click me</Button>
-        </Grid>
+        return <Grid id="menu-tab"></Grid>
     }
 
     // return <Grid id="menu-tab">{menu}</Grid>

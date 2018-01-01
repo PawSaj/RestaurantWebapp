@@ -2,13 +2,7 @@ import React from 'react';
 import {Route, Redirect, Switch} from 'react-router-dom';
 
 const Content = (props) => {
-    let {content} = props, passed = {};
-
-    for (let key in props) {
-        if (props.hasOwnProperty(key) && key !== 'navigation' && key !== 'content') {
-            passed[key] = props[key];
-        }
-    }
+    let {content} = props.main;
 
     return (
         <div className="content">
@@ -20,7 +14,7 @@ const Content = (props) => {
                     let Component = route.component;
 
                     return <Route key={index} exact path={route.path}
-                                  render={() => <Component passed={passed}/>}/>
+                                  render={() => <Component passed={props}/>}/>
                 })}
                 <Redirect to={content.urlToRedirect}/>
             </Switch>

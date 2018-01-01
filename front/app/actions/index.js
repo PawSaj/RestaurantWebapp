@@ -60,8 +60,6 @@ function failRegister(errorText) {
 
 export function register(registerData) {
     return dispatch => {
-        dispatch(sendRequest());
-
         return api.register(registerData)
             .then(response => response.data)
             .then(data => {

@@ -5,14 +5,14 @@ import Dropzone from 'react-dropzone';
 import {serializeFrom} from '../../lib/helpers/formHelpers';
 import base64 from 'base-64';
 
-const handleSubmission = (event) => {
+const handleSubmission = (event, callback) => {
     event.preventDefault();
     let serializedObj = serializeFrom({formId: 'registration'});
-    console.log('serializedObj: ', serializedObj);
+    callback(serializedObj);
 };
 
 
-const Registration = () => {
+const Registration = ({callback, success}) => {
     let avatar = null;
 
     const onDrop = (files) => {
@@ -21,6 +21,7 @@ const Registration = () => {
 
     return (
         <form id="registration">
+            {!success.status && <div className="error-form-msg">{success.errorText}</div>}
             <Row>
                 <Col xs={5}>
                     <Dropzone
@@ -35,7 +36,7 @@ const Registration = () => {
                 </Col>
                 <Col xs={7}>
                     <FieldGroup
-                        id="username"
+                        id="name"
                         type="text"
                         label="Imię"
                         placeholder="Wprowadź swoje imię"
@@ -83,7 +84,7 @@ const Registration = () => {
                 </Col>
             </Row>
             <div className="form-button">
-                <Button type="submit" onClick={handleSubmission}>
+                <Button type="submit" onClick={(event) => handleSubmission(event, callback)}>
                     Rejestracja
                 </Button>
             </div>

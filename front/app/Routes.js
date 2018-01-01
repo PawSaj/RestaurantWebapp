@@ -8,7 +8,7 @@ import AdminLayout from './containers/admin';
 import ManagerLayout from './containers/manager'
 
 const Routes = ({store}) => {
-    let element = null, user = store.getState().main.user;
+    let element = null, user = store.getState().user;
 
     if (user.length === undefined || user.role === 'USER') {
         element = <MainLayout/>;

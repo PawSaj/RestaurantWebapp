@@ -1,46 +1,25 @@
 import {
-    MENU_SUCCESS,
-    MENU_PENDING,
-    LOGIN_PENDING,
-    LOGIN_FAILURE,
-    LOGIN_SUCCESS,
-    LOGOUT_SUCCESS,
-    UPDATE_USER_SUCCESS,
-    UPDATE_USER_FAILURE
+    REGISTRATION_SUCCESS, REGISTRATION_FAILURE
 } from '../_consts/actions';
 
 const errors = (state = {}, action) => {
     switch (action.type) {
-        case LOGIN_FAILURE:
-            return Object.assign({}, state, {login: action.errorText});
+        case REGISTRATION_SUCCESS:
+            return Object.assign({}, state, {registration: null});
+        case REGISTRATION_FAILURE:
+            return Object.assign({}, state, {registration: action.errorText});
         default:
             return state;
     }
 };
 
-const menu = (state = {}, action) => {
-    switch (action.type) {
-        case MENU_PENDING:
-            return Object.assign({}, state, {pending: true});
-        case MENU_SUCCESS:
-            return Object.assign({}, state, {pending: false, data: action.menu});
-        default:
-            return state;
-    }
-};
 
-const user = (state = {}, action) => {
+const registration = (state = {}, action) => {
     switch (action.type) {
-        case LOGOUT_SUCCESS:
-            return {};
-        case LOGIN_PENDING:
-            return Object.assign({}, state, {pending: true});
-        case LOGIN_SUCCESS:
-            return Object.assign({}, state, {pending: false, data: action.user});
-        case UPDATE_USER_SUCCESS:
-            return Object.assign({}, state, {pending: false, data: action.user});
-        case UPDATE_USER_FAILURE:
-            return Object.assign({},state);
+        case REGISTRATION_SUCCESS:
+            return Object.assign({}, state, {success: true});
+        case REGISTRATION_FAILURE:
+            return Object.assign({}, state, {success: false});
         default:
             return state;
     }
@@ -48,9 +27,8 @@ const user = (state = {}, action) => {
 
 const main = (state = {}, action) => {
     return {
-        user: user(state.user, action),
-        menu: menu(state.menu, action),
-        errors: errors(state.errors, action)
+        errors: errors(state.errors, action),
+        registration: registration(state.registration, action)
     }
 };
 

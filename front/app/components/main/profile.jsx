@@ -18,9 +18,9 @@ const mock = {
 class Profile extends React.Component {
     constructor(props) {
         super(props);
-        this.user = props.passed.user.data;
+        this.user = props.passed.shared.user.data;
         this.avatar = null;
-        this.changeUserData = props.passed.changeUserData;
+        this.changeUserData = props.passed.mainFunctions.changeUserData;
         this.state = {
             id: this.user.id,
             name: (this.user.username) ? this.user.username : '',
@@ -52,7 +52,7 @@ class Profile extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.user = nextProps.passed.user.data;
+        this.user = nextProps.passed.shared.user.data;
         this.setState({
             id: this.user.id,
             name: (this.user.username) ? this.user.username : '',
