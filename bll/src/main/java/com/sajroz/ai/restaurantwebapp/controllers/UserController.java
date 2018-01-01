@@ -23,11 +23,11 @@ public class UserController {
 
     @RequestMapping(value = "/user", method = RequestMethod.GET, produces = "application/json")
     public UserDto getUser() {
-        return userService.getUserByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        return userService.getUserDtoByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = "application/json")
-    public String getUser(@PathVariable(value = "userId") Long userId, @RequestBody UserDto userDto) {
+    public String updateUser(@PathVariable(value = "userId") Long userId, @RequestBody UserDto userDto) {
         logger.debug("Updating to user={}", userDto);
         return userService.updateUser(userId, userDto, false);
     }
@@ -40,6 +40,11 @@ public class UserController {
     @RequestMapping(value = "/admin/users", method = RequestMethod.GET, produces = "application/json")
     public String adminUpdateUser() {
         return userService.getAllUsers((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    }
+
+    @RequestMapping(value = "/admin/users/{userId}", method = RequestMethod.GET, produces = "application/json")
+    public String adminUpdateUser(@PathVariable(value = "userId") Long userId) {
+        return userService.getUser(userId);
     }
 
     @RequestMapping(value = "/admin/users/{userId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = "application/json")

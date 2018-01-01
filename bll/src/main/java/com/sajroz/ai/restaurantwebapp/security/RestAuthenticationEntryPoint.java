@@ -33,7 +33,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         try{
             httpServletResponse.addHeader("content-type", "application/json;charset=UTF-8");
-            httpServletResponse.getWriter().print(jsonMessageGenerator.createSimpleRespons(ResponseMessages.LOGIN_REQUIRED));
+            httpServletResponse.getWriter().print(jsonMessageGenerator.createSimpleResponse(ResponseMessages.LOGIN_REQUIRED));
         }
         catch(Exception ex)
         {

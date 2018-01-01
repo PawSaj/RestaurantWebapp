@@ -1,27 +1,16 @@
-package com.sajroz.ai.restaurantwebapp.model.entity;
+package com.sajroz.ai.restaurantwebapp.dto;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 
-@Entity
-@Table(name = "TABLE_RESERVATION")
-public class TableReservation implements Serializable {
+public class TableReservationDto implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "table_reservation_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "table_reserving_user", referencedColumnName = "user_id", nullable = false)
-    private User user;
+    private UserDto user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reserved_table", referencedColumnName = "table_id", nullable = false)
-    private Tables table;
+    private TablesDto table;
 
-    @Column(name = "table_reservation_timestamp", nullable = false)
     private OffsetDateTime tableReservationDate;
 
     public Long getId() {
@@ -32,19 +21,19 @@ public class TableReservation implements Serializable {
         this.id = id;
     }
 
-    public User getUser() {
+    public UserDto getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserDto user) {
         this.user = user;
     }
 
-    public Tables getTable() {
+    public TablesDto getTable() {
         return table;
     }
 
-    public void setTable(Tables table) {
+    public void setTable(TablesDto table) {
         this.table = table;
     }
 
