@@ -45,7 +45,6 @@ class Menu extends React.Component {
     }
 
     render() {
-        console.log('menu: ', this.state.menu);
         return <Grid id="menu-tab">{this.state.menu && this.prepareMenu(this.state.menu)}</Grid>
     }
 

@@ -19,15 +19,15 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.user = props.passed.shared.user.data;
-        this.avatar = null;
-        this.changeUserData = props.passed.mainFunctions.changeUserData;
+        this.changeUserData = props.passed.sharedFunctions.changeUserData;
         this.state = {
             id: this.user.id,
             name: (this.user.name) ? this.user.name : '',
             surname: (this.user.surname) ? this.user.surname : '',
             email: (this.user.email) ? this.user.email : '',
             phone: (this.user.phone) ? this.user.phone : '',
-            password: (this.user.password) ? this.user.password : ''
+            password: (this.user.password) ? this.user.password : '',
+            image: null
         };
 
         this.onDrop = this.onDrop.bind(this);
@@ -36,7 +36,7 @@ class Profile extends React.Component {
     }
 
     onDrop(files) {
-        this.avatar = files[0];
+        this.setState((state) => Object.assign(state, {image: files[0]}));
     }
 
     handleChange(event) {
@@ -47,8 +47,7 @@ class Profile extends React.Component {
 
     handleOnClick(event) {
         event.preventDefault();
-        let serializedObj = serializeFrom({formId: 'profile-form'});
-        this.changeUserData(this.state.id, serializedObj);
+        this.changeUserData(this.state.id, this.state);
     }
 
     componentWillReceiveProps(nextProps) {
