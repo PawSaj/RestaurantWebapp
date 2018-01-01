@@ -6,7 +6,8 @@ import {
     MAIN_ENDPOINTS,
     IMAGE_ENDPOINTS,
     ADMIN_ENDPOINTS
-} from '../_consts/api/api'
+} from '../_consts/api/api';
+import {parseDataToURI} from './helpers/urlHelpers';
 
 class API {
     constructor() {
@@ -18,10 +19,11 @@ class API {
             },
             withCredentials: true
         });
+
     }
 
     login(user) {
-        return this.request.post(USER_ENDPOINTS.LOGIN, user);
+        return this.request.post(USER_ENDPOINTS.LOGIN+`?${parseDataToURI(user)}`);
     }
 
     logout() {

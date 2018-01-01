@@ -32,7 +32,7 @@ const unloggedComponent = ({passed, showLoginModal, showRegisterModal, panelProp
 const loggedInComponent = (user) => {
     return (
         <div className="greeting-box">
-            <h2>Witaj, {user.username + user.surname} !</h2>
+            <h2>Witaj, {user.name + " " + user.surname} !</h2>
             <p>Zachęcamy do przejrzenia naszego menu oraz składania rezerwacji.</p>
         </div>
     )

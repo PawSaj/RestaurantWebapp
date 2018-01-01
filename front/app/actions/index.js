@@ -33,11 +33,12 @@ export function login(userData) {
             .then(response => response.data)
             .then(data => {
                 console.log('login data: ', data);
-                if (data.status !== undefined) {
-                    let errorText = API_ERRORS[data.status];
-                    dispatch(failLogin(errorText));
+                let status = data.status;
+                if (API_SUCCESS_CODES.includes(status)) {
+                    dispatch(successLogin(data.user));
                 } else {
-                    dispatch(successLogin(data));
+                    let errorText = API_ERRORS[status];
+                    dispatch(failLogin(errorText));
                 }
             });
     }

@@ -23,7 +23,7 @@ class Profile extends React.Component {
         this.changeUserData = props.passed.mainFunctions.changeUserData;
         this.state = {
             id: this.user.id,
-            name: (this.user.username) ? this.user.username : '',
+            name: (this.user.name) ? this.user.name : '',
             surname: (this.user.surname) ? this.user.surname : '',
             email: (this.user.email) ? this.user.email : '',
             phone: (this.user.phone) ? this.user.phone : '',
@@ -55,7 +55,7 @@ class Profile extends React.Component {
         this.user = nextProps.passed.shared.user.data;
         this.setState({
             id: this.user.id,
-            name: (this.user.username) ? this.user.username : '',
+            name: (this.user.name) ? this.user.name : '',
             surname: (this.user.surname) ? this.user.surname : '',
             email: (this.user.email) ? this.user.email : '',
             phone: (this.user.phone) ? this.user.phone : '',

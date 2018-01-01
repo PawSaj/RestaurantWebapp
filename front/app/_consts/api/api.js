@@ -1,7 +1,8 @@
 export const BASE_URL = 'http://localhost:8080';
 
 export const CONTENT_TYPES = {
-    JSON: 'application/json'
+    JSON: 'application/json',
+    URLENCODED: 'application/x-www-form-urlencoded'
 };
 
 export const IMAGE_ENDPOINTS = {
