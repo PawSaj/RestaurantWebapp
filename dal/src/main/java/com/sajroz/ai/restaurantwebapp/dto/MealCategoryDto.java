@@ -1,9 +1,8 @@
 package com.sajroz.ai.restaurantwebapp.dto;
 
-
 import java.io.Serializable;
 
-public class IngredientDto implements Serializable {
+public class MealCategoryDto implements Serializable {
 
     private Long id;
 
@@ -27,8 +26,9 @@ public class IngredientDto implements Serializable {
 
     @Override
     public String toString() {
-        return "Ingredient{" +
-                "name='" + name + '\'' +
+        return "MealCategory{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

@@ -37,14 +37,24 @@ public class UserService {
         this.jsonMessageGenerator = jsonMessageGenerator;
     }
 
-    public UserDto getUserByEmail(String email) {
-        logger.debug("getUserByEmail, email={}", email);
+    public String userInfoResponse(String email) {
+        User user = userRepository.findUserByEmail(email);
+        return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.OK, "user", jsonMessageGenerator.convertUserToJSON(userMapper.mapToDto(user))).toString();
+    }
+
+    public UserDto getUserDtoByEmail(String email) {
+        logger.debug("getUserDtoByEmail, email={}", email);
         User user = userRepository.findUserByEmail(email);
         return userMapper.mapToDto(user);
     }
 
-    private UserDto getUserById(Long userId) {
-        logger.debug("getUserById, userId={}", userId);
+    User getUserByEmail(String email) {
+        logger.debug("getUserByEmail, email={}", email);
+        return userRepository.findUserByEmail(email);
+    }
+
+    private UserDto getUserDtoById(Long userId) {
+        logger.debug("getUserDtoById, userId={}", userId);
         User user = userRepository.findOne(userId);
         return userMapper.mapToDto(user);
     }
@@ -56,75 +66,96 @@ public class UserService {
     }
 
     public String registerUser(UserDto userDto) {
-        if (isEmailExist(userDto)) {
-            logger.debug("registerUser Registration failed - user already exist, email={}", userDto.getEmail());
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_EMAIL).toString();
+        User user = userMapper.mapFromDto(userDto);
+        String verifyUserDataResponse = verifyUserData(user);
+        if(verifyUserDataResponse == null) {
+            if (isEmailExist(user)) {
+                logger.debug("registerUser Registration failed - user already exist, email={}", userDto.getEmail());
+                return jsonMessageGenerator.createSimpleResponse(ResponseMessages.DUPLICATE_EMAIL).toString();
+            }
+            logger.info("saving user to database, user={}", user);
+            user.setRole("USER");
+            user.setId(null);
+            return saveUserToDatabase(user);
+        } else {
+            return verifyUserDataResponse;
         }
-        logger.info("saving user to database, user={}", userDto);
-        userDto.setRole("USER");
-        userDto.setId(null);
-        return saveUserToDatabase(mapUserFromDto(userDto));
+    }
+
+    private String verifyUserData(User user) {
+        if (user.getEmail() == null){
+            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "email").toString();
+        } else if (user.getPassword() == null) {
+            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "password").toString();
+        } else if (user.getName() == null) {
+            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "name").toString();
+        } else if (user.getSurname() == null) {
+            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "surname").toString();
+        } else {
+            return null;
+        }
     }
 
     private String saveUserToDatabase(User user) {
         logger.debug("saveUserToDatabase saving user to database, user={}", user);
         userRepository.save(user);
-        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.USER_REGISTERED).toString();
-    }
-
-    private User mapUserFromDto(UserDto userDto) {
-        return userMapper.mapFromDto(userDto);
+        return jsonMessageGenerator.createSimpleResponse(ResponseMessages.USER_REGISTERED).toString();
     }
 
     public String updateUser(Long userId, UserDto userDto, boolean admin) {
         logger.debug("updateUser, userId={}, user={}", userId, userDto);
-        if (userRepository.exists(userId)) {
-            logger.debug("updateUser User doesn't exist, wrong id, userId={}, user={}", userId, userDto);
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_USER).toString();
+        User user = userMapper.mapFromDto(userDto);
+        String verifyUserDataResponse = verifyUserData(user);
+        if(verifyUserDataResponse == null) {
+            if (userRepository.exists(userId)) {
+                logger.debug("updateUser User doesn't exist, wrong id, userId={}, user={}", userId, userDto);
+                return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_USER).toString();
+            }
+
+            if (!isSelfUpdate(userId, user)) {
+                if (!admin) {
+                    return jsonMessageGenerator.createSimpleResponse(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
+                }
+                if (isEmailExist(user)) {
+                    logger.debug("updateUser Update failed - user already exist, email={}", userDto.getEmail());
+                    return jsonMessageGenerator.createSimpleResponse(ResponseMessages.DUPLICATE_EMAIL).toString();
+                }
+            }
+
+            User userToUpdate = createUpdatedUser(userId, user, admin);
+            updateUserInThisSession(userId, userToUpdate);
+            logger.debug("updateUser Update user to database, user={}", userToUpdate);
+            userRepository.save(userToUpdate);
+
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.USER_UPDATED).toString();
+        } else {
+            return verifyUserDataResponse;
         }
 
-        if(!isSelfUpdate(userId, userDto)) {
-            if(!admin) {
-                return jsonMessageGenerator.createSimpleRespons(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
-            }
-            if (isEmailExist(userDto)) {
-                logger.debug("updateUser Update failed - user already exist, email={}", userDto.getEmail());
-                return jsonMessageGenerator.createSimpleRespons(ResponseMessages.DUPLICATE_EMAIL).toString();
-            }
-        }
-
-
-        User userToUpdate = createUpdatedUser(userId, userDto, admin);
-        updateUserInThisSession(userId, userToUpdate);
-        logger.debug("updateUser Update user to database, user={}", userToUpdate);
-        userRepository.save(userToUpdate);
-
-        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.USER_UPDATED).toString();
 
     }
 
-    private boolean isSelfUpdate(Long userId, UserDto userDto) {
-        return userRepository.findOne(userId).getEmail().equals(userDto.getEmail());
+    private boolean isSelfUpdate(Long userId, User user) {
+        return userRepository.findOne(userId).getEmail().equals(user.getEmail());
     }
 
-    private boolean isEmailExist(UserDto userDto) {
-        return userRepository.findUserByEmail(userDto.getEmail()) != null;
+    private boolean isEmailExist(User user) {
+        return userRepository.findUserByEmail(user.getEmail()) != null;
     }
 
     private void updateUserInThisSession(Long userId, User userToUpdate) {
-        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals(getUserById(userId).getEmail())) {
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals(getUserDtoById(userId).getEmail())) {
             logger.debug("updateUserInThisSession Update user in this session, user={}", userToUpdate);//correct logged user info
             Authentication request = new UsernamePasswordAuthenticationToken(userToUpdate.getEmail(), userToUpdate.getPassword(), SecurityContextHolder.getContext().getAuthentication().getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(request);
         }
     }
 
-    private User createUpdatedUser(Long userId, UserDto userDto, boolean admin) {
+    private User createUpdatedUser(Long userId, User userWithUpdatedData, boolean admin) {
         User userToUpdate = userRepository.findOne(userId);
 
-        User userWithUpdatedData = userMapper.mapFromDto(userDto);
         userToUpdate.setEmail(userWithUpdatedData.getEmail());
-        userToUpdate.setUsername(userWithUpdatedData.getUsername());
+        userToUpdate.setName(userWithUpdatedData.getName());
         userToUpdate.setSurname(userWithUpdatedData.getSurname());
         userToUpdate.setPassword(userWithUpdatedData.getPassword());
         userToUpdate.setPhone(userWithUpdatedData.getPhone());
@@ -141,20 +172,20 @@ public class UserService {
         List<User> users;
         users = userRepository.findAll();
         users.remove(userRepository.findUserByEmail(email));
-        List<UserDto> userDtos = new ArrayList<UserDto>();
+        List<UserDto> userDtos = new ArrayList<>(users.size());
 
         for (User u : users) {
             userDtos.add(userMapper.mapToDto(u));
         }
 
         logger.debug("getAllUsers, userDtos={}", userDtos);
-        return jsonMessageGenerator.generateJSONWithUsers(userDtos);
+        return jsonMessageGenerator.generateJSONWithUsers(userDtos).toString();
     }
 
     public String deleteUser(Long userId, boolean admin) {
         logger.debug("deleteUser Deleting user, userId={}", userId);
         if (userRepository.exists(userId)) {
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.NO_USER).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_USER).toString();
         }
 
         if (userId.equals(userRepository.findUserByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId())) {
@@ -163,10 +194,18 @@ public class UserService {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.OK, "redirect", "/logout").toString();
         } else if (admin) {
             userRepository.delete(userId);
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.OK).toString();
         } else {
             logger.debug("deleteUser Deleting user failed, user try to delete another user, userId={}", userId);
-            return jsonMessageGenerator.createSimpleRespons(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
         }
+    }
+
+    public String getUser(Long userId) {
+        return jsonMessageGenerator.convertUserToJSON(userMapper.mapToDto(userRepository.findOne(userId))).toString();
+    }
+
+    User getUserById(Long userId) {
+        return userRepository.findOne(userId);
     }
 }

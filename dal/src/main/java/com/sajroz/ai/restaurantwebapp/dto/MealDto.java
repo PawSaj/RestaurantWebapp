@@ -1,10 +1,11 @@
 package com.sajroz.ai.restaurantwebapp.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MealDto {
+public class MealDto implements Serializable {
 
     private Long id;
 
@@ -17,6 +18,8 @@ public class MealDto {
     private String image;
 
     private Set<IngredientDto> ingredients = new HashSet<IngredientDto>();
+
+    private MealCategoryDto mealCategory;
 
     public Long getId() {
         return id;
@@ -66,14 +69,24 @@ public class MealDto {
         this.ingredients = ingredients;
     }
 
+    public MealCategoryDto getMealCategory() {
+        return mealCategory;
+    }
+
+    public void setMealCategory(MealCategoryDto mealCategory) {
+        this.mealCategory = mealCategory;
+    }
+
     @Override
     public String toString() {
-        return "MealDto{" +
-                "name='" + name + '\'' +
+        return "Meal{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", price=" + price +
                 ", describe='" + describe + '\'' +
                 ", image='" + image + '\'' +
                 ", ingredients=" + ingredients +
+                ", mealCategory=" + mealCategory +
                 '}';
     }
 }

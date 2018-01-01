@@ -26,18 +26,18 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/successfulLogin", produces = "application/json")
-    public UserDto successfulLogin() {
-        return userService.getUserByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    public String successfulLogin() {
+        return userService.userInfoResponse((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
     @RequestMapping(value = "/failedLogin", produces = "application/json")
     public String failedLogin() {
-        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.LOGIN_FILED).toString();
+        return jsonMessageGenerator.createSimpleResponse(ResponseMessages.LOGIN_FILED).toString();
     }
 
     @RequestMapping(value = "/successfulLogout", produces = "application/json")
     public String successfulLogout() {
-        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.OK).toString();
+        return jsonMessageGenerator.createSimpleResponse(ResponseMessages.OK).toString();
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST, produces = "application/json")
@@ -48,6 +48,6 @@ public class LoginController {
 
     @RequestMapping(value = "/accessDenied", produces = "application/json")
     public String accessDenied() {
-        return jsonMessageGenerator.createSimpleRespons(ResponseMessages.ACCESS_DENIED).toString();
+        return jsonMessageGenerator.createSimpleResponse(ResponseMessages.ACCESS_DENIED).toString();
     }
 }

@@ -1,6 +1,8 @@
 package com.sajroz.ai.restaurantwebapp.dto;
 
-public class ImageData {
+import java.io.Serializable;
+
+public class ImageData implements Serializable {
 
     String image;
 

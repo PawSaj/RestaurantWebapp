@@ -1,51 +1,36 @@
-package com.sajroz.ai.restaurantwebapp.model.entity;
+package com.sajroz.ai.restaurantwebapp.dto;
 
-import javax.persistence.*;
+import com.sajroz.ai.restaurantwebapp.model.entity.ReservationHistory;
+import com.sajroz.ai.restaurantwebapp.model.entity.TableReservation;
+import com.sajroz.ai.restaurantwebapp.model.entity.TrafficHistory;
+
 import java.io.Serializable;
 import java.util.Set;
 
-@Entity
-@Table(name = "TABLES")
-public class Tables implements Serializable {
+public class TablesDto implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "table_id")
     private Long id;
 
-    @Column(name = "tableNumber", unique = true, nullable = false)
     private short tableNumber;
 
-    @Column(name = "seats", nullable = false)
     private short seats;
 
-    @Column(name = "x")
     private short x;
 
-    @Column(name = "y")
     private short y;
 
-    @Column(name = "floor")
     private short floor;
 
-    @Column(name = "is_free", nullable = false, columnDefinition = "TINYINT default 1", length = 1)
     private boolean isFree;
 
-    @OneToMany(mappedBy="table")
     private Set<TableReservation> tableReservations;
 
-    @OneToMany(mappedBy="table")
     private Set<ReservationHistory> tableReservationsHistory;
 
-    @OneToMany(mappedBy="table")
     private Set<TrafficHistory> tableOccupations;
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public short getTableNumber() {
@@ -54,6 +39,10 @@ public class Tables implements Serializable {
 
     public void setTableNumber(short tableNumber) {
         this.tableNumber = tableNumber;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public short getSeats() {
@@ -122,8 +111,9 @@ public class Tables implements Serializable {
 
     @Override
     public String toString() {
-        return "Table{" +
+        return "TablesDto{" +
                 "id=" + id +
+                ", tableNumber=" + tableNumber +
                 ", seats=" + seats +
                 ", x=" + x +
                 ", y=" + y +
