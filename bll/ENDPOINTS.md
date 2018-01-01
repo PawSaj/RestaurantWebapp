@@ -27,10 +27,13 @@ Domyślnie http://localhost:8080/
     * przenosi pod adres ```/successfulLogin```
     * wymaga on autoryzacji
     * zwraca w nagłówku wiadomości Cookie będące tokenem aktualnej sesji. Należy je umieszczać w nagłówku kolejnych requestów
-    * zwraca JSON z wszystkimi danymi użytkownika:
+  * zwraca JSON z wszystkimi danymi użytkownika w postaci:
+    * status - *-8*
+    * description - *Login failed.*
+    * user - dane użytkownika:
         * id
         * email
-        * username
+        * name
         * surname
         * password
         * phone
@@ -64,7 +67,7 @@ Domyślnie http://localhost:8080/
   * nie wymaga autoryzacji
   * wymaga w ciele JSON'a z danymi:
     * email - email
-    * username – nazwa użytkownika
+    * name – nazwa użytkownika
     * surname - nazwisko
     * password – hasło (czysty tekst)
   * opcjonalne argumenty:
@@ -79,6 +82,10 @@ Domyślnie http://localhost:8080/
     * zwraca JSON z danymi:
         * status - *-2*
         * descripton - *Email is taken. Try another.*
+  * jeśli brak jakiejś danej:
+        * status - *-14*
+        * descripton - *Missing data.*
+        * missing - dana, która jest wymagana, a której brakuje np. email
 
 ### ```/menu```
 
@@ -86,20 +93,43 @@ Domyślnie http://localhost:8080/
 * **wymagania:** 
   * nie wymaga autoryzacji
 * **co robi:**
-  * zwraca JSON z listą wszystkich wszystkich dań i ich składników w formie:
-    * każdy kolejny element listy to:
-        * para *id* (będące *id* produktu w bazie) jako nazwa, a wartośc to lista informacji o daniu
+  * zwraca JSON z listą wszystkich dań i ich składników, posegregowanych na kategorie w formie:
+    * każdy kolejny element listy to obiekt składający się z:
+        * category - kategoria dań
+        * body - lista dań należących do danej kategorii
     * w liście informacji o daniu znajdują się:
         * name - nazwa dania
         * ingredients - lista składników
             * wypisanych w formie indeksów (w bazie) + nazwa
-        * describe - opis dania
+        * price - cena (jeśli danie jej nie ma, JSON nie zawiera tej danej)
 
+### ```/admin/meal/{mealId}```
+
+* **metoda:** GET
+* **wymagania:** 
+  * wymaga autoryzacji z rolą *ADMIN*
+  * w adresie *{id}* jest to id dania, które chcemy pobrać
+* **co robi:**
+  * zwraca JSON z daniem:
+     * category - kategoria dań
+     * name - nazwa dania
+     * ingredients - lista składników
+         * wypisanych w formie indeksów (w bazie) + nazwa
+     * price - cena (jeśli danie jej nie ma, JSON nie zawiera tej danej)
+
+### ```/admin/meal/categories```
+
+* **metoda:** GET
+* **wymagania:** 
+  * wymaga autoryzacji z rolą *ADMIN*
+* **co robi:**
+  * zwraca JSON z istniejącymi kategoriami dań w formie listy, gdize każdy kolejny element to nowa kategoria
+     
 ### ```/admin/meal```
 
 * **metoda:** POST
 * **wymagania:** 
-  * wymaga autoryzacji
+  * wymaga autoryzacji z rolą *ADMIN*
   * wymaga w ciele JSON'a z danymi:
 	* name - nazwa dania  
   * opcjonalne argumenty:
@@ -117,14 +147,18 @@ Domyślnie http://localhost:8080/
     * zwraca JSON z danymi:
         * status - *-9*
         * descripton - *Meal is already exist.*
+  * jeśli brak jakiejś danej:
+    * status - *-14*
+    * descripton - *Missing data.*
+    * missing - dana, która jest wymagana, a której brakuje
 
 
 ### ```/admin/meal/{id}```
 
 * **metoda:** PUT
 * **wymagania:** 
-  * wymaga autoryzacji
-  * w adresie *{id}* jest to id użytkownika, które chcemy poddać modyfikacji
+  * wymaga autoryzacji z rolą *ADMIN*
+  * w adresie *{id}* jest to id dania, które chcemy poddać modyfikacji
   * wymaga w ciele JSON'a z danymi:
 	* name - nazwa dania
   	* ingredients - lista składników
@@ -144,12 +178,16 @@ Domyślnie http://localhost:8080/
     * nowa nazwa dania już jest zajęta:
         * status - *-9*
         * descripton - *Meal is already exist.*
+    * jeśli brak jakiejś danej:
+        * status - *-14*
+        * descripton - *Missing data.*
+        * missing - dana, która jest wymagana, a której brakuje
     
 ### ```/admin/meal/{id}```
 
 * **metoda:** DELETE
 * **wymagania:** 
-  * wymaga autoryzacji
+  * wymaga autoryzacji z rolą *ADMIN*
   * w adresie *{id}* jest to id dania, które chcemy usunąć  
 * **co robi:**
   * jeśli powodzenie usunięcia dania zwraca JSON z danymi:
@@ -208,7 +246,7 @@ Domyślnie http://localhost:8080/
   * zwraca JSON z wszystkimi danymi użytkownika:
     * id
     * email
-    * username
+    * name
     * surname
     * password
     * phone
@@ -223,7 +261,7 @@ Domyślnie http://localhost:8080/
   * w adresie *{id}* jest to id użytkownika, które chcemy poddać modyfikacji
   * JSON z danymi użytkownika:
     * email
-    * username
+    * name
     * surname
     * password
     * phone
@@ -270,15 +308,32 @@ Domyślnie http://localhost:8080/
   * wymaga autoryzacji z rolą *ADMIN*
 * **co robi:**
   * zwraca JSON z danymi wszystkich użytkownikóww formie:
-    * każdy kolejny element listy to para *id* użytkownika oraz lista z pozostałymi danymi użytkownika
+    * każdy kolejny element listy to użytkownik zawierający dane:
         * id
         * email
-        * username
+        * name
         * surname
         * password
         * phone
         * role
         * image - nazwę obrazu, który można pobrać korzystając z *```/getImage```*
+             
+### ```/admin/users/{userId}```
+   
+* **metoda:** GET
+* **wymagania:** 
+  * wymaga autoryzacji z rolą *ADMIN*
+  * w adresie *{id}* jest to id użytkownika, które chcemy poddać modyfikacji
+* **co robi:**
+  * zwraca JSON z danymi wszystkich użytkownikóww formie:
+     * id
+     * email
+     * name
+     * surname
+     * password
+     * phone
+     * role
+     * image - nazwę obrazu, który można pobrać korzystając z *```/getImage```*
             
 ### ```/admin/users/{id}```
 
@@ -288,7 +343,7 @@ Domyślnie http://localhost:8080/
   * w adresie *{id}* jest to id użytkownika, które chcemy poddać modyfikacji
   * JSON z danymi użytkownika:
     * email
-    * username
+    * name
     * surname
     * password
     * phone
@@ -306,6 +361,10 @@ Domyślnie http://localhost:8080/
     * nowy adres email już jest zajęty:
         * status - *-2*
         * description - *Email is taken. Try another.*
+    * jeśłi brak jakiejś danej:
+        * status - *-14*
+        * descripton - *Missing data.*
+        * missing - dana, która jest wymagana, a której brakuje
     
 ### ```/admin/user/{id}```
 
@@ -328,8 +387,363 @@ Domyślnie http://localhost:8080/
         * description - *User doesn't exist.*
     * użytkownik próbuje usunąć innego użytkownika:
         * status - *-7*
-        * description - *You try to change data of different user.*           
+        * description - *You try to change data of different user.*
         
+### ```/admin/tables```
+
+* **metoda:** GET
+* **wymagania:** 
+  * wymaga autoryzacji z rolą *ADMIN*
+* **co robi:**
+  * zwraca JSON z listą wszystkich stolików, gdzie każdy stolik to kolejny element listy:
+	* id - id
+	* tableNumber - numer stolika
+	* seats - ilość miejsc
+	* floor - piętro
+
+### ```/admin/tables/{tableId}```
+
+* **metoda:** GET
+* **wymagania:** 
+  * wymaga autoryzacji z rolą *ADMIN*
+  * w adresie *{id}* jest to id stolika, które chcemy poddać modyfikacji
+* **co robi:**
+  * zwraca JSON ze stolikiem:
+    * id - id
+	* tableNumber - numer stolika
+	* seats - ilość miejsc
+	* floor - piętro
+   
+### ```/admin/tables```
+
+* **metoda:** POST
+* **wymagania:** 
+  * wymaga autoryzacji z rolą *ADMIN*
+  * wymaga w ciele JSON'a z danymi do zapisania stolika:
+	* tableNumber - numer stolika
+	* seats - ilość miejsc
+  * opcjonalne argumenty:
+  	* floor - piętro 
+* **co robi:**
+  * jeśli danie nie istnieje i udało się je zapisać w bazie:
+    * zwraca JSON z danymi:
+        * status - *0*
+        * descripton - *Request completed with no errors.*
+  * jeśli dodawanie dania zakończone neipowodzeniem, nazwa zduplikowana:
+    * zwraca JSON z danymi:
+        * status - *-11*
+        * descripton - *Table is already exist.*
+  * jeśli dodawanie dania zakończone neipowodzeniem, brak danej:
+	* zwraca JSON z danymi:
+		* status - *-14*
+		* descripton - *Missing data.*
+		* missing - dana, która jest wymagana, a której brakuje
+
+
+### ```/admin/tables/{tableId}```
+
+* **metoda:** PUT
+* **wymagania:** 
+  * wymaga autoryzacji z rolą *ADMIN*
+  * w adresie *{id}* jest to id stolika, które chcemy poddać modyfikacji
+  * wymaga w ciele JSON'a z danymi:
+	* tableNumber - numer stolika
+	* seats - ilość miejsc
+	* floor - piętro
+  * **jeśli jakaś z danych nie została zmieniona należy ją także umieścić w podstawowej wersji**    
+* **co robi:**
+  * jeśli powodzenie aktualizacji danych dania zwraca JSON z danymi:
+    * status - *0*
+	* descripton - *Request completed with no errors.*
+  * JSON z danymi jeśli niepowodzenie z powodu:
+    * danie nie istnieje - błędne *id*:
+        * status - -12*
+        * description - *Table doesn't exist.*
+    * nowa nazwa dania już jest zajęta:
+        * status - *-11*
+        * descripton - *Table is already exist.*
+	* brak wymaganej danej:
+		* status - *-14*
+		* descripton - *Missing data.*
+		* missing - dana, która jest wymagana, a której brakuje
+    
+### ```/admin/tables/{tableId}```
+
+* **metoda:** DELETE
+* **wymagania:** 
+  * wymaga autoryzacji z rolą *ADMIN*
+  * w adresie *{id}* jest to id stolika, które chcemy usunąć  
+* **co robi:**
+  * jeśli powodzenie usunięcia stolika zwraca JSON z danymi:
+    * status - *0*
+    * description - *Request completed with no errors.*
+  * JSON z danymi jeśli niepowodzenie z powodu:
+    * stolik nie istnieje - błędne *id*:
+        * status - -12*
+        * description - *Table doesn't exist.*
+        
+### ```/tableReservation```
+
+* **metoda:** GET
+* **wymagania:** 
+  * wymaga autoryzacji
+* **co robi:**
+  * zwraca JSON z listą wszystkich rezerwacji stolików danego użytkownika, gdzie każda rezerwacja to kolejny element listy:
+	* id - id
+	* date - data stolika w formacie "YYYY-MM-DDTHH:MM:SS+HH:MM", gdzie litera T to po prostu litera T, musi być, oddziela datę od czasu, a +HH:MM to strefa czasowa UTC
+	* table - stolik w postaci obiektu z danymi:
+		* id - id
+		* tableNumber - numer stolika
+		* seats - ilość miejsc
+		* floor - piętro
+  * jeśli brak rezerwacji JSON z danymi:
+    * status - *-17*
+    * descripton - *No reservation in database.*	
+
+### ```/tableReservation/{tableReservationId}```
+
+* **metoda:** GET
+* **wymagania:** 
+  * wymaga autoryzacji
+  * w adresie *{id}* jest to id rezerwacji stolika, które chcemy pobrać
+* **co robi:**
+  * zwraca JSON z rezerwacją stolika:
+    * id - id
+	* date - data stolika w formacie "YYYY-MM-DDTHH:MM:SS+HH:MM", gdzie litera T to po prostu litera T, musi być, oddziela datę od czasu, a +HH:MM to strefa czasowa UTC
+	* table - stolik w postaci obiektu z danymi:
+		* id - id
+		* tableNumber - numer stolika
+		* seats - ilość miejsc
+		* floor - piętro
+  * jeśli brak rezerwacji JSON z danymi:
+    * status - *-17*
+    * descripton - *No reservation in database.*
+  * jeśli próba pobrania rezerwacji innego użytkownika:
+        * status - *-7*
+        * descripton - *You try to access data of different user.*	
+	
+### ```/getReservedTables/{date}```
+
+* **metoda:** GET
+* **wymagania:** 
+  * wymaga autoryzacji
+  * w adresie *{date}* jest to data początku tygodnia który chcemy pobrać w formacie "YYYY-MM-DDTHH:MM:SS+HH:MM", gdzie litera T to po prostu litera T, musi być, oddziela datę od czasu, a +HH:MM to strefa czasowa UTC
+* **co robi:**
+  * zwraca JSON z listą wszystkich wszystkich rezerwacji stolików w danym okresie, gdzie każda rezerwacja stolika to kolejny element listy:
+    * id - id
+	* date - data rezerwacji stolika w formacie "YYYY-MM-DDTHH:MM:SS+HH:MM", gdzie litera T to po prostu litera T, musi być, oddziela datę od czasu, a +HH:MM to strefa czasowa UTC
+	* table - stolik w postaci obiektu z danymi:
+		* id - id
+		* tableNumber - numer stolika
+		* seats - ilość miejsc
+		* floor - piętro
+  * jeśli brak rezerwacji JSON z danymi:
+    * status - *-17*
+    * descripton - *No reservation in database.*
+   
+### ```/tableReservation```
+
+* **metoda:** POST
+* **wymagania:** 
+  * wymaga autoryzacji
+  * wymaga w ciele JSON'a z danymi do zapisania rezerwacji stolika:
+	* tableReservationDate - data rezerwacji stolika w formacie "YYYY-MM-DDTHH:MM:SS+HH:MM", gdzie litera T to po prostu litera T, musi być, oddziela datę od czasu, a +HH:MM to strefa czasowa UTC
+	* table - stolik jako obiekt z danymi:
+		* id - id stolika
+		* reszta niepotrzebna, opcjonalnie
+* **co robi:**
+  * jeśli rezerwacja nie istnieje i udało się ją zapisać w bazie:
+    * zwraca JSON z danymi:
+        * status - *0*
+        * descripton - *Request completed with no errors.*
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, brak stolika:
+    * zwraca JSON z danymi:
+        * status - *-12*
+        * descripton - *Table doesn't exist.*
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, próba modyfikacji rezerwacji innego użytkownika:
+    * zwraca JSON z danymi:
+        * status - *-7*
+        * descripton - *You try to access data of different user.*
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, brak danej:
+	* zwraca JSON z danymi:
+		* status - *-14*
+		* descripton - *Missing data.*
+		* missing - dana, która jest wymagana, a której brakuje
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, stolik w tym czasie zajęty:
+	* zwraca JSON z danymi:
+		* status - *-13*
+		* descripton - *Table is occupied.*	
+
+### ```/tableReservation/{tableReservationId}```
+
+* **metoda:** PUT
+* **wymagania:** 
+  * wymaga autoryzacji
+  * w adresie *{id}* jest to id rezerwacji stolika, który chcemy zaktualizować
+  * wymaga w ciele JSON'a z danymi do zapisania rezerwacji stolika:
+	* tableReservationDate - data rezerwacji stolika w formacie "YYYY-MM-DDTHH:MM:SS+HH:MM", gdzie litera T to po prostu litera T, musi być, oddziela datę od czasu, a +HH:MM to strefa czasowa UTC
+	* table - stolik jako obiekt z danymi:
+		* id - id stolika
+		* reszta niepotrzebna, opcjonalnie
+* **co robi:**
+  * jeśli rezerwacja nie istnieje i udało się ją zapisać w bazie:
+    * zwraca JSON z danymi:
+        * status - *0*
+        * descripton - *Request completed with no errors.*
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, brak stolika:
+    * zwraca JSON z danymi:
+        * status - *-12*
+        * descripton - *Table doesn't exist.*
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, próba modyfikacji rezerwacji innego użytkownika:
+    * zwraca JSON z danymi:
+        * status - *-7*
+        * descripton - *You try to access data of different user.*
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, brak danej:
+	* zwraca JSON z danymi:
+		* status - *-14*
+		* descripton - *Missing data.*
+		* missing - dana, która jest wymagana, a której brakuje
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, stolik w tym czasie zajęty:
+	* zwraca JSON z danymi:
+		* status - *-13*
+		* descripton - *Table is occupied.*	
+    
+### ```/tableReservation/{tableReservationId}```
+
+* **metoda:** DELETE
+* **wymagania:** 
+  * wymaga autoryzacji
+  * w adresie *{id}* jest to id rezerwacji stolika, którą chcemy usunąć  
+* **co robi:**
+  * jeśli powodzenie usunięcia stolika zwraca JSON z danymi:
+    * status - *0*
+    * description - *Request completed with no errors.*
+  * JSON z danymi jeśli niepowodzenie z powodu:
+    * rezerwacja nie istnieje - błędne *{id}*:
+        * status - -15*
+        * description - *Table reservation doesn't exist.*  
+	* próba modyfikacji rezerwacji innego użytkownika:
+        * status - *-7*
+        * descripton - *You try to access data of different user.*		
+		
+### ```/admin/tableReservation```
+
+* **metoda:** GET
+* **wymagania:** 
+  * wymaga autoryzacji z rolą *ADMIN*
+* **co robi:**
+  * zwraca JSON z listą wszystkich rezerwacji stolików, gdzie każda rezerwacja to kolejny element listy:
+	* id - id
+	* date - data stolika w formacie "YYYY-MM-DDTHH:MM:SS+HH:MM", gdzie litera T to po prostu litera T, musi być, oddziela datę od czasu, a +HH:MM to strefa czasowa UTC
+	* userId - id użytkownika, którego dotyczy rezerwacja
+	* table - stolik w postaci obiektu z danymi:
+		* id - id
+		* tableNumber - numer stolika
+		* seats - ilość miejsc
+		* floor - piętro
+  * jeśli brak rezerwacji JSON z danymi:
+    * status - *-17*
+    * descripton - *No reservation in database.*
+
+### ```/admin/tableReservation/{tableReservationId}```
+
+* **metoda:** GET
+* **wymagania:** 
+  * wymaga autoryzacji z rolą *ADMIN*
+  * w adresie *{id}* jest to id stolika, które chcemy poddać modyfikacji
+* **co robi:**
+  * zwraca JSON z rezerwacją stolika:
+    * id - id
+	* date - data stolika w formacie "YYYY-MM-DDTHH:MM:SS+HH:MM", gdzie litera T to po prostu litera T, musi być, oddziela datę od czasu, a +HH:MM to strefa czasowa UTC
+	* userId - id użytkownika, którego dotyczy rezerwacja
+	* table - stolik w postaci obiektu z danymi:
+		* id - id
+		* tableNumber - numer stolika
+		* seats - ilość miejsc
+		* floor - piętro
+  * jeśli brak rezerwacji JSON z danymi:
+    * status - *-17*
+    * descripton - *No reservation in database.*
+   
+### ```/admin/tableReservation```
+
+* **metoda:** POST
+* **wymagania:** 
+  * wymaga autoryzacji
+  * wymaga w ciele JSON'a z danymi do zapisania rezerwacji stolika:
+	* user - użytkownik jako obiekt z danymi:
+		* id - id użytkownika
+		* reszta niepotrzebna
+	* tableReservationDate - data rezerwacji stolika w formacie "YYYY-MM-DDTHH:MM:SS+HH:MM", gdzie litera T to po prostu litera T, musi być, oddziela datę od czasu, a +HH:MM to strefa czasowa UTC
+	* table - stolik jako obiekt z danymi:
+		* id - id stolika
+		* reszta niepotrzebna, opcjonalnie
+* **co robi:**
+  * jeśli rezerwacja nie istnieje i udało się ją zapisać w bazie:
+    * zwraca JSON z danymi:
+        * status - *0*
+        * descripton - *Request completed with no errors.*
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, brak stolika:
+    * zwraca JSON z danymi:
+        * status - *-12*
+        * descripton - *Table doesn't exist.*
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, brak danej:
+	* zwraca JSON z danymi:
+		* status - *-14*
+		* descripton - *Missing data.*
+		* missing - dana, która jest wymagana, a której brakuje
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, stolik w tym czasie zajęty:
+	* zwraca JSON z danymi:
+		* status - *-13*
+		* descripton - Table is occupied.*
+
+### ```/admin/tableReservation/{tableReservationId}```
+
+* **metoda:** PUT
+* **wymagania:** 
+  * wymaga autoryzacji
+  * w adresie *{id}* jest to id rezerwacji stolika, który chcemy zaktualizować
+  * wymaga w ciele JSON'a z danymi do zapisania rezerwacji stolika:
+  	* user - użytkownik jako obiekt z danymi:
+		* id - id użytkownika
+		* reszta niepotrzebna
+	* tableReservationDate - data rezerwacji stolika w formacie "YYYY-MM-DDTHH:MM:SS+HH:MM", gdzie litera T to po prostu litera T, musi być, oddziela datę od czasu, a +HH:MM to strefa czasowa UTC
+	* table - stolik jako obiekt z danymi:
+		* id - id stolika
+		* reszta niepotrzebna, opcjonalnie
+* **co robi:**
+  * jeśli rezerwacja nie istnieje i udało się ją zapisać w bazie:
+    * zwraca JSON z danymi:
+        * status - *0*
+        * descripton - *Request completed with no errors.*
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, brak stolika:
+    * zwraca JSON z danymi:
+        * status - *-12*
+        * descripton - *Table doesn't exist.*
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, brak danej:
+	* zwraca JSON z danymi:
+		* status - *-14*
+		* descripton - *Missing data.*
+		* missing - dana, która jest wymagana, a której brakuje
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, stolik w tym czasie zajęty:
+	* zwraca JSON z danymi:
+		* status - *-13*
+		* descripton - *TTable is occupied.*
+    
+### ```/admin/tableReservation/{tableReservationId}```
+
+* **metoda:** DELETE
+* **wymagania:** 
+  * wymaga autoryzacji
+  * w adresie *{id}* jest to id rezerwacji stolika, którą chcemy usunąć  
+* **co robi:**
+  * jeśli powodzenie usunięcia stolika zwraca JSON z danymi:
+    * status - *0*
+    * description - *Request completed with no errors.*
+  * JSON z danymi jeśli niepowodzenie z powodu:
+    * rezerwacja nie istnieje - błędne *{id}*:
+        * status - -15*
+        * description - *Table reservation doesn't exist.*  
         
         
         

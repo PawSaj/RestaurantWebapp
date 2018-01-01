@@ -29,7 +29,6 @@ public class TablesController {
         return tablesService.getTableAsJSON(tableId);
     }
 
-
     @RequestMapping(value = "/admin/tables", method = RequestMethod.POST, produces = "application/json")
     public String addTable(@RequestBody TablesDto tableDto) {
         logger.debug("addTable Adding table to database, table={}", tableDto);

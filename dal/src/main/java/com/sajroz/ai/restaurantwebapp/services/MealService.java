@@ -165,7 +165,8 @@ public class MealService {
         if (!mealRepository.exists(mealId)) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_MEAL).toString();
         }
-        return jsonMessageGenerator.convertMealToJSON(mealMapper.mealToMealDto(mealRepository.findOne(mealId))).toString();
+        MealDto mealDto = mealMapper.mealToMealDto(mealRepository.findOne(mealId));
+        return jsonMessageGenerator.convertMealToJSON(mealDto).put("category", mealDto.getMealCategory().getName()).toString();
     }
 
     public String getMealCategories() {

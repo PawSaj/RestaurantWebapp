@@ -87,7 +87,7 @@ public class UserService {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "email").toString();
         } else if (user.getPassword() == null) {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "password").toString();
-        } else if (user.getUsername() == null) {
+        } else if (user.getName() == null) {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "name").toString();
         } else if (user.getSurname() == null) {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "surname").toString();
@@ -155,7 +155,7 @@ public class UserService {
         User userToUpdate = userRepository.findOne(userId);
 
         userToUpdate.setEmail(userWithUpdatedData.getEmail());
-        userToUpdate.setUsername(userWithUpdatedData.getUsername());
+        userToUpdate.setName(userWithUpdatedData.getName());
         userToUpdate.setSurname(userWithUpdatedData.getSurname());
         userToUpdate.setPassword(userWithUpdatedData.getPassword());
         userToUpdate.setPhone(userWithUpdatedData.getPhone());
@@ -203,5 +203,9 @@ public class UserService {
 
     public String getUser(Long userId) {
         return jsonMessageGenerator.convertUserToJSON(userMapper.mapToDto(userRepository.findOne(userId))).toString();
+    }
+
+    User getUserById(Long userId) {
+        return userRepository.findOne(userId);
     }
 }

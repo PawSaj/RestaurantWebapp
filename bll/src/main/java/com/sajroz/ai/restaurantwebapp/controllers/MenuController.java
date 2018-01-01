@@ -24,7 +24,7 @@ public class MenuController {
     }
 
 
-    @RequestMapping(value = "/menu/{mealId}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/admin/meal/{mealId}", method = RequestMethod.GET, produces = "application/json")
     public String sendMeal(@PathVariable Long mealId) {
         return mealService.getMeal(mealId);
     }

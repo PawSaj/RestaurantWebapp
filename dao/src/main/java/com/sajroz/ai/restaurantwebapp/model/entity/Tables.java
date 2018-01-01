@@ -13,7 +13,7 @@ public class Tables implements Serializable {
     @Column(name = "table_id")
     private Long id;
 
-    @Column(name = "tableNumber", unique = true)
+    @Column(name = "tableNumber", unique = true, nullable = false)
     private short tableNumber;
 
     @Column(name = "seats", nullable = false)

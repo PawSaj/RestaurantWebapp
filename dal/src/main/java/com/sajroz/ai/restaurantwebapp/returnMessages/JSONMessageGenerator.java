@@ -1,7 +1,6 @@
 package com.sajroz.ai.restaurantwebapp.returnMessages;
 
 import com.sajroz.ai.restaurantwebapp.dto.*;
-import com.sajroz.ai.restaurantwebapp.model.entity.MealCategory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -86,7 +85,7 @@ public class JSONMessageGenerator {
     public JSONObject convertUserToJSON(UserDto userDto) {
         JSONObject jo = new JSONObject();
         jo.put("id", userDto.getId());
-        jo.put("username", userDto.getUsername());
+        jo.put("name", userDto.getName());
         jo.put("surname", userDto.getSurname());
         jo.put("email", userDto.getEmail());
         jo.put("password", userDto.getPassword());
@@ -108,7 +107,7 @@ public class JSONMessageGenerator {
     public JSONObject convertTableToJSON(TablesDto tablesDto) {
         JSONObject jo = new JSONObject();
         jo.put("id", tablesDto.getId());
-        jo.put("number", tablesDto.getTableNumber());
+        jo.put("tableNumber", tablesDto.getTableNumber());
         jo.put("seats", tablesDto.getSeats());
         //jo.put("x", t.getX());
         //jo.put("y", t.getY());
@@ -135,7 +134,7 @@ public class JSONMessageGenerator {
             JSONObject reservation = new JSONObject();
             reservation.put("id", t.getId());
             reservation.put("date", t.getTableReservationDate().toString());
-            reservation.put("user", t.getUser().getId());
+            reservation.put("userId", t.getUser().getId());
             reservation.put("table", convertTableToJSON(t.getTable()));
             mainObject.put(reservation);
         }

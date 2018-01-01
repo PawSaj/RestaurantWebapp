@@ -58,6 +58,10 @@ public class TableReservationService {
             tableReservationDto.add(tableReservationMapper.tableReservationToTableReservationDto(t));
         }
 
+        if (tableReservationDto.isEmpty()) {
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_RESERVATIONS).toString();
+        }
+
         if(hasAdminRole()){
             return jsonMessageGenerator.generateJSONWithTableReservationsForAdmin(tableReservationDto).toString();
         } else {
@@ -67,6 +71,10 @@ public class TableReservationService {
 
     public String getTableReservation(Long tableReservationId) {
         TableReservationDto tableReservationDto = tableReservationMapper.tableReservationToTableReservationDto(tableReservationRepository.findOne(tableReservationId));
+        if (tableReservationDto == null) {
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_RESERVATIONS).toString();
+        }
+
         List<TableReservationDto> tableReservationDtoList = new ArrayList<>();
         tableReservationDtoList.add(tableReservationDto);
         if ((SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals(tableReservationDto.getUser().getEmail())) {
@@ -81,6 +89,9 @@ public class TableReservationService {
     public String getReservedTables(OffsetDateTime startWeekDate) {
         List<TableReservation> tableReservations;
         tableReservations = tableReservationRepository.getReservedTablesInWeek(startWeekDate);
+        if (tableReservations.isEmpty()) {
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_RESERVATIONS).toString();
+        }
 
         List<TableReservationDto> tableReservationDto = new ArrayList<>(tableReservations.size());
         for (TableReservation t : tableReservations) {
@@ -93,27 +104,46 @@ public class TableReservationService {
     public String saveTableReservation(TableReservationDto tableReservationDto, Long tableReservationId) {
         logger.debug("saveTableReservation Saving tableReservation to database, tableReservationDto={}", tableReservationDto);
 
-        if (tableReservationDto.getTable().getId() == null || tableReservationId == null) {
-            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "tableId").toString();
+        if(!hasAdminRole() && tableReservationId != null) {
+            if (!(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals(tableReservationRepository.findOne(tableReservationId).getUser().getEmail())) {
+                return jsonMessageGenerator.createSimpleResponse(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
+            }
+        }
+        if (tableReservationDto.getTable() == null || tableReservationDto.getTable().getId() == null) {
+            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "Table info.").toString();
+        } else if (tableReservationDto.getTableReservationDate() == null) {
+            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "Reservation date.").toString();
         }
         if (!isTableExist(tableReservationDto.getTable().getId())) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_TABLE).toString();
         }
 
-        TableReservation tableReservationToUpdate = tableReservationRepository.findOne(tableReservationId);
-        List<TableReservation> tableReservationsInDate = checkTableIsFree(tableReservationDto.getTableReservationDate(), tableReservationDto.getTable().getId());
-        int indexOfTableReservationInOldDate = checkUpdateIsInOldDate(tableReservationToUpdate, tableReservationsInDate);
         OffsetDateTime oldTimeOfTableReservation = null;
-        if (indexOfTableReservationInOldDate >= 0) {
-            oldTimeOfTableReservation = tableReservationsInDate.get(indexOfTableReservationInOldDate).getTableReservationDate();
+        List<TableReservation> tableReservationsInDate = checkTableIsFree(tableReservationDto.getTableReservationDate(), tableReservationDto.getTable().getId());
+        int indexOfTableReservationInOldDate = -1;
+        if(tableReservationId!= null) {
+            TableReservation tableReservationToUpdate = tableReservationRepository.findOne(tableReservationId);
+
+            indexOfTableReservationInOldDate = checkUpdateIsInOldDate(tableReservationToUpdate, tableReservationsInDate);
+            if (indexOfTableReservationInOldDate >= 0) {
+                oldTimeOfTableReservation = tableReservationsInDate.get(indexOfTableReservationInOldDate).getTableReservationDate();
+            }
         }
 
-        if (tableReservationsInDate == null
+        if (tableReservationsInDate.isEmpty()
                 || (oldTimeOfTableReservation != null && tableReservationDto.getTableReservationDate().isAfter(oldTimeOfTableReservation) && indexOfTableReservationInOldDate == tableReservationsInDate.size() - 1)
                 || (oldTimeOfTableReservation != null && tableReservationDto.getTableReservationDate().isBefore(oldTimeOfTableReservation) && indexOfTableReservationInOldDate == 0)) {
             TableReservation tableReservation = tableReservationMapper.tableReservationDtoToTableReservation(tableReservationDto);
-            tableReservation.setUser(userService.getUserByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
-            tableReservation.setTable(tablesService.getTable(tableReservationDto.getTable().getId()));
+            if(hasAdminRole()) {
+                if (tableReservation.getUser() == null || tableReservation.getUser().getId() == null) {
+                    return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "User info.").toString();
+                } else {
+                    tableReservation.setUser(userService.getUserById(tableReservation.getUser().getId()));
+                }
+            } else {
+                tableReservation.setUser(userService.getUserByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
+            }
+            tableReservation.setTable(tablesService.getTable(tableReservation.getTable().getId()));
             tableReservation.setId(tableReservationId);
             tableReservationRepository.save(tableReservation);
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.OK).toString();
