@@ -15,7 +15,7 @@ const setLoggedIn = (user) => {
 
 // {navigation, content}
 const Layout = (props) => {
-    let {navigation} = props.main, {logoutUser} = props.mainFunctions, {user} = props.shared;
+    let {navigation} = props.main, {logoutUser} = props.sharedFunctions, {user} = props.shared;
     let loggedIn = setLoggedIn(user);
 
     return (
