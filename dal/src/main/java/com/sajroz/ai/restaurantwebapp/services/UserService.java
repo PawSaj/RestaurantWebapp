@@ -107,7 +107,7 @@ public class UserService {
         User user = userMapper.mapFromDto(userDto);
         String verifyUserDataResponse = verifyUserData(user);
         if(verifyUserDataResponse == null) {
-            if (userRepository.exists(userId)) {
+            if (!userRepository.exists(userId)) {
                 logger.debug("updateUser User doesn't exist, wrong id, userId={}, user={}", userId, userDto);
                 return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_USER).toString();
             }
