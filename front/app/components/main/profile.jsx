@@ -27,7 +27,8 @@ class Profile extends React.Component {
             email: (this.user.email) ? this.user.email : '',
             phone: (this.user.phone) ? this.user.phone : '',
             password: (this.user.password) ? this.user.password : '',
-            image: null
+            image: null,
+            role: this.user.role
         };
 
         this.onDrop = this.onDrop.bind(this);
