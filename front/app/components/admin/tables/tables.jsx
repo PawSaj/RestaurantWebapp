@@ -5,7 +5,7 @@ import CustomTabs from '../../_custom/tabs';
 import {Grid} from 'react-bootstrap';
 import NewTable from './newTableForm';
 
-const Tables = (props) => {
+const Tables = ({passed}) => {
     let tableProps = {
         headsTitles: ['Id', 'Nazwa', 'Opis'],
         modify: true,
@@ -17,7 +17,7 @@ const Tables = (props) => {
         tabs: [
             {
                 title: 'Edycja stolików',
-                content: <CustomTable {...Object.assign({}, tableProps, props)}/>
+                content: <CustomTable {...Object.assign({}, tableProps, passed)}/>
             }, {
                 title: 'Dodawanie stolików',
                 content: <NewTable addingEl={true}/>

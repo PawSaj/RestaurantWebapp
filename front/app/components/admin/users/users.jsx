@@ -5,8 +5,7 @@ import CustomTabs from '../../_custom/tabs';
 import USERS from '../../../_consts/mocks/users';
 
 
-const Users = (props) => {
-    let {match} = props;
+const Users = ({passed}) => {
 
     let tableProps = {
         headsTitles: ['Id', 'Imię', 'Nazwisko', 'Rola'],
@@ -19,7 +18,7 @@ const Users = (props) => {
         tabs: [
             {
                 title: 'Edycja użytkowników',
-                content: <CustomTable {...Object.assign({}, tableProps, props)}/>
+                content: <CustomTable {...Object.assign({}, tableProps, passed)}/>
             }
         ],
     };

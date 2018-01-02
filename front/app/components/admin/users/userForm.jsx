@@ -2,8 +2,7 @@ import React from "react";
 import {Button, Grid, Row, Col} from "react-bootstrap";
 import FieldGroup from "../../_custom/fieldGroup";
 
-const User = (props) => {
-    let {params} = props.match;
+const User = ({passed}) => {
 
     return (
         <Grid className="edit-form">
