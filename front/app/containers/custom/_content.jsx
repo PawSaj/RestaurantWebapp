@@ -2,7 +2,6 @@ import React from 'react';
 import {Route, Redirect, Switch} from 'react-router-dom';
 
 const Content = (props) => {
-    console.log('content props:',props);
     let {content} = props[props.current];
 
     return (

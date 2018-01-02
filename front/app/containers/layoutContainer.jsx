@@ -80,7 +80,7 @@ const mainMapDispatchToProps = (dispatch) => {
 const mapStateToProps = state => {
     let store = state, props = null;
     let {user} = store;
-    console.log('user :', user, Object.keys(user).length);
+    console.log('store :', store);
     if (Object.keys(user).length <= 1 || user.data.role === 'USER') {
         props = Object.assign(mainMapStateToProps(store), {current: 'main'});
     }
@@ -98,7 +98,7 @@ const mergedProps = (stateProps, dispatchProps, ownProps) => {
     let {dispatch} = dispatchProps;
     let {user} = stateProps.shared, props = null;
 
-    if (user.length === undefined || user.role === 'USER')
+    if (Object.keys(user).length <= 1 || user.data.role === 'USER')
         props = mainMapDispatchToProps(dispatch);
     else if (user.role === 'ADMIN')
         props = null;
