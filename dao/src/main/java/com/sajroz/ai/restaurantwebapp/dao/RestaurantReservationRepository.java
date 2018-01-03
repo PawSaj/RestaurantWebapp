@@ -30,11 +30,11 @@ public interface RestaurantReservationRepository extends JpaRepository<Restauran
             , nativeQuery=true)
     List<RestaurantReservation> getReservedRestaurantsInWeek(LocalDate startMonthDate);
 
-    @Query(value = "SELECT IF(COUNT (*) > 0, 'false', 'true') " +
+    @Query(value = "SELECT IF(COUNT(*) > 0, 'false', 'true') " +
             "FROM restaurant_reservation r " +
             "WHERE r.restaurant_reservation_date = ?1 " +
-            "ORDER BY r.restaurant_reservation_date ASC "
+            "AND r.restaurant_reservation_id <> ?2 "
             , nativeQuery=true)
-    boolean checkRestaurantIsFree(LocalDate date);
+    boolean checkRestaurantIsFree(LocalDate date, Long id);
 
 }

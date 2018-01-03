@@ -40,7 +40,7 @@ public interface TableReservationRepository extends JpaRepository<TableReservati
             , nativeQuery=true)
     List<TableReservation> getReservedTablesInMonth(LocalDate startMonthDate);
 
-    @Query(value = "SELECT IF(COUNT (*) > 0, 'false', 'true') " +
+    @Query(value = "SELECT IF(COUNT(*) > 0, 'false', 'true') " +
             "FROM table_reservation t " +
             "WHERE t.table_reservation_timestamp >= ?1 " +
             "AND t.table_reservation_timestamp < DATE_ADD(?1, INTERVAL 1 DAY) "

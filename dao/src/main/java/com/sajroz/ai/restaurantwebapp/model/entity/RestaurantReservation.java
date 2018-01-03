@@ -20,7 +20,7 @@ public class RestaurantReservation implements Serializable {
     @Column(name = "restaurant_reservation_date", nullable = false)
     private LocalDate restaurantReservationDate;
 
-    @Column(name = "reserved_floor")
+    @Column(name = "reserved_floor", columnDefinition = "int default 0")
     private short floor;
 
     @Column(name = "reservation_describe")

@@ -54,7 +54,7 @@ public class RestaurantReservationService {
 
     public String getAllRestaurantReservations() {
         List<RestaurantReservation> restaurantReservations;
-        if(hasAdminRole()){
+        if (hasAdminRole()) {
             restaurantReservations = restaurantReservationRepository.findAll();
         } else {
             restaurantReservations = restaurantReservationRepository.findAllByUserEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
@@ -91,7 +91,7 @@ public class RestaurantReservationService {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_RESERVATION).toString();
         }
 
-        if(hasAdminRole()) {
+        if (hasAdminRole()) {
             return jsonMessageGenerator.convertRestaurantReservationToJSON(restaurantReservationDto, true).toString();
         } else if ((SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals(restaurantReservationDto.getUser().getEmail())) {
             return jsonMessageGenerator.convertRestaurantReservationToJSON(restaurantReservationDto, false).toString();
@@ -146,7 +146,7 @@ public class RestaurantReservationService {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_USER).toString();
         }
 
-        if (checkRestaurantIsFree(restaurantReservationDto.getRestaurantReservationDate())) {
+        if (checkRestaurantIsFree(restaurantReservationDto.getRestaurantReservationDate(), restaurantReservationId)) {
             RestaurantReservation restaurantReservation = restaurantReservationMapper.restaurantReservationDtoToRestaurantReservation(restaurantReservationDto);
             if (hasAdminRole()) {
                 restaurantReservation.setUser(userService.getUserById(restaurantReservation.getUser().getId()));
@@ -157,21 +157,24 @@ public class RestaurantReservationService {
             restaurantReservationRepository.save(restaurantReservation);
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.OK).toString();
         } else {
-            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.TABLE_OCCUPIED).toString();
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.RESTAURANT_OCCUPIED).toString();
         }
 
 
     }
 
-    private boolean checkRestaurantIsFree(LocalDate restaurantReservationDate) {
-        return restaurantReservationRepository.checkRestaurantIsFree(restaurantReservationDate) && tableReservationRepository.checkIsNoTableReservationOnDay(restaurantReservationDate);
+    private boolean checkRestaurantIsFree(LocalDate restaurantReservationDate, Long restaurantReservationId) {
+        if (restaurantReservationId == null) {
+            restaurantReservationId = 0L;
+        }
+        return restaurantReservationRepository.checkRestaurantIsFree(restaurantReservationDate, restaurantReservationId) && tableReservationRepository.checkIsNoTableReservationOnDay(restaurantReservationDate);
     }
 
     public String deleteRestaurantReservation(Long restaurantReservationId) {
         logger.debug("deleteRestaurantReservation Deleting restaurantReservation from database, restaurantReservationId={}", restaurantReservationId);
         if ((SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals(restaurantReservationRepository.findOne(restaurantReservationId).getUser().getEmail())
                 || hasAdminRole()) {
-            if (restaurantReservationRepository.exists(restaurantReservationId)) {
+            if (!restaurantReservationRepository.exists(restaurantReservationId)) {
                 return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_RESTAURANT_RESERVATION).toString();
             }
             restaurantReservationRepository.delete(restaurantReservationId);

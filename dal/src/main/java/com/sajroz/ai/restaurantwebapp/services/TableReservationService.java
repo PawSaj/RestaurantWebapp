@@ -176,7 +176,7 @@ public class TableReservationService {
     }
 
     private boolean checkRestaurantIsFree(LocalDate date) {
-        return restaurantReservationRepository.checkRestaurantIsFree(date);
+        return restaurantReservationRepository.checkRestaurantIsFree(date, 0L);
     }
 
     private int checkUpdateIsInOldDate(TableReservation tableReservationToUpdate, List<TableReservation> tableReservationsInDate) {
@@ -211,7 +211,7 @@ public class TableReservationService {
         logger.debug("deleteTableReservation Deleting tableReservation from database, tableReservationId={}", tableReservationId);
         if ((SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals(tableReservationRepository.findOne(tableReservationId).getUser().getEmail())
                 || hasAdminRole()) {
-            if (tableReservationRepository.exists(tableReservationId)) {
+            if (!tableReservationRepository.exists(tableReservationId)) {
                 return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_TABLE_RESERVATION).toString();
             }
             tableReservationRepository.delete(tableReservationId);
