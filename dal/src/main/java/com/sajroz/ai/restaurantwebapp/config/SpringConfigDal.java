@@ -2,7 +2,6 @@ package com.sajroz.ai.restaurantwebapp.config;
 
 import com.sajroz.ai.restaurantwebapp.dao.DaoConfig;
 import com.sajroz.ai.restaurantwebapp.model.ModelConfig;
-import com.sajroz.ai.restaurantwebapp.services.ServiceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.ComponentScan;

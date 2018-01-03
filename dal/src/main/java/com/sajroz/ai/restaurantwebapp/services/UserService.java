@@ -74,7 +74,7 @@ public class UserService {
                 return jsonMessageGenerator.createSimpleResponse(ResponseMessages.DUPLICATE_EMAIL).toString();
             }
             logger.info("saving user to database, user={}", user);
-            user.setRole("USER");
+            user.setRole("ROLE_USER");
             user.setId(null);
             return saveUserToDatabase(user);
         } else {
@@ -143,6 +143,9 @@ public class UserService {
         return userRepository.findUserByEmail(user.getEmail()) != null;
     }
 
+    boolean isUserExist(Long userId) {
+        return userRepository.exists(userId);
+    }
     private void updateUserInThisSession(Long userId, User userToUpdate) {
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals(getUserDtoById(userId).getEmail())) {
             logger.debug("updateUserInThisSession Update user in this session, user={}", userToUpdate);//correct logged user info
@@ -184,7 +187,7 @@ public class UserService {
 
     public String deleteUser(Long userId, boolean admin) {
         logger.debug("deleteUser Deleting user, userId={}", userId);
-        if (userRepository.exists(userId)) {
+        if (!userRepository.exists(userId)) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_USER).toString();
         }
 
