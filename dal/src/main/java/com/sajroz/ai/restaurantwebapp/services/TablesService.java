@@ -63,7 +63,7 @@ public class TablesService {
         Tables table = tablesMapper.tablesDtoToTables(tableDto);
         String verifyTableDataResponse = verifyTableData(table);
         if(verifyTableDataResponse == null) {
-            if (isTableExist(table)){
+            if (isTableByNumberExist(table)){
                 logger.warn("addTable Table adding failed - table already exist, tableDto={}", tableDto);
                 return jsonMessageGenerator.createSimpleResponse(ResponseMessages.DUPLICATE_TABLE).toString();
             }
@@ -84,8 +84,12 @@ public class TablesService {
         return null;
     }
 
-    private boolean isTableExist(Tables table) {
+    private boolean isTableByNumberExist(Tables table) {
         return tablesRepository.findByTableNumber(table.getTableNumber()).size() > 0;
+    }
+
+    boolean isTableExist(Long tableId) {
+        return tablesRepository.exists(tableId);
     }
 
     public String deleteTable(Long tableId) {

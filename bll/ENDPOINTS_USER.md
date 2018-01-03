@@ -106,7 +106,7 @@ Domyślnie http://localhost:8080/
         * status - *-7*
         * descripton - *You try to access data of different user.*	
 	
-### ```/getReservedTables/{date}```
+### ```/tableReservation/{date}```
 
 * **metoda:** GET
 * **wymagania:** 

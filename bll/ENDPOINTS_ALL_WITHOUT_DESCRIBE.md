@@ -28,7 +28,7 @@ Domyślnie http://localhost:8080/
 
 ##### ```/tableReservation``` GET
 ##### ```/tableReservation/{tableReservationId}``` GET	
-##### ```/getReservedTables/{date}``` GET   
+##### ```/tableReservation/{date}``` GET   
 ##### ```/tableReservation``` POST
 ##### ```/tableReservation/{tableReservationId}``` PUT  
 ##### ```/tableReservation/{tableReservationId}``` DELETE

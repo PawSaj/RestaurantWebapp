@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -39,7 +40,7 @@ public class JSONMessageGenerator {
                 lastCategory = m.getMealCategory().getName();
 
                 categoryWithMeals.put("category", lastCategory);
-            } else if(!lastCategory.equals(m.getMealCategory().getName())) {
+            } else if (!lastCategory.equals(m.getMealCategory().getName())) {
                 categoryWithMeals.put("body", mealsInCategory);
                 mainObject.put(categoryWithMeals);
 
@@ -116,36 +117,96 @@ public class JSONMessageGenerator {
         return jo;
     }
 
-    public JSONArray generateJSONWithTableReservationsForUser(List<TableReservationDto> tableReservationDto) {
+    public JSONArray generateJSONWithTableReservations(List<TableReservationDto> tableReservationDto, boolean admin) {
         JSONArray mainObject = new JSONArray();
         for (TableReservationDto t : tableReservationDto) {
-            JSONObject reservation = new JSONObject();
-            reservation.put("id", t.getId());
-            reservation.put("date", t.getTableReservationDate().toString());
-            reservation.put("table", convertTableToJSON(t.getTable()));
-            mainObject.put(reservation);
+            mainObject.put(convertJSONWithTableReservations(t, admin));
         }
         return mainObject;
     }
 
-    public JSONArray generateJSONWithTableReservationsForAdmin(List<TableReservationDto> tableReservationDto) {
+    public JSONArray generateJSONWithRestaurantReservations(List<RestaurantReservationDto> restaurantReservationDto, boolean admin) {
         JSONArray mainObject = new JSONArray();
-        for (TableReservationDto t : tableReservationDto) {
-            JSONObject reservation = new JSONObject();
-            reservation.put("id", t.getId());
-            reservation.put("date", t.getTableReservationDate().toString());
-            reservation.put("userId", t.getUser().getId());
-            reservation.put("table", convertTableToJSON(t.getTable()));
-            mainObject.put(reservation);
+        for (RestaurantReservationDto r : restaurantReservationDto) {
+            mainObject.put(convertRestaurantReservationToJSON(r, admin));
         }
         return mainObject;
+    }
+
+    public JSONArray generateJSONWithReservationsForTableView(List<TableReservationDto> tableReservationDto, List<RestaurantReservationDto> restaurantReservationDto) {
+        JSONArray mainObject = new JSONArray();
+        LocalDate lastInsertedDate = LocalDate.MIN;
+        for (TableReservationDto t : tableReservationDto) {
+            LocalDate dateOfTableReservation = LocalDate.of(t.getTableReservationDate().getYear(), t.getTableReservationDate().getMonth(), t.getTableReservationDate().getDayOfMonth());
+            if (!dateOfTableReservation.isEqual(lastInsertedDate)) {
+                RestaurantReservationDto restaurantReservationInDate = restaurantReservationsContainsDate(restaurantReservationDto, dateOfTableReservation);
+                lastInsertedDate = dateOfTableReservation;
+                if (restaurantReservationInDate == null) {
+                    mainObject.put(convertJSONWithTableReservations(t, false));
+                }
+            }
+        }
+        for (RestaurantReservationDto r : restaurantReservationDto) {
+            mainObject.put(convertRestaurantReservationToJSON(r, false));
+        }
+        return mainObject;
+    }
+
+    private RestaurantReservationDto restaurantReservationsContainsDate(final List<RestaurantReservationDto> list, final LocalDate date) {
+        return list.stream().filter(o -> o.getRestaurantReservationDate().isEqual(date)).findFirst().orElse(null);
     }
 
     public JSONArray generateJSONWithMealsCategories(List<MealCategoryDto> mealCategoryDto) {
         JSONArray mainObject = new JSONArray();
-        for(MealCategoryDto m : mealCategoryDto) {
+        for (MealCategoryDto m : mealCategoryDto) {
             mainObject.put(m.getName());
         }
         return mainObject;
+    }
+
+    public JSONArray generateJSONWithReservationsForRestaurantView(List<TableReservationDto> tableReservationDto, List<RestaurantReservationDto> restaurantReservationDto) {
+        JSONArray mainObject = new JSONArray();
+        LocalDate lastInsertedDate = LocalDate.MIN;
+        for (TableReservationDto t : tableReservationDto) {
+            LocalDate dateOfTableReservation = LocalDate.of(t.getTableReservationDate().getYear(), t.getTableReservationDate().getMonth(), t.getTableReservationDate().getDayOfMonth());
+            if (!dateOfTableReservation.isEqual(lastInsertedDate)) {
+                RestaurantReservationDto restaurantReservationInDate = restaurantReservationsContainsDate(restaurantReservationDto, dateOfTableReservation);
+                lastInsertedDate = dateOfTableReservation;
+                if (restaurantReservationInDate == null) {
+                    restaurantReservationInDate = new RestaurantReservationDto();
+                    restaurantReservationInDate.setRestaurantReservationDate(dateOfTableReservation);
+                    restaurantReservationDto.add(restaurantReservationInDate);
+                }
+
+            }
+        }
+        for (RestaurantReservationDto r : restaurantReservationDto) {
+            mainObject.put(convertRestaurantReservationToJSON(r, false));
+        }
+        return mainObject;
+    }
+
+    public JSONObject convertRestaurantReservationToJSON(RestaurantReservationDto restaurantReservationDto, boolean admin) {
+        JSONObject reservation = new JSONObject();
+        reservation.put("id", restaurantReservationDto.getId());
+        reservation.put("date", restaurantReservationDto.getRestaurantReservationDate().toString());
+        if (admin) {
+            reservation.put("userId", restaurantReservationDto.getUser().getId());
+        }
+        reservation.put("floor", restaurantReservationDto.getFloor());
+        reservation.put("allDay", true);
+        reservation.put("describe", restaurantReservationDto.getDescribe());
+        return reservation;
+    }
+
+    public JSONObject convertJSONWithTableReservations(TableReservationDto tableReservationDto, boolean admin) {
+        JSONObject reservation = new JSONObject();
+        reservation.put("id", tableReservationDto.getId());
+        reservation.put("date", tableReservationDto.getTableReservationDate().toString());
+        if (admin) {
+            reservation.put("userId", tableReservationDto.getUser().getId());
+        }
+        reservation.put("table", convertTableToJSON(tableReservationDto.getTable()));
+        return reservation;
     }
 }
