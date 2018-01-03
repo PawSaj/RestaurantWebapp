@@ -3,6 +3,7 @@ import {API_SUCCESS_CODES, API_ERRORS} from '../_consts/api/api-codes';
 import API from '../lib/api';
 let api = new API();
 
+/*USER*/
 
 /* LOGIN */
 function pendingLogin() {
@@ -169,3 +170,32 @@ export function changeUserData(id, userData) {
             });
     }
 }
+
+/* USER END*/
+
+/* ADMIN */
+function successGetAllUsers(users) {
+    return {
+        type: ACTION.GET_ALL_USERS_SUCCESS,
+        users
+    }
+}
+
+function failGetAllUsers() {
+    return {
+        type: ACTION.GET_ALL_USERS_FAILURE,
+    }
+}
+
+export function getAllUsers() {
+    return dispatch => {
+
+        return api.getAllUsers_Admin()
+            .then(response => response.data)
+            .then(data => {
+                console.log('get all users: ', data);
+                dispatch(successGetAllUsers(data))
+            });
+    }
+}
+/* ADMIN END */

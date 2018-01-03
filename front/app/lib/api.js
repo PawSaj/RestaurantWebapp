@@ -23,7 +23,7 @@ class API {
     }
 
     login(user) {
-        return this.request.post(USER_ENDPOINTS.LOGIN+`?${parseDataToURI(user)}`);
+        return this.request.post(USER_ENDPOINTS.LOGIN + `?${parseDataToURI(user)}`);
     }
 
     logout() {
@@ -56,11 +56,7 @@ class API {
     }
 
     getAllUsers_Admin() {
-        this.request.get(ADMIN_ENDPOINTS.USERS).then((response) => {
-            console.log(response);
-        }).catch((error) => {
-            console.log(error);
-        })
+        return this.request.get(ADMIN_ENDPOINTS.USERS);
     }
 
     updateUser_Admin(id, user) {

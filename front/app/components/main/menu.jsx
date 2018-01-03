@@ -28,12 +28,6 @@ class Menu extends React.Component {
     };
 
 
-    // let {menu, getMenu} = passed;
-    // let menu = MenuData.map((element, index) => {
-    //     element.modify = false;
-    //     return <CustomTable key={index} {...Object.assign({}, element, passed)}/>
-    // });
-
     componentWillReceiveProps(nextProps) {
         this.setState({menu: nextProps.passed.shared.menu.data});
     }

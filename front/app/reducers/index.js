@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux';
 import main from './main';
+import admin from './admin';
 import {
     MENU_SUCCESS,
     MENU_PENDING,
@@ -53,4 +54,4 @@ const user = (state = {}, action) => {
     }
 };
 
-export default combineReducers({errors, user, menu, main});
+export default combineReducers({errors, user, menu, main, admin});

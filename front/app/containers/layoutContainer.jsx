@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom'
 import {MAIN_NAV, ADMIN_NAV, MANAGER_NAV} from '../_consts/layouts/navigations';
 import {MAIN_CONTENT, ADMIN_CONTENT, MANAGER_CONTENT} from '../_consts/layouts/contents';
-import {getMenu, register, login, logout, changeUserData} from '../actions/index';
+import {getMenu, register, login, logout, changeUserData, getAllUsers} from '../actions/index';
 
 const mainLayoutProp = {
     navigation: MAIN_NAV,
@@ -44,6 +44,8 @@ const mainMapStateToProps = (store) => {
 const adminMapStateToProps = (store) => {
     return {
         admin: {
+            errors: store.admin.errors,
+            users: store.admin.users,
             ...adminLayoutProp
         }
     }
@@ -77,17 +79,27 @@ const mainMapDispatchToProps = (dispatch) => {
         }
     }
 };
+
+const adminMapDispatchToProps = (dispatch) => {
+    return {
+        adminFunctions: {
+            getAllUsers: () => {
+                dispatch(getAllUsers());
+            }
+        }
+    }
+};
+
 const mapStateToProps = state => {
     let store = state, props = null;
     let {user} = store;
-    console.log('store :', store);
     if (Object.keys(user).length <= 1 || user.data.role === 'USER') {
         props = Object.assign(mainMapStateToProps(store), {current: 'main'});
     }
-    else if (user.data.role === 'ADMIN'){
+    else if (user.data.role === 'ROLE_ADMIN') {
         props = Object.assign(adminMapStateToProps(store), {current: 'admin'});
     }
-    else{
+    else {
         props = null;
     }
 
@@ -98,12 +110,15 @@ const mergedProps = (stateProps, dispatchProps, ownProps) => {
     let {dispatch} = dispatchProps;
     let {user} = stateProps.shared, props = null;
 
-    if (Object.keys(user).length <= 1 || user.data.role === 'USER')
+    if (Object.keys(user).length <= 1 || user.data.role === 'USER') {
         props = mainMapDispatchToProps(dispatch);
-    else if (user.role === 'ADMIN')
+    }
+    else if (user.data.role === 'ROLE_ADMIN') {
+        props = adminMapDispatchToProps(dispatch);
+    }
+    else {
         props = null;
-    else
-        props = null;
+    }
 
     return Object.assign({}, stateProps, ownProps, sharedMapDispatchToProps(dispatch, ownProps), props)
 };
