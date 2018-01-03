@@ -198,4 +198,38 @@ export function getAllUsers() {
             });
     }
 }
+
+/* DELETE USER */
+
+function successUserDelete(id) {
+    return {
+        type: ACTION.DELETE_USER_SUCCESS,
+        id
+    }
+}
+
+function failDeleteUser(errorText) {
+    return {
+        type: ACTION.DELETE_USER_FAILURE,
+        errorText
+    }
+}
+
+export function deleteUser(id) {
+    return dispatch => {
+
+        return api.deleteUser_Admin(id)
+            .then(response => response.data)
+            .then(data => {
+                console.log('delete user: ', data);
+                let status = data.status;
+                if (API_SUCCESS_CODES.includes(status)) {
+                    dispatch(successUserDelete(id));
+                } else {
+                    let errorText = API_ERRORS[status];
+                    dispatch(failDeleteUser(errorText));
+                }
+            });
+    }
+}
 /* ADMIN END */

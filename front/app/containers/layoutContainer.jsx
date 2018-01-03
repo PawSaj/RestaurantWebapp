@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom'
 import {MAIN_NAV, ADMIN_NAV, MANAGER_NAV} from '../_consts/layouts/navigations';
 import {MAIN_CONTENT, ADMIN_CONTENT, MANAGER_CONTENT} from '../_consts/layouts/contents';
-import {getMenu, register, login, logout, changeUserData, getAllUsers} from '../actions/index';
+import {getMenu, register, login, logout, changeUserData, getAllUsers, deleteUser} from '../actions/index';
 
 const mainLayoutProp = {
     navigation: MAIN_NAV,
@@ -85,6 +85,9 @@ const adminMapDispatchToProps = (dispatch) => {
         adminFunctions: {
             getAllUsers: () => {
                 dispatch(getAllUsers());
+            },
+            deleteUser: (id) => {
+                dispatch(deleteUser(id));
             }
         }
     }

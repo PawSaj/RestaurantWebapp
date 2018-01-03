@@ -68,11 +68,7 @@ class API {
     }
 
     deleteUser_Admin(id) {
-        this.request.delete(ADMIN_ENDPOINTS.USERS + `/${id}`).then((response) => {
-            console.log(response);
-        }).catch((error) => {
-            console.log(error);
-        })
+        return this.request.delete(ADMIN_ENDPOINTS.USERS + `/${id}`);
     }
 
     getMenu() {

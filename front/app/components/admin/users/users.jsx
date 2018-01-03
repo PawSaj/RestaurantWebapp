@@ -2,30 +2,14 @@ import React from 'react';
 import {Grid} from 'react-bootstrap';
 import CustomTable from '../../_custom/table';
 import CustomTabs from '../../_custom/tabs';
-import USERS from '../../../_consts/mocks/users';
-
-// let tableProps = {
-//     headsTitles: ['Id', 'Imię', 'Nazwisko', 'Rola'],
-//     modify: true,
-//     body: USERS
-// };
-//
-// let tabsProps = {
-//     id: "users-tab",
-//     tabs: [
-//         {
-//             title: 'Edycja użytkowników',
-//             content: <CustomTable {...Object.assign({}, tableProps, passed)}/>
-//         }
-//     ],
-// };
 
 class Users extends React.Component {
 
     constructor(props) {
         super(props);
         this.passed = props.passed;
-        this.getAllUsers = props.passed.adminFunctions.getAllUsers;
+        this.getAllUsers = this.passed.adminFunctions.getAllUsers;
+        this.deleteUser = this.passed.adminFunctions.deleteUser;
         this.state = {
             users: props.passed.admin.users
         };
@@ -40,6 +24,7 @@ class Users extends React.Component {
                 order: ['id', 'name', 'surname', 'role'],
                 headsTitles: ['Id', 'Imię', 'Nazwisko', 'Rola'],
                 modify: true,
+                deleteFunction: this.deleteUser,
                 body: this.state.users.data
             });
 

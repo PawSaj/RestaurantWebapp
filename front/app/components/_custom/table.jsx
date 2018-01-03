@@ -46,7 +46,7 @@ const createBodyRow = (element, links) => {
 
 };
 
-const insertBodyRow = ({element, modify, index, links, url}) => {
+const insertBodyRow = ({element, modify, index, links, url, deleteFunction}) => {
     let row = createBodyRow(element, links);
     if (modify === true) {
         return (
@@ -57,7 +57,15 @@ const insertBodyRow = ({element, modify, index, links, url}) => {
                         <NavLink exact to={url + '/' + element['id']}>Edytuj</NavLink>
                     </Button>
                 </td>
-                <td><Button bsClass="btn btn-panel">Usuń</Button></td>
+                <td><Button bsClass="btn btn-panel"
+                            onClick={(deleteFunction) ?
+                                () => deleteFunction(element['id']) :
+                                () => {
+                                    console.log('clicked');
+                                    return false;
+                                }
+                            }>Usuń</Button>
+                </td>
             </tr>
         );
     }
