@@ -13,7 +13,7 @@ import {
     getAllUsers,
     deleteUser,
     getUserById,
-    updateUserAdmin, deleteMeal, updateMeal, addMeal, getMealByID, allTables, deleteTable
+    updateUserAdmin, deleteMeal, updateMeal, addMeal, getMealByID, allTables, deleteTable, getTableByID, updateTable
 } from '../actions/index';
 
 const mainLayoutProp = {
@@ -131,6 +131,12 @@ const adminMapDispatchToProps = (dispatch, ownProps) => {
             },
             deleteTable: (id) => {
                 dispatch(deleteTable(id));
+            },
+            getTableByID: (id) => {
+                dispatch(getTableByID(id));
+            },
+            updateTable: (id, table) => {
+                dispatch(updateTable(id, table)).then(() => ownProps.history.push('/tables'));
             }
         }
     }

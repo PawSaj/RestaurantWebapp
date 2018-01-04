@@ -111,6 +111,14 @@ class API {
         return this.request.get(ADMIN_ENDPOINTS.TABLES);
     }
 
+    getTableByID(id) {
+        return this.request.get(ADMIN_ENDPOINTS.TABLES + `/${id}`);
+    }
+
+    updateTable(id, table) {
+        return this.request.put(ADMIN_ENDPOINTS.TABLES + `/${id}`, table);
+    }
+
     deleteTable(id) {
         return this.request.delete(ADMIN_ENDPOINTS.TABLES + `/${id}`);
     }

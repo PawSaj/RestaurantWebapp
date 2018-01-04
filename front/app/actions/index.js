@@ -400,10 +400,10 @@ export function getMealByID(id) {
 /* GET ALL TABLES */
 
 function successAllTables(data) {
-   return {
-       type: ACTION.GET_ALL_TABLES_SUCCESS,
-       data
-   }
+    return {
+        type: ACTION.GET_ALL_TABLES_SUCCESS,
+        data
+    }
 }
 
 export function allTables() {
@@ -432,6 +432,45 @@ export function deleteTable(id) {
             .then(data => {
                 console.log('delete table data: ', data);
                 dispatch(successDeleteTables(id))
+            });
+    }
+}
+
+/* GET TABLE BY ID */
+function successGetTableByID(data) {
+    return {
+        type: ACTION.GET_TABLE_BY_ID_SUCCESS,
+        data
+    }
+}
+
+export function getTableByID(id) {
+    return dispatch => {
+
+        return api.getTableByID(id).then(response => response.data)
+            .then(data => {
+                console.log('get table by id data: ', data);
+                dispatch(successGetTableByID(data))
+            });
+    }
+}
+
+/* UPDATE TABLE */
+function successUpdateTable(id, data) {
+    return {
+        type: ACTION.UPDATE_TABLE_SUCCESS,
+        id,
+        data
+    }
+}
+
+export function updateTable(id, table) {
+    return dispatch => {
+
+        return api.updateTable(id, table).then(response => response.data)
+            .then(data => {
+                console.log('update table data: ', data);
+                dispatch(successUpdateTable(id, table))
             });
     }
 }
