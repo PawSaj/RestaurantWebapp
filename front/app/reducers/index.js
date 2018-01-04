@@ -11,7 +11,32 @@ import {
     UPDATE_USER_SUCCESS,
     UPDATE_USER_FAILURE, DELETE_MEAL_FAILURE, DELETE_MEAL_SUCCESS, UPDATE_MEAL_SUCCESS, UPDATE_MEAL_FAILURE
 } from '../_consts/actions';
-import {stateAfterDelete, stateAfterUpdate} from '../lib/helpers/stateHelpers';
+import {stateAfterDelete} from '../lib/helpers/stateHelpers';
+
+
+const stateAfterMenuUpdate = (data, action) => {
+
+    return data.map((category) => {
+        if (category.category === action.data.category) {
+
+            return {
+                category: action.data.category,
+                body: category.body.map((element) => {
+                    if (element.id === action.data.id) {
+                        return {
+                            id: action.data.id,
+                            ingredients: action.data.ingredientsObj,
+                            price: action.data.price,
+                            name: action.data.name
+                        };
+                    }
+                    return element;
+                })
+            }
+        }
+        return category
+    });
+};
 
 const errors = (state = {}, action) => {
     switch (action.type) {
@@ -35,7 +60,7 @@ const menu = (state = {}, action) => {
         case DELETE_MEAL_SUCCESS:
             return Object.assign({}, state, {data: stateAfterDelete(data, action)});
         case UPDATE_MEAL_SUCCESS:
-            return Object.assign({}, state, {data: stateAfterUpdate(data, action)});
+            return Object.assign({}, state, {data: stateAfterMenuUpdate(data, action)});
         default:
             return state;
     }

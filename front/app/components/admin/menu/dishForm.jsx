@@ -5,9 +5,8 @@ import {getIDFromPath} from '../../../lib/helpers/urlHelpers';
 
 const setMealNewState = (state) => {
     let ingredients = state.ingredients.map(ingredient => ({name: ingredient}));
-    let newState = Object.assign({}, state, {ingredients});
-    delete newState.category;
-    return newState;
+    let mealCategory = {name: state.category};
+    return Object.assign({}, state, {ingredients}, {mealCategory}, {ingredientsObj: state.ingredients});
 };
 
 const getDish = (path, menu) => {

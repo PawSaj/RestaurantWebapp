@@ -119,6 +119,7 @@ const adminMapDispatchToProps = (dispatch, ownProps) => {
 };
 
 const mapStateToProps = state => {
+    console.log(state)
     let store = state, props = null;
     let {user} = store;
     if (Object.keys(user).length <= 1 || user.data.role === 'ROLE_USER') {
