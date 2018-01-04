@@ -49,7 +49,7 @@ class Menu extends React.Component {
                     content: this.state.menu && this.prepareMenu(this.state.menu)
                 }, {
                     title: 'Dodawanie dań',
-                    content: <NewDish addingNew={true}/>
+                    content: <NewDish passed={this.passed} new={true}/>
                 }
             ],
         };

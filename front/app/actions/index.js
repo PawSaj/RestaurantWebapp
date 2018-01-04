@@ -320,4 +320,59 @@ export function deleteMeal(id) {
     }
 }
 
+/* MEAL UPDATE */
+function successUpdateMeal(id, data) {
+    return {
+        type: ACTION.UPDATE_MEAL_SUCCESS,
+        id,
+        data
+    }
+}
+
+function failUpdateMeal(errorText) {
+    return {
+        type: ACTION.UPDATE_MEAL_FAILURE,
+        errorText
+    }
+}
+
+export function updateMeal(id, mealData) {
+    return dispatch => {
+
+        return api.updateMeal(id, mealData)
+            .then(response => response.data)
+            .then(data => {
+                console.log('update meal admin: ', data);
+                dispatch(successUpdateMeal(id, mealData));
+            });
+    }
+}
+
+/* ADD UPDATE */
+function successAddMeal(data) {
+    return {
+        type: ACTION.ADD_MEAL_SUCCESS,
+        data
+    }
+}
+
+function failAddMeal(errorText) {
+    return {
+        type: ACTION.ADD_MEAL_FAILURE,
+        errorText
+    }
+}
+
+export function addMeal(mealData) {
+    return dispatch => {
+
+        return api.addMeal(mealData)
+            .then(response => response.data)
+            .then(data => {
+                console.log('add meal admin: ', data);
+                dispatch(successAddMeal(mealData));
+            });
+    }
+}
+
 /* ADMIN END */

@@ -9,7 +9,7 @@ import {
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
     UPDATE_USER_SUCCESS,
-    UPDATE_USER_FAILURE, DELETE_MEAL_FAILURE, DELETE_MEAL_SUCCESS
+    UPDATE_USER_FAILURE, DELETE_MEAL_FAILURE, DELETE_MEAL_SUCCESS, UPDATE_MEAL_SUCCESS, UPDATE_MEAL_FAILURE
 } from '../_consts/actions';
 import {stateAfterDelete, stateAfterUpdate} from '../lib/helpers/stateHelpers';
 
@@ -33,7 +33,9 @@ const menu = (state = {}, action) => {
         case MENU_SUCCESS:
             return Object.assign({}, state, {pending: false, data: action.menu, all: true});
         case DELETE_MEAL_SUCCESS:
-            return Object.assign({}, {data: stateAfterDelete(data, action)});
+            return Object.assign({}, state, {data: stateAfterDelete(data, action)});
+        case UPDATE_MEAL_SUCCESS:
+            return Object.assign({}, state, {data: stateAfterUpdate(data, action)});
         default:
             return state;
     }

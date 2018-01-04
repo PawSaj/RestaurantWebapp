@@ -92,19 +92,11 @@ class API {
     }
 
     addMeal(meal) {
-        this.request.post(ADMIN_ENDPOINTS.MEALS, meal).then((response) => {
-            console.log(response);
-        }).catch((error) => {
-            console.log(error);
-        })
+        return this.request.post(ADMIN_ENDPOINTS.MEALS, meal);
     }
 
     updateMeal(id, meal) {
-        this.request.put(ADMIN_ENDPOINTS.MEALS + `/${id}`, meal).then((response) => {
-            console.log(response);
-        }).catch((error) => {
-            console.log(error);
-        })
+        return this.request.put(ADMIN_ENDPOINTS.MEALS + `/${id}`, meal);
     }
 
     deleteMeal(id) {
