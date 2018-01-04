@@ -493,3 +493,77 @@ export function createTable(table) {
             });
     }
 }
+
+/* MANAGER */
+
+/* TABLE FREQUENCY*/
+function successTableFrequency(data) {
+    return {
+        type: ACTION.TABLE_FREQUENCY_SUCCESS,
+        data
+    }
+}
+
+export function tableFrequency(startDate, endDate) {
+    return dispatch => {
+
+        return api.getTableFrequency(startDate, endDate).then(response => response.data)
+            .then(data => {
+                console.log('table frequency: ', data);
+            });
+    }
+}
+
+/* RESERVATION TRAFFIC */
+function successReservationTraffic(data) {
+    return {
+        type: ACTION.RESERVATION_TRAFFIC_SUCCESS,
+        data
+    }
+}
+
+export function reservationTraffic(startDate, endDate) {
+    return dispatch => {
+
+        return api.getReservationTraffic(startDate, endDate).then(response => response.data)
+            .then(data => {
+                console.log('reservation traffic: ', data);
+            });
+    }
+}
+
+/* MEAL ORDERS */
+function successMealOrders(data) {
+    return {
+        type: ACTION.MEAL_ORDERS_SUCCESS,
+        data
+    }
+}
+
+export function mealOrders(startDate, endDate) {
+    return dispatch => {
+
+        return api.getMealOrders(startDate,endDate).then(response => response.data)
+            .then(data => {
+                console.log('meal orders: ', data);
+            });
+    }
+}
+
+/* USER RESERVATIONS */
+function successUsersReservations(data) {
+    return {
+        type: ACTION.USER_RESERVATIONS_SUCCESS,
+        data
+    }
+}
+
+export function usersReservations(startDate, endDate, topNumber) {
+    return dispatch => {
+
+        return api.getUserReservations(startDate, endDate, topNumber).then(response => response.data)
+            .then(data => {
+                console.log('user reservations: ', data);
+            });
+    }
+}
