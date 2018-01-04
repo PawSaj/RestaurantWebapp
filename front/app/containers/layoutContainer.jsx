@@ -22,7 +22,7 @@ import {
     deleteTable,
     getTableByID,
     updateTable,
-    createTable
+    createTable, usersReservations, mealOrders, reservationTraffic, tableFrequency
 } from '../actions/index';
 
 const mainLayoutProp = {
@@ -154,6 +154,25 @@ const adminMapDispatchToProps = (dispatch, ownProps) => {
     }
 };
 
+const managerMapDispatchToProps = (dispatch) => {
+    return {
+        managerFunctions: {
+            usersReservations: (startDate, endDate, topNumber) => {
+                dispatch(usersReservations(startDate, endDate, topNumber));
+            },
+            mealOrders: (startDate, endDate) => {
+                dispatch(mealOrders(startDate, endDate));
+            },
+            reservationTraffic: (startDate, endDate) => {
+                dispatch(reservationTraffic(startDate, endDate))
+            },
+            tableFrequency: (startDate, endDate) => {
+                dispatch(tableFrequency(startDate, endDate));
+            }
+        }
+    }
+};
+
 const mapStateToProps = state => {
     let store = state, props = null;
     let {user} = store;
@@ -181,7 +200,7 @@ const mergedProps = (stateProps, dispatchProps, ownProps) => {
         props = adminMapDispatchToProps(dispatch, ownProps);
     }
     else {
-        props = null;
+        props = managerMapDispatchToProps(dispatch);
     }
 
     return Object.assign({}, stateProps, ownProps, sharedMapDispatchToProps(dispatch, ownProps), props)
