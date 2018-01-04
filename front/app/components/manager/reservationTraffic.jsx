@@ -35,8 +35,7 @@ class ReservationTraffic extends React.Component {
     renderChart() {
         return (
             <div className="chart-area">
-                <h3>Ruch w restauracji miedzy {this.state.reservations[0].date}
-                    - {this.state.reservations[Object.keys(this.state.reservations).length - 1].date}</h3>
+                <h3>Ruch w restauracji</h3>
                 <BarChart width={500} height={300} data={this.state.reservations}>
                     <CartesianGrid stroke="#ccc"/>
                     <XAxis dataKey="date"/>

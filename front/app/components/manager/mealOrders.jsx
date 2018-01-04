@@ -36,8 +36,7 @@ class MealOrders extends React.Component {
     renderChart() {
         return (
             <div className="chart-area">
-                <h3>Liczba złożonych zamówień miedzy {this.state.orders[0].date}
-                    - {this.state.orders[Object.keys(this.state.orders).length - 1].date}</h3>
+                <h3>Liczba złożonych zamówień</h3>
                 <BarChart width={500} height={300} data={this.state.orders}>
                     <CartesianGrid stroke="#ccc"/>
                     <XAxis dataKey="date"/>

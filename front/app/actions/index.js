@@ -510,6 +510,7 @@ export function tableFrequency(startDate, endDate) {
         return api.getTableFrequency(startDate, endDate).then(response => response.data)
             .then(data => {
                 console.log('table frequency: ', data);
+                dispatch(successTableFrequency(data));
             });
     }
 }
