@@ -68,15 +68,15 @@ public class TablesService {
                 return jsonMessageGenerator.createSimpleResponse(ResponseMessages.DUPLICATE_TABLE).toString();
             }
             table.setId(tableId);
-            tablesRepository.save(table);
-            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.OK).toString();
+            TablesDto finalObject = tablesMapper.tablesToTablesDto(tablesRepository.save(table));
+            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.OK, "data", jsonMessageGenerator.convertTableToJSON(finalObject)).toString();
         } else {
             return verifyTableDataResponse;
         }
     }
 
     private String verifyTableData(Tables table) {
-        if (table.getTableNumber() == 0) {
+        if (table == null || table.getTableNumber() == 0) {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "tableNumber").toString();
         } else if (table.getSeats() == 0) {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "seats").toString();

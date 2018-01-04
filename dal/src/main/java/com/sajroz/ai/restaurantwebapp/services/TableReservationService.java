@@ -82,9 +82,9 @@ public class TableReservationService {
         }
 
         if (hasAdminRole()) {
-            return jsonMessageGenerator.convertJSONWithTableReservations(tableReservationDto, true).toString();
+            return jsonMessageGenerator.convertTableReservationsToJSON(tableReservationDto, true).toString();
         } else if ((SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals(tableReservationDto.getUser().getEmail())) {
-            return jsonMessageGenerator.convertJSONWithTableReservations(tableReservationDto, false).toString();
+            return jsonMessageGenerator.convertTableReservationsToJSON(tableReservationDto, false).toString();
         } else {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
         }
@@ -168,8 +168,8 @@ public class TableReservationService {
             }
             tableReservation.setTable(tablesService.getTable(tableReservation.getTable().getId()));
             tableReservation.setId(tableReservationId);
-            tableReservationRepository.save(tableReservation);
-            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.OK).toString();
+            TableReservationDto finalObject = tableReservationMapper.tableReservationToTableReservationDto(tableReservationRepository.save(tableReservation));
+            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.OK, "data", jsonMessageGenerator.convertTableReservationsToJSON(finalObject, hasAdminRole())).toString();
         } else {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.TABLE_OCCUPIED).toString();
         }

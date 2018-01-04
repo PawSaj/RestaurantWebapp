@@ -122,7 +122,7 @@ public class JSONMessageGenerator {
     public JSONArray generateJSONWithTableReservations(List<TableReservationDto> tableReservationDto, boolean admin) {
         JSONArray mainObject = new JSONArray();
         for (TableReservationDto t : tableReservationDto) {
-            mainObject.put(convertJSONWithTableReservations(t, admin));
+            mainObject.put(convertTableReservationsToJSON(t, admin));
         }
         return mainObject;
     }
@@ -144,7 +144,7 @@ public class JSONMessageGenerator {
                 RestaurantReservationDto restaurantReservationInDate = restaurantReservationsContainsDate(restaurantReservationDto, dateOfTableReservation);
                 lastInsertedDate = dateOfTableReservation;
                 if (restaurantReservationInDate == null) {
-                    mainObject.put(convertJSONWithTableReservations(t, false));
+                    mainObject.put(convertTableReservationsToJSON(t, false));
                 }
             }
         }
@@ -201,7 +201,7 @@ public class JSONMessageGenerator {
         return reservation;
     }
 
-    public JSONObject convertJSONWithTableReservations(TableReservationDto tableReservationDto, boolean admin) {
+    public JSONObject convertTableReservationsToJSON(TableReservationDto tableReservationDto, boolean admin) {
         JSONObject reservation = new JSONObject();
         reservation.put("id", tableReservationDto.getId());
         reservation.put("date", tableReservationDto.getTableReservationDate().toString());
