@@ -10,7 +10,13 @@ const ManagerPanel = (props) => {
         header: <h2>Witaj w panelu kierownika</h2>,
         buttons: [
             {
-                name: <NavLink exact to={MANAGER_PATHS.REPORTS} activeClassName="active">Raporty</NavLink>
+                name: <NavLink exact to={MANAGER_PATHS.TABLE} activeClassName="active">Raporty stolików</NavLink>
+            }, {
+                name: <NavLink exact to={MANAGER_PATHS.TRAFFIC} activeClassName="active">Raporty przepustowości</NavLink>
+            }, {
+                name: <NavLink exact to={MANAGER_PATHS.ORDER} activeClassName="active">Raporty zamówień</NavLink>
+            }, {
+                name: <NavLink exact to={MANAGER_PATHS.RESERVATION} activeClassName="active">Raporty rezerwacji</NavLink>
             }
         ]
     };

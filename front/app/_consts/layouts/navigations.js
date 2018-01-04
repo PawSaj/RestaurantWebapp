@@ -69,8 +69,20 @@ export const MANAGER_NAV = {
             desc: 'Panel',
             exact: true
         }, {
-            link: MANAGER_PATHS.REPORTS,
-            desc: 'Raporty',
+            link: MANAGER_PATHS.ORDER,
+            desc: 'Zamówienia',
+            exact: true
+        }, {
+            link: MANAGER_PATHS.TRAFFIC,
+            desc: 'Przepustowości',
+            exact: true
+        }, {
+            link: MANAGER_PATHS.RESERVATION,
+            desc: 'Rezerwacje',
+            exact: true
+        }, {
+            link: MANAGER_PATHS.TABLE,
+            desc: 'Stoliki',
             exact: true
         }
     ],
