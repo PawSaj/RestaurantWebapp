@@ -36,7 +36,7 @@ public class TableReservationController {
 
     @RequestMapping(value = "/tableReservation", method = RequestMethod.POST, produces = "application/json")
     public String addTableReservation(@RequestBody TableReservationDto tableReservationDto) {
-        logger.debug("tableReservation Inserting to database, tableReservationDto={}", tableReservationDto);
+        logger.debug("addTableReservation Inserting to database, tableReservationDto={}", tableReservationDto);
         return tableReservationService.saveTableReservation(tableReservationDto, null);
     }
 
@@ -64,13 +64,13 @@ public class TableReservationController {
 
     @RequestMapping(value = "/admin/tableReservation", method = RequestMethod.POST, produces = "application/json")
     public String adminAddTableReservation(@RequestBody TableReservationDto tableReservationDto) {
-        logger.debug("tableReservation Inserting to database, tableReservationDto={}", tableReservationDto);
+        logger.debug("adminAddTableReservation Inserting to database, tableReservationDto={}", tableReservationDto);
         return tableReservationService.saveTableReservation(tableReservationDto, null);
     }
 
     @RequestMapping(value = "/admin/tableReservation/{tableReservationId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = "application/json")
     public String adminUpdateUserTableReservation(@PathVariable(value = "tableReservationId") Long tableReservationId, @RequestBody TableReservationDto tableReservationDto) {
-        logger.info("adminUpdateUser Updating by admin to, tableReservation={}", tableReservationDto);
+        logger.info("adminUpdateUserTableReservation Updating by admin to, tableReservation={}", tableReservationDto);
         return tableReservationService.saveTableReservation(tableReservationDto, tableReservationId);
     }
 

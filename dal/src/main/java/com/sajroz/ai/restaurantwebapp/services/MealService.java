@@ -67,7 +67,7 @@ public class MealService {
     public String addMeal(MealDto mealDto) {
         Meal meal = mealMapper.mealDtoToMeal(mealDto);
         String verifyMealDataResponse = verifyMealData(meal);
-        if (verifyMealDataResponse == null) {
+        if ("".equals(verifyMealDataResponse)) {
             if (isMealExist(meal)) {
                 logger.warn("addMeal Meal adding failed - meal already exist, meal={}", mealDto);
                 return jsonMessageGenerator.createSimpleResponse(ResponseMessages.DUPLICATE_MEAL).toString();
@@ -83,13 +83,13 @@ public class MealService {
     private String verifyMealData(Meal meal) {
         if (meal.getName() == null) {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "name").toString();
-        } else if(meal.getMealCategory() == null) {
+        } else if (meal.getMealCategory() == null) {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "mealCategory").toString();
         } else if (!checkCategoryExists(meal.getMealCategory().getName())) {
             //return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_MEAL_CATEGORY).toString();
             mealCategoryRepository.save(meal.getMealCategory());
         }
-        return null;
+        return "";
     }
 
     private boolean checkCategoryExists(String mealCategory) {
@@ -174,7 +174,7 @@ public class MealService {
     public String getMealCategories() {
         List<MealCategory> mealCategories = mealCategoryRepository.findAll();
         List<MealCategoryDto> mealCategoryDto = new ArrayList<>(mealCategories.size());
-        for(MealCategory mc : mealCategories) {
+        for (MealCategory mc : mealCategories) {
             mealCategoryDto.add(mealCategoryMapper.mealCategoryToMealCategoryDto(mc));
         }
         return jsonMessageGenerator.generateJSONWithMealsCategories(mealCategoryDto).toString();

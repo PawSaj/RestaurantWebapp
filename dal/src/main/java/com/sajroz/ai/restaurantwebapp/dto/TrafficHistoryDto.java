@@ -1,22 +1,14 @@
-package com.sajroz.ai.restaurantwebapp.model.entity;
+package com.sajroz.ai.restaurantwebapp.dto;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 
-@Entity
-@Table(name = "TRAFFIC_HISTORY")
-public class TrafficHistory implements Serializable{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "traffic_history_id")
+public class TrafficHistoryDto implements Serializable {
+
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "occupied_table", referencedColumnName = "table_id", nullable = false)
-    private Tables table;
+    private TablesDto table;
 
-    @Column(name = "table_occupied_datetime", nullable = false)
     private OffsetDateTime tableOccupiedDate;
 
     public Long getId() {
@@ -27,11 +19,11 @@ public class TrafficHistory implements Serializable{
         this.id = id;
     }
 
-    public Tables getTable() {
+    public TablesDto getTable() {
         return table;
     }
 
-    public void setTable(Tables table) {
+    public void setTable(TablesDto table) {
         this.table = table;
     }
 
@@ -45,7 +37,7 @@ public class TrafficHistory implements Serializable{
 
     @Override
     public String toString() {
-        return "TrafficHistory{" +
+        return "TrafficHistoryDto{" +
                 "id=" + id +
                 ", table=" + table +
                 ", tableOccupiedDate=" + tableOccupiedDate +

@@ -109,7 +109,7 @@ public class RestaurantReservationService {
         }
         List<TableReservation> tableReservations = tableReservationRepository.getReservedTablesInMonth(startMonthDate);
         List<RestaurantReservation> restaurantReservations;
-        restaurantReservations = restaurantReservationRepository.getReservedRestaurantsInMonth(startMonthDate);
+        restaurantReservations = restaurantReservationRepository.getReservedRestaurantInMonth(startMonthDate);
         if (tableReservations.isEmpty() || restaurantReservations.isEmpty()) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_RESERVATION).toString();
         }

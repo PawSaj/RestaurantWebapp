@@ -35,9 +35,6 @@ public class Tables implements Serializable {
     private Set<TableReservation> tableReservations;
 
     @OneToMany(mappedBy="table")
-    private Set<ReservationHistory> tableReservationsHistory;
-
-    @OneToMany(mappedBy="table")
     private Set<TrafficHistory> tableOccupations;
 
     public Long getId() {
@@ -102,14 +99,6 @@ public class Tables implements Serializable {
 
     public void setTableReservations(Set<TableReservation> tableReservations) {
         this.tableReservations = tableReservations;
-    }
-
-    public Set<ReservationHistory> getTableReservationsHistory() {
-        return tableReservationsHistory;
-    }
-
-    public void setTableReservationsHistory(Set<ReservationHistory> tableReservationsHistory) {
-        this.tableReservationsHistory = tableReservationsHistory;
     }
 
     public Set<TrafficHistory> getTableOccupations() {

@@ -43,17 +43,18 @@ Domyślnie http://localhost:8080/
 <br />
 
 ### Dostępne dla administratora
-##### ```/admin/meal/{mealId}``` GET
-##### ```/admin/meal/categories``` GET    
-##### ```/admin/meal``` POST
-##### ```/admin/meal/{id}``` PUT
-##### ```/admin/meal/{id}``` DELETE
-<br />
         
 ##### ```/admin/users``` GET
 ##### ```/admin/users/{userId}``` GET            
 ##### ```/admin/users/{id}``` PUT    
 ##### ```/admin/user/{id}``` DELETE
+<br />
+
+##### ```/admin/meal/{mealId}``` GET
+##### ```/admin/meal/categories``` GET    
+##### ```/admin/meal``` POST
+##### ```/admin/meal/{id}``` PUT
+##### ```/admin/meal/{id}``` DELETE
 <br />
 
 ##### ```/admin/tables``` GET
@@ -68,3 +69,17 @@ Domyślnie http://localhost:8080/
 ##### ```/admin/tableReservation``` POST
 ##### ```/admin/tableReservation/{tableReservationId}``` PUT  
 ##### ```/admin/tableReservation/{tableReservationId}``` DELETE
+<br />
+
+##### ```/admin/restaurantReservation``` GET
+##### ```/admin/restaurantReservation/{restaurantReservationId}``` GET	
+##### ```/admin/restaurantReservation``` POST
+##### ```/admin/restaurantReservation/{restaurantReservationId}``` PUT  
+##### ```/admin/restaurantReservation/{restaurantReservationId}``` DELETE
+
+### Dostępne dla menedżera
+##### ```/management/reservation/table/frequency/{startDate}/{endDate}``` GET
+##### ```/management/reservation/traffic/{startDate}/{endDate}``` GET            
+##### ```/management/meal/order/{startDate}/{endDate}``` GET    
+##### ```/management/user/reservation/{startDate}/{endDate}/{topNumber}``` GET
+<br />

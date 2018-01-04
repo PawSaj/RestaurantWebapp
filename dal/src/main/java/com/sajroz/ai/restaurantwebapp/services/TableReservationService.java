@@ -98,7 +98,7 @@ public class TableReservationService {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.BAD_DATE_FORMAT).toString();
         }
         List<TableReservation> tableReservations = tableReservationRepository.getReservedTablesInWeek(startWeekDate);
-        List<RestaurantReservation> restaurantReservations = restaurantReservationRepository.getReservedRestaurantsInWeek(LocalDate.of(startWeekDate.getYear(), startWeekDate.getMonth(), startWeekDate.getDayOfMonth()));
+        List<RestaurantReservation> restaurantReservations = restaurantReservationRepository.getReservedRestaurantInWeek(LocalDate.of(startWeekDate.getYear(), startWeekDate.getMonth(), startWeekDate.getDayOfMonth()));
         if (tableReservations.isEmpty() || restaurantReservations.isEmpty()) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_RESERVATION).toString();
         }

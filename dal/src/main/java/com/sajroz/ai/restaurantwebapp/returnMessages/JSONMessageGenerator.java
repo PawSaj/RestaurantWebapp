@@ -6,7 +6,9 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.OffsetTime;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class JSONMessageGenerator {
@@ -209,4 +211,123 @@ public class JSONMessageGenerator {
         reservation.put("table", convertTableToJSON(tableReservationDto.getTable()));
         return reservation;
     }
+
+    public JSONArray generateJSONWithFrequencyOfTableReservation(Map<Long, Long> frequencyOfTableReservation) {
+        JSONArray mainObject = new JSONArray();
+        for (Map.Entry<Long, Long> m : frequencyOfTableReservation.entrySet()) {
+            if(!m.getKey().equals(0L)) {
+                JSONObject tableInfo = new JSONObject();
+                tableInfo.put("tableId", m.getKey());
+                tableInfo.put("frequency", (double)m.getValue()/frequencyOfTableReservation.get(0L));
+                mainObject.put(tableInfo);
+            }
+        }
+        return mainObject;
+    }
+
+    public JSONArray generateJSONWithTrafficInRestaurant(List<TrafficStatisticDataDto> trafficInRestaurant) {
+        JSONArray mainObject = new JSONArray();
+
+        for(TrafficStatisticDataDto t : trafficInRestaurant) {
+            JSONObject date = new JSONObject();
+            JSONArray hours = new JSONArray();
+
+            date.put("date", t.getTrafficInDate());
+            t.sortMapByKey();
+            Long sum = 0L;
+            for (Map.Entry<OffsetTime, Long> m : t.getTrafficByHours().entrySet()) {
+                JSONObject hourData = new JSONObject();
+                hourData.put(m.getKey().toString(), m.getValue());
+                sum+=m.getValue();
+                hours.put(hourData);
+            }
+            date.put("sum", sum);
+            date.put("body", hours);
+
+            mainObject.put(date);
+        }
+
+        return mainObject;
+    }
+
+    public JSONArray generateJSONWithMealOrderHistory(List<MealOrderStatisticDataDto> mealOrderStatistic) {
+        JSONArray mainObject = new JSONArray();
+
+        for (MealOrderStatisticDataDto mO : mealOrderStatistic) {
+            JSONObject date = new JSONObject();
+            JSONArray orders = new JSONArray();
+
+            date.put("date", mO.getDate());
+            //mO.sortMapByKey();
+            Long sum = 0L;
+            for (Map.Entry<String, Long> m : mO.getMealOrder().entrySet()) {
+                JSONObject mealOrders = new JSONObject();
+                mealOrders.put(m.getKey(), m.getValue());
+                sum+=m.getValue();
+                orders.put(mealOrders);
+            }
+            date.put("sum", sum);
+            date.put("body", orders);
+
+            mainObject.put(date);
+        }
+
+        return mainObject;
+    }
+
+    public JSONArray generateJSONWithUserReservationStatistic(Map<Long, Long> userTableStats, Map<Long, Long> userRestaurantStats) {
+        JSONArray mainObject = new JSONArray();
+
+        mainObject.put(generateStatsFor(userTableStats, "table"));
+        mainObject.put(generateStatsFor(userRestaurantStats, "restaurant"));
+
+        return mainObject;
+    }
+
+    private JSONObject generateStatsFor(Map<Long, Long> map, String type) {
+        JSONObject stats = new JSONObject();
+
+        JSONArray element = new JSONArray();
+        stats.put("type", type);
+        Long sum = 0L;
+
+        for (Map.Entry<Long, Long> m : map.entrySet()) {
+            JSONObject info = new JSONObject();
+            info.put(m.getKey().toString(), m.getValue());
+            element.put(info);
+            sum+= m.getValue();
+        }
+        stats.put("sum", sum);
+        stats.put("body", element);
+        return stats;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

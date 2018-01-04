@@ -38,18 +38,18 @@ public class UserController {
     }
 
     @RequestMapping(value = "/admin/users", method = RequestMethod.GET, produces = "application/json")
-    public String adminUpdateUser() {
+    public String adminGetAllUser() {
         return userService.getAllUsers((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
     @RequestMapping(value = "/admin/users/{userId}", method = RequestMethod.GET, produces = "application/json")
-    public String adminUpdateUser(@PathVariable(value = "userId") Long userId) {
+    public String adminGetUser(@PathVariable(value = "userId") Long userId) {
         return userService.getUser(userId);
     }
 
     @RequestMapping(value = "/admin/users/{userId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = "application/json")
     public String adminUpdateUser(@PathVariable(value = "userId") Long userId, @RequestBody UserDto userDto) {
-        logger.info("adminUpdateUser Updating by admin to, user={}", userDto);
+        logger.info("adminGetUser Updating by admin to, user={}", userDto);
         return userService.updateUser(userId, userDto, true);
     }
 
