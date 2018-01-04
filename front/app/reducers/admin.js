@@ -6,7 +6,7 @@ import {
     GET_USER_BY_ID_SUCCESS,
     GET_USER_BY_ID_FAILURE,
     UPDATE_USER_ADMIN_SUCCESS,
-    UPDATE_USER_FAILURE, GET_ALL_TABLES_SUCCESS
+    UPDATE_USER_FAILURE, GET_ALL_TABLES_SUCCESS, DELETE_TABLE_SUCCESS
 } from '../_consts/actions';
 import {stateAfterDelete, stateAfterUpdate} from '../lib/helpers/stateHelpers';
 
@@ -46,6 +46,8 @@ const tables = (state = {}, action) => {
     switch (action.type) {
         case GET_ALL_TABLES_SUCCESS:
             return Object.assign({}, state, {data: action.data, all: true});
+        case DELETE_TABLE_SUCCESS:
+            return Object.assign({}, state, {data: stateAfterDelete(data, action)});
         default:
             return state;
     }

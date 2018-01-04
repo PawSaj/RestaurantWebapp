@@ -110,6 +110,10 @@ class API {
     getTables() {
         return this.request.get(ADMIN_ENDPOINTS.TABLES);
     }
+
+    deleteTable(id) {
+        return this.request.delete(ADMIN_ENDPOINTS.TABLES + `/${id}`);
+    }
 }
 
 export default API;

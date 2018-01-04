@@ -416,3 +416,22 @@ export function allTables() {
             });
     }
 }
+
+/* DELETE TABLE */
+function successDeleteTables(id) {
+    return {
+        type: ACTION.DELETE_TABLE_SUCCESS,
+        id
+    }
+}
+
+export function deleteTable(id) {
+    return dispatch => {
+
+        return api.deleteTable(id).then(response => response.data)
+            .then(data => {
+                console.log('delete table data: ', data);
+                dispatch(successDeleteTables(id))
+            });
+    }
+}

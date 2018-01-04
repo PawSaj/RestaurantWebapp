@@ -10,6 +10,7 @@ class Tables extends React.Component {
         this.passed = props.passed;
         this.tables = props.passed.admin.tables;
         this.getTables = props.passed.adminFunctions.getTables;
+        this.deleteTable = props.passed.adminFunctions.deleteTable;
         this.state = {
             tables: props.passed.admin.tables.data,
             all: props.passed.admin.tables.all
@@ -24,7 +25,8 @@ class Tables extends React.Component {
                 order: ['id', 'seats', 'tableNumber', 'floor'],
                 headsTitles: ['Id', 'Miejsca', 'Numer', 'Piętro'],
                 modify: true,
-                body: this.state.tables
+                body: this.state.tables,
+                deleteFunction: this.deleteTable
             });
 
             return <CustomTable {...Object.assign({}, preparedElement, this.passed)}/>
