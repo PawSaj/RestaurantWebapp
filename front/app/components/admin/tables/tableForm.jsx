@@ -38,12 +38,14 @@ const setTableData = (table) => {
 class TableForm extends React.Component {
     constructor(props) {
         super(props);
-        this.table = getTable(props.passed.location.pathname, props.passed.admin.tables.data);
+        this.new = props.new;
+        this.createTable = props.passed.adminFunctions.createTable;
+        this.table = this.new? null :getTable(props.passed.location.pathname, props.passed.admin.tables.data);
         this.state = setTableData(this.table);
         this.getTableByID = props.passed.adminFunctions.getTableByID;
         this.updateTable = props.passed.adminFunctions.updateTable;
 
-        if (this.table === null) {
+        if (!this.new  && this.table === null) {
             let tableID = getIDFromPath(props.passed.location.pathname);
             this.getTableByID(tableID);
         }
@@ -60,7 +62,8 @@ class TableForm extends React.Component {
 
     handleOnClick(event) {
         event.preventDefault();
-        this.updateTable(this.state.id, this.state);
+        console.log(this.state)
+        this.new? this.createTable(this.state): this.updateTable(this.state.id, this.state);
     }
 
     componentWillReceiveProps(nextProps) {

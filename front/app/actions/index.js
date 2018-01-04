@@ -474,3 +474,22 @@ export function updateTable(id, table) {
             });
     }
 }
+
+/* CREATE TABLE */
+function successCreateTable(data) {
+    return {
+        type: ACTION.CREATE_TABLE_SUCCESS,
+        data
+    }
+}
+
+export function createTable(table) {
+    return dispatch => {
+
+        return api.createNewTable(table).then(response => response.data)
+            .then(data => {
+                console.log('create table data: ', data);
+                dispatch(successCreateTable(table))
+            });
+    }
+}

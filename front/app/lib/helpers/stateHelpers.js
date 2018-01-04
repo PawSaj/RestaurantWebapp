@@ -17,6 +17,16 @@ export const stateAfterUpdate = (data, action) => {
     });
 };
 
+export const stateAfterCreate = (data, action) => {
+    if (data === undefined) {
+        return [action.data];
+    }
+
+    data.push(action.data);
+
+    return data;
+};
+
 export const stateAfterMenuDelete = (data, action) => {
 
     return data.map((category) => {

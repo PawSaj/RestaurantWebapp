@@ -122,6 +122,10 @@ class API {
     deleteTable(id) {
         return this.request.delete(ADMIN_ENDPOINTS.TABLES + `/${id}`);
     }
+
+    createNewTable(table) {
+        return this.request.post(ADMIN_ENDPOINTS.TABLES, table);
+    }
 }
 
 export default API;

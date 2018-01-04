@@ -2,7 +2,7 @@ import React from 'react';
 import CustomTable from '../../_custom/table';
 import CustomTabs from '../../_custom/tabs';
 import {Grid} from 'react-bootstrap';
-import NewTable from './newTableForm';
+import NewTable from './tableForm';
 
 class Tables extends React.Component {
     constructor(props) {
@@ -53,7 +53,7 @@ class Tables extends React.Component {
                     content: this.state.tables && this.prepareTablesTable()
                 }, {
                     title: 'Dodawanie stolików',
-                    content: <NewTable addingEl={true}/>
+                    content: <NewTable passed={this.passed} new={true}/>
                 }
             ],
         };

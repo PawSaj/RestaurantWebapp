@@ -6,9 +6,14 @@ import {
     GET_USER_BY_ID_SUCCESS,
     GET_USER_BY_ID_FAILURE,
     UPDATE_USER_ADMIN_SUCCESS,
-    UPDATE_USER_FAILURE, GET_ALL_TABLES_SUCCESS, DELETE_TABLE_SUCCESS, GET_TABLE_BY_ID_SUCCESS, UPDATE_TABLE_SUCCESS
+    UPDATE_USER_FAILURE,
+    GET_ALL_TABLES_SUCCESS,
+    DELETE_TABLE_SUCCESS,
+    GET_TABLE_BY_ID_SUCCESS,
+    UPDATE_TABLE_SUCCESS,
+    CREATE_TABLE_SUCCESS
 } from '../_consts/actions';
-import {stateAfterDelete, stateAfterUpdate} from '../lib/helpers/stateHelpers';
+import {stateAfterDelete, stateAfterUpdate, stateAfterCreate} from '../lib/helpers/stateHelpers';
 
 const errors = (state = {}, action) => {
     switch (action.type) {
@@ -52,6 +57,8 @@ const tables = (state = {}, action) => {
             return Object.assign({}, state, {data: [action.data]});
         case UPDATE_TABLE_SUCCESS:
             return Object.assign({}, state, {data: stateAfterUpdate(data, action)});
+        case CREATE_TABLE_SUCCESS:
+            return Object.assign({}, state, {data: stateAfterCreate(data, action)});
         default:
             return state;
     }
