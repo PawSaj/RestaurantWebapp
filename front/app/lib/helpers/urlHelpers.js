@@ -24,9 +24,14 @@ export const getParam = ({search, name}) => {
 export const parseDataToURI = (data) => {
     let encodedData = "";
     for (let key in data) {
-        if(data.hasOwnProperty(key)){
-            encodedData += encodeURIComponent(key)+"="+encodeURIComponent(data[key])+"&";
+        if (data.hasOwnProperty(key)) {
+            encodedData += encodeURIComponent(key) + "=" + encodeURIComponent(data[key]) + "&";
         }
     }
     return encodedData;
+};
+
+export const getUserID = (path) => {
+    let array = path.split('/');
+    return parseInt(array[2]);
 };

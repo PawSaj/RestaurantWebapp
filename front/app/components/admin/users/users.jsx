@@ -33,11 +33,12 @@ class Users extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log('admin props: ',nextProps)
         this.setState({users: nextProps.passed.admin.users});
     }
 
     componentDidMount() {
-        if (Object.keys(this.state.users).length === 0) {
+        if (Object.keys(this.state.users).length === 0 || !this.state.users.all) {
             this.getAllUsers();
         }
     }

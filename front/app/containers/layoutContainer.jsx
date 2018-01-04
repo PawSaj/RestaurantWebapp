@@ -4,7 +4,17 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom'
 import {MAIN_NAV, ADMIN_NAV, MANAGER_NAV} from '../_consts/layouts/navigations';
 import {MAIN_CONTENT, ADMIN_CONTENT, MANAGER_CONTENT} from '../_consts/layouts/contents';
-import {getMenu, register, login, logout, changeUserData, getAllUsers, deleteUser} from '../actions/index';
+import {
+    getMenu,
+    register,
+    login,
+    logout,
+    changeUserData,
+    getAllUsers,
+    deleteUser,
+    getUserById,
+    updateUserAdmin
+} from '../actions/index';
 
 const mainLayoutProp = {
     navigation: MAIN_NAV,
@@ -88,6 +98,12 @@ const adminMapDispatchToProps = (dispatch) => {
             },
             deleteUser: (id) => {
                 dispatch(deleteUser(id));
+            },
+            getUserById: (id) => {
+                dispatch(getUserById(id));
+            },
+            updateUserAdmin: (id, userData) => {
+                dispatch(updateUserAdmin(id, userData));
             }
         }
     }
@@ -96,7 +112,7 @@ const adminMapDispatchToProps = (dispatch) => {
 const mapStateToProps = state => {
     let store = state, props = null;
     let {user} = store;
-    if (Object.keys(user).length <= 1 || user.data.role === 'USER') {
+    if (Object.keys(user).length <= 1 || user.data.role === 'ROLE_USER') {
         props = Object.assign(mainMapStateToProps(store), {current: 'main'});
     }
     else if (user.data.role === 'ROLE_ADMIN') {
@@ -113,7 +129,7 @@ const mergedProps = (stateProps, dispatchProps, ownProps) => {
     let {dispatch} = dispatchProps;
     let {user} = stateProps.shared, props = null;
 
-    if (Object.keys(user).length <= 1 || user.data.role === 'USER') {
+    if (Object.keys(user).length <= 1 || user.data.role === 'ROLE_USER') {
         props = mainMapDispatchToProps(dispatch);
     }
     else if (user.data.role === 'ROLE_ADMIN') {

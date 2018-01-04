@@ -8,8 +8,9 @@ import thunkMiddleware from 'redux-thunk'
 import '../assets/styles/main.scss';
 import Routes from './Routes';
 import rootReducer from './reducers/index';
+let user = window.localStorage.getItem('currentUser') ? {pending: false, data: JSON.parse(window.localStorage.getItem('currentUser'))} : {};
 
-let store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+let store = createStore(rootReducer, {user: user}, applyMiddleware(thunkMiddleware));
 
 const render = Component => {
     ReactDOM.render(

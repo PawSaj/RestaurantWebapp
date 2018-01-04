@@ -38,10 +38,12 @@ const menu = (state = {}, action) => {
 const user = (state = {}, action) => {
     switch (action.type) {
         case LOGOUT_SUCCESS:
+            window.localStorage.removeItem('currentUser');
             return {};
         case LOGIN_PENDING:
             return Object.assign({}, state, {pending: true});
         case LOGIN_SUCCESS:
+            window.localStorage.setItem('currentUser', JSON.stringify(action.user));
             return Object.assign({}, state, {pending: false, data: action.user});
         case LOGIN_FAILURE:
             return Object.assign({}, state, {pending: false});

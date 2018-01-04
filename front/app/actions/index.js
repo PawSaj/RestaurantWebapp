@@ -232,4 +232,60 @@ export function deleteUser(id) {
             });
     }
 }
+
+/* GET USER BY ID */
+
+function successGetUserById(user) {
+    return {
+        type: ACTION.GET_USER_BY_ID_SUCCESS,
+        user
+    }
+}
+
+function failGetUserById(errorText) {
+    return {
+        type: ACTION.GET_USER_BY_ID_FAILURE,
+        errorText
+    }
+}
+
+export function getUserById(id) {
+    return dispatch => {
+
+        return api.getUserByID_Admin(id)
+            .then(response => response.data)
+            .then(data => {
+                console.log('get user by id: ', data);
+                dispatch(successGetUserById(data))
+            });
+    }
+}
+
+
+function successUpdateUserAdmin(id, data) {
+    return {
+        type: ACTION.UPDATE_USER_ADMIN_SUCCESS,
+        id,
+        data
+    }
+}
+
+function failUpdateUserAdmin(errorText) {
+    return {
+        type: ACTION.UPDATE_USER_ADMIN_FAILURE,
+        errorText
+    }
+}
+
+export function updateUserAdmin(id, userData) {
+    return dispatch => {
+
+        return api.updateUser_Admin(id, userData)
+            .then(response => response.data)
+            .then(data => {
+                console.log('update user admin: ', data);
+                dispatch(successUpdateUserAdmin(id, userData));
+            });
+    }
+}
 /* ADMIN END */

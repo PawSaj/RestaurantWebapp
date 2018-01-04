@@ -59,12 +59,12 @@ class API {
         return this.request.get(ADMIN_ENDPOINTS.USERS);
     }
 
+    getUserByID_Admin(id) {
+        return this.request.get(ADMIN_ENDPOINTS.USERS + `/${id}`);
+    }
+
     updateUser_Admin(id, user) {
-        this.request.put(ADMIN_ENDPOINTS.USERS + `/${id}`, user).then((response) => {
-            console.log(response);
-        }).catch((error) => {
-            console.log(error);
-        })
+        return this.request.put(ADMIN_ENDPOINTS.USERS + `/${id}`, user);
     }
 
     deleteUser_Admin(id) {
