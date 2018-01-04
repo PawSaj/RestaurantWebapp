@@ -21,6 +21,10 @@ import AdminEditTable from '../../components/admin/tables/tableForm';
 
 /* components manager */
 import ManagerPanel from '../../components/manager/panel';
+import TableFrequency from '../../components/manager/tableFrequency';
+import ReservationTraffic from '../../components/manager/reservationTraffic';
+import MealOrder from '../../components/manager/mealOrders';
+import UserReservations from '../../components/manager/usersReservations'
 
 export const MAIN_CONTENT = {
     urlToRedirect: MAIN_PATHS.HOME,
@@ -91,16 +95,16 @@ export const MANAGER_CONTENT = {
             component: ManagerPanel
         }, {
             path: MANAGER_PATHS.TABLE,
-            component: () => null
+            component: TableFrequency
         }, {
             path: MANAGER_PATHS.RESERVATION,
-            component: () => null
+            component: UserReservations
         }, {
             path: MANAGER_PATHS.ORDER,
-            component: () => null
+            component: MealOrder
         }, {
             path: MANAGER_PATHS.TRAFFIC,
-            component: () => null
+            component: ReservationTraffic
         }
     ]
 };
