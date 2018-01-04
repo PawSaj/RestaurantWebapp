@@ -11,6 +11,7 @@ import {
     UPDATE_USER_SUCCESS,
     UPDATE_USER_FAILURE
 } from '../_consts/actions';
+import {stateAfterDelete, stateAfterUpdate} from '../lib/helpers/stateHelpers';
 
 const errors = (state = {}, action) => {
     switch (action.type) {
@@ -29,7 +30,7 @@ const menu = (state = {}, action) => {
         case MENU_PENDING:
             return Object.assign({}, state, {pending: true});
         case MENU_SUCCESS:
-            return Object.assign({}, state, {pending: false, data: action.menu});
+            return Object.assign({}, state, {pending: false, data: action.menu, all: true});
         default:
             return state;
     }

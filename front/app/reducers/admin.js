@@ -8,25 +8,7 @@ import {
     UPDATE_USER_ADMIN_SUCCESS,
     UPDATE_USER_FAILURE
 } from '../_consts/actions';
-
-const stateAfterDelete = (data, action) => {
-    let elementIndex = null;
-    data.map((element, index) => {
-        if (element.id === action.id) {
-            elementIndex = index;
-        }
-    });
-    return data.slice(0, elementIndex).concat(data.slice(elementIndex + 1, data.lenght));
-};
-
-const stateAfterUpdate = (data, action) => {
-    return data.map((element) => {
-        if (element.id === action.id) {
-            return action.data
-        }
-        return element
-    });
-};
+import {stateAfterDelete,stateAfterUpdate} from '../lib/helpers/stateHelpers';
 
 const errors = (state = {}, action) => {
     switch (action.type) {

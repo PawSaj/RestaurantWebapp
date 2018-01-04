@@ -1,13 +1,13 @@
 import React from "react";
 import {Button, Grid, Row, Col} from "react-bootstrap";
 import FieldGroup from "../../_custom/fieldGroup";
-import {getUserID} from '../../../lib/helpers/urlHelpers';
+import {getIDFromPath} from '../../../lib/helpers/urlHelpers';
 
 const getUser = (path, users) => {
     if (users === undefined) {
         return null;
     }
-    let userId = getUserID(path);
+    let userId = getIDFromPath(path);
     for (let user of users) {
         if (user.id === userId) {
             return user;
@@ -32,6 +32,7 @@ const setUserData = (user) => {
         role: (user.role) ? user.role : 'USER_ROLE'
     }
 };
+
 class User extends React.Component {
     constructor(props) {
         super(props);
@@ -44,7 +45,7 @@ class User extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleOnClick = this.handleOnClick.bind(this);
         if (this.user === null) {
-            let userId = getUserID(props.passed.location.pathname);
+            let userId = getIDFromPath(props.passed.location.pathname);
             this.getUserById(userId);
         }
     }

@@ -31,7 +31,7 @@ export const parseDataToURI = (data) => {
     return encodedData;
 };
 
-export const getUserID = (path) => {
+export const getIDFromPath = (path) => {
     let array = path.split('/');
     return parseInt(array[2]);
 };

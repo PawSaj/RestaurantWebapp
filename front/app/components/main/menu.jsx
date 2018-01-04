@@ -1,8 +1,6 @@
 import React from 'react';
 import CustomTable from '../_custom/table';
-import MenuData from '../../_consts/mocks/menu';
-import {Grid, Button} from 'react-bootstrap';
-import CustomModal from "../_custom/modal";
+import {Grid} from 'react-bootstrap';
 
 class Menu extends React.Component {
     constructor(props) {
