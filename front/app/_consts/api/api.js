@@ -28,4 +28,8 @@ export const ADMIN_ENDPOINTS = {
 };
 
 export const MANAGER_ENDPOINTS = {
+    TABLE: '/management/reservation/table/frequency',
+    TRAFFIC: '/management/reservation/traffic',
+    ORDER: '/management/meal/order',
+    RESERVATION:'/management/user/reservation'
 };
