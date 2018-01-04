@@ -9,48 +9,15 @@ import {
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
     UPDATE_USER_SUCCESS,
-    UPDATE_USER_FAILURE, DELETE_MEAL_FAILURE, DELETE_MEAL_SUCCESS, UPDATE_MEAL_SUCCESS, UPDATE_MEAL_FAILURE
+    UPDATE_USER_FAILURE,
+    DELETE_MEAL_FAILURE,
+    DELETE_MEAL_SUCCESS,
+    UPDATE_MEAL_SUCCESS,
+    UPDATE_MEAL_FAILURE,
+    ADD_MEAL_SUCCESS,
+    ADD_MEAL_FAILURE
 } from '../_consts/actions';
-import {stateAfterDelete} from '../lib/helpers/stateHelpers';
-
-const stateAfterMenuDelete = (data, action) => {
-
-    return data.map((category) => {
-        return {
-            category: category.category,
-            body: category.body.map((element) => {
-                if (element.id === action.id) {
-                    return null;
-                }
-                return element;
-            })
-        }
-    });
-};
-
-const stateAfterMenuUpdate = (data, action) => {
-
-    return data.map((category) => {
-        if (category.category === action.data.category) {
-
-            return {
-                category: action.data.category,
-                body: category.body.map((element) => {
-                    if (element.id === action.data.id) {
-                        return {
-                            id: action.data.id,
-                            ingredients: action.data.ingredientsObj,
-                            price: action.data.price,
-                            name: action.data.name
-                        };
-                    }
-                    return element;
-                })
-            }
-        }
-        return category
-    });
-};
+import {stateAfterMenuDelete, stateAfterMenuAdd, stateAfterMenuUpdate} from '../lib/helpers/stateHelpers';
 
 const errors = (state = {}, action) => {
     switch (action.type) {
@@ -65,6 +32,7 @@ const errors = (state = {}, action) => {
 
 
 const menu = (state = {}, action) => {
+    console.log('action:', action)
     let {data} = state;
     switch (action.type) {
         case MENU_PENDING:
@@ -75,6 +43,8 @@ const menu = (state = {}, action) => {
             return Object.assign({}, state, {data: stateAfterMenuDelete(data, action)});
         case UPDATE_MEAL_SUCCESS:
             return Object.assign({}, state, {data: stateAfterMenuUpdate(data, action)});
+        case ADD_MEAL_SUCCESS:
+            return Object.assign({}, state, {data: stateAfterMenuAdd(data, action)});
         default:
             return state;
     }
