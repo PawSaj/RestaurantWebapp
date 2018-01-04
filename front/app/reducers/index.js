@@ -13,6 +13,20 @@ import {
 } from '../_consts/actions';
 import {stateAfterDelete} from '../lib/helpers/stateHelpers';
 
+const stateAfterMenuDelete = (data, action) => {
+
+    return data.map((category) => {
+        return {
+            category: category.category,
+            body: category.body.map((element) => {
+                if (element.id === action.id) {
+                    return null;
+                }
+                return element;
+            })
+        }
+    });
+};
 
 const stateAfterMenuUpdate = (data, action) => {
 
@@ -58,7 +72,7 @@ const menu = (state = {}, action) => {
         case MENU_SUCCESS:
             return Object.assign({}, state, {pending: false, data: action.menu, all: true});
         case DELETE_MEAL_SUCCESS:
-            return Object.assign({}, state, {data: stateAfterDelete(data, action)});
+            return Object.assign({}, state, {data: stateAfterMenuDelete(data, action)});
         case UPDATE_MEAL_SUCCESS:
             return Object.assign({}, state, {data: stateAfterMenuUpdate(data, action)});
         default:

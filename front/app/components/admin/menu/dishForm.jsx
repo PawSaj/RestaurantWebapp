@@ -47,7 +47,6 @@ const setDishData = (dish) => {
 class DishForm extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props)
         this.new = props.new;
         this.updateMeal = props.passed.adminFunctions.updateMeal;
         this.addMeal = props.passed.adminFunctions.addMeal;

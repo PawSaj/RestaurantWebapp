@@ -26,6 +26,10 @@ const insertHeadRow = (heads, modify) => {
 
 const createBodyRow = (element, links) => {
     let {field, path} = links ? links : {}, value = null;
+    if (element === null) {
+        return null;
+    }
+
     return Object.keys(element).map((key) => {
         if (key === 'price') {
             value = `${element[key]} zł`;
@@ -47,7 +51,12 @@ const createBodyRow = (element, links) => {
 };
 
 const insertBodyRow = ({element, modify, index, links, url, deleteFunction}) => {
+    if (element === null) {
+        return null;
+    }
+
     let row = createBodyRow(element, links);
+
     if (modify === true) {
         return (
             <tr key={index}>
@@ -96,7 +105,7 @@ const CustomTable = (props) => {
                 <tbody>
                 {body.map((element, index) => {
                     let preparedObj = {};
-                    if (order) {
+                    if (order && element) {
                         order.map((key) => {
                             preparedObj[key] = element[key];
                         })
