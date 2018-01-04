@@ -16,7 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,9 +56,11 @@ public class FrequencyOfTableReservationService {
 
     public String generateFrequencyOfTableReservation(String startDateString, String endDateString) {
         OffsetDateTime startDate, endDate;
+        LocalTime time = LocalTime.of(0,0,0);
+        ZoneOffset zoneOffset = ZoneOffset.ofHours(1);
         try {
-            startDate = OffsetDateTime.parse(startDateString);
-            endDate = OffsetDateTime.parse(endDateString);
+            startDate = OffsetDateTime.of(LocalDate.parse(startDateString), time,zoneOffset);
+            endDate = OffsetDateTime.of(LocalDate.parse(endDateString), time,zoneOffset);
         } catch (DateTimeParseException e) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.BAD_DATE_FORMAT).toString();
         }

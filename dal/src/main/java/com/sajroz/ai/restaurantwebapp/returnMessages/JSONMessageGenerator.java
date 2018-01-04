@@ -275,7 +275,7 @@ public class JSONMessageGenerator {
         return mainObject;
     }
 
-    public JSONArray generateJSONWithUserReservationStatistic(Map<String, Long> userTableStats, Map<String, Long> userRestaurantStats) {
+    public JSONArray generateJSONWithUserReservationStatistic(Map<Long, Long> userTableStats, Map<Long, Long> userRestaurantStats) {
         JSONArray mainObject = new JSONArray();
 
         mainObject.put(generateStatsFor(userTableStats, "table"));
@@ -284,16 +284,16 @@ public class JSONMessageGenerator {
         return mainObject;
     }
 
-    private JSONObject generateStatsFor(Map<String, Long> map, String type) {
+    private JSONObject generateStatsFor(Map<Long, Long> map, String type) {
         JSONObject stats = new JSONObject();
 
         JSONArray element = new JSONArray();
         stats.put("type", type);
         Long sum = 0L;
 
-        for (Map.Entry<String, Long> m : map.entrySet()) {
+        for (Map.Entry<Long, Long> m : map.entrySet()) {
             JSONObject info = new JSONObject();
-            info.put(m.getKey(), m.getValue());
+            info.put(m.getKey().toString(), m.getValue());
             element.put(info);
             sum+= m.getValue();
         }

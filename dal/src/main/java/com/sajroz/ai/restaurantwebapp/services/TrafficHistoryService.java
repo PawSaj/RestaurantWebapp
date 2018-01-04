@@ -15,9 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.OffsetTime;
+import java.time.*;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.stream.IntStream;
@@ -51,12 +49,15 @@ public class TrafficHistoryService {
 
     public String generateTrafficInRestaurant(String startDateString, String endDateString) {
         OffsetDateTime startDate, endDate;
+        LocalTime time = LocalTime.of(0,0,0);
+        ZoneOffset zoneOffset = ZoneOffset.ofHours(1);
         try {
-            startDate = OffsetDateTime.parse(startDateString);
-            endDate = OffsetDateTime.parse(endDateString);
+            startDate = OffsetDateTime.of(LocalDate.parse(startDateString), time,zoneOffset);
+            endDate = OffsetDateTime.of(LocalDate.parse(endDateString), time,zoneOffset);
         } catch (DateTimeParseException e) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.BAD_DATE_FORMAT).toString();
         }
+
         List<TableReservationDto> tableReservations = getTableReservations(startDate, endDate);
         List<TrafficHistoryDto> trafficHistory = getTrafficHistory(startDate, endDate);
 

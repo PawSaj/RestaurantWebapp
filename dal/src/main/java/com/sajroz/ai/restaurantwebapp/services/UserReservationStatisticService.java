@@ -14,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -45,9 +48,11 @@ public class UserReservationStatisticService {
 
     public String generateUserReservationStatistic(String startDateString, String endDateString, int topNumber) {
         OffsetDateTime startDate, endDate;
+        LocalTime time = LocalTime.of(0,0,0);
+        ZoneOffset zoneOffset = ZoneOffset.ofHours(1);
         try {
-            startDate = OffsetDateTime.parse(startDateString);
-            endDate = OffsetDateTime.parse(endDateString);
+            startDate = OffsetDateTime.of(LocalDate.parse(startDateString), time,zoneOffset);
+            endDate = OffsetDateTime.of(LocalDate.parse(endDateString), time,zoneOffset);
         } catch (DateTimeParseException e) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.BAD_DATE_FORMAT).toString();
         }
@@ -55,8 +60,8 @@ public class UserReservationStatisticService {
         List<TableReservationDto> tableReservations = getTableReservations(startDate, endDate);
         List<RestaurantReservationDto> restaurantReservations = getRestaurantReservations(startDate, endDate);
 
-        Map<String, Long> userTableStats = addUserTableStats(tableReservations);
-        Map<String, Long> userRestaurantStats = addUserRestaurantStats(restaurantReservations);
+        Map<Long, Long> userTableStats = addUserTableStats(tableReservations);
+        Map<Long, Long> userRestaurantStats = addUserRestaurantStats(restaurantReservations);
 
         userTableStats = userTableStats.entrySet().stream()
                 .sorted(Comparator.comparing(Map.Entry::getKey))
@@ -70,26 +75,26 @@ public class UserReservationStatisticService {
         return jsonMessageGenerator.generateJSONWithUserReservationStatistic(userTableStats, userRestaurantStats).toString();
     }
 
-    private Map<String, Long> addUserRestaurantStats(List<RestaurantReservationDto> restaurantReservations) {
-        Map<String, Long> userTableStats = new HashMap<>();
+    private Map<Long, Long> addUserRestaurantStats(List<RestaurantReservationDto> restaurantReservations) {
+        Map<Long, Long> userTableStats = new HashMap<>();
         for (RestaurantReservationDto r : restaurantReservations) {
-            if (userTableStats.containsKey(r.getUser().getName())) {
-                userTableStats.put(r.getUser().getName(), userTableStats.get(r.getUser().getName()) + 1L);
+            if (userTableStats.containsKey(r.getUser().getId())) {
+                userTableStats.put(r.getUser().getId(), userTableStats.get(r.getUser().getId()) + 1L);
             } else {
-                userTableStats.put(r.getUser().getName(), 1L);
+                userTableStats.put(r.getUser().getId(), 1L);
             }
         }
 
         return userTableStats;
     }
 
-    private Map<String, Long> addUserTableStats(List<TableReservationDto> userTableStats) {
-        Map<String, Long> userRestaurantStats = new HashMap<>();
+    private Map<Long, Long> addUserTableStats(List<TableReservationDto> userTableStats) {
+        Map<Long, Long> userRestaurantStats = new HashMap<>();
         for (TableReservationDto t : userTableStats) {
-            if (userRestaurantStats.containsKey(t.getUser().getName())) {
-                userRestaurantStats.put(t.getUser().getName(), userRestaurantStats.get(t.getUser().getName()) + 1L);
+            if (userRestaurantStats.containsKey(t.getUser().getId())) {
+                userRestaurantStats.put(t.getUser().getId(), userRestaurantStats.get(t.getUser().getId()) + 1L);
             } else {
-                userRestaurantStats.put(t.getUser().getName(), 1L);
+                userRestaurantStats.put(t.getUser().getId(), 1L);
             }
         }
         return userRestaurantStats;
