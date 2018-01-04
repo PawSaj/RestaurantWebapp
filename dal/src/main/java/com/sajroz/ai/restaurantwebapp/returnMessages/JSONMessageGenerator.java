@@ -274,6 +274,33 @@ public class JSONMessageGenerator {
 
         return mainObject;
     }
+
+    public JSONArray generateJSONWithUserReservationStatistic(Map<String, Long> userTableStats, Map<String, Long> userRestaurantStats) {
+        JSONArray mainObject = new JSONArray();
+
+        mainObject.put(generateStatsFor(userTableStats, "table"));
+        mainObject.put(generateStatsFor(userRestaurantStats, "restaurant"));
+
+        return mainObject;
+    }
+
+    private JSONObject generateStatsFor(Map<String, Long> map, String type) {
+        JSONObject stats = new JSONObject();
+
+        JSONArray element = new JSONArray();
+        stats.put("type", type);
+        Long sum = 0L;
+
+        for (Map.Entry<String, Long> m : map.entrySet()) {
+            JSONObject info = new JSONObject();
+            info.put(m.getKey(), m.getValue());
+            element.put(info);
+            sum+= m.getValue();
+        }
+        stats.put("sum", sum);
+        stats.put("body", element);
+        return stats;
+    }
 }
 
 

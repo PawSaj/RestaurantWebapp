@@ -57,6 +57,11 @@ public class MealOrderHistoryService {
         List<MealDto> meals = getMeals();
         List<MealOrderHistoryDto> mealOrderHistoryDtoList = getMealOrderHistory(startDate, endDate);
 
+        if (meals.isEmpty()) {
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_MEAL).toString();
+        } else if (mealOrderHistoryDtoList.isEmpty()) {
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_MEAL_ORDER).toString();
+        }
 
         List<MealOrderStatisticDataDto> mealOrderStatistic = addOrders(meals, mealOrderHistoryDtoList);
 
