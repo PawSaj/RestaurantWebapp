@@ -89,7 +89,101 @@ Domyślnie http://localhost:8080/
     * użytkownik próbuje usunąć innego użytkownika:
         * status - *-7*
         * description - *You try to change data of different user.*
-        
+
+### ```/admin/meal/{mealId}```
+
+* **metoda:** GET
+* **wymagania:** 
+  * wymaga autoryzacji z rolą *ADMIN*
+  * w adresie *{id}* jest to id dania, które chcemy pobrać
+* **co robi:**
+  * zwraca JSON z daniem:
+     * category kategoria dań
+     * name nazwa dania
+     * ingredients lista składników
+         * wypisanych w formie indeksów (w bazie) + nazwa
+     * price cena (jeśli danie jej nie ma, JSON nie zawiera tej danej)
+
+### ```/admin/meal/categories```
+
+* **metoda:** GET
+* **wymagania:** 
+  * wymaga autoryzacji z rolą *ADMIN*
+* **co robi:**
+  * zwraca JSON z istniejącymi kategoriami dań w formie listy, gdize każdy kolejny element to nowa kategoria
+     
+### ```/admin/meal```
+
+* **metoda:** POST
+* **wymagania:** 
+  * wymaga autoryzacji z rolą *ADMIN*
+  * wymaga w ciele JSON'a z danymi:
+	* name nazwa dania  
+  * opcjonalne argumenty:
+  	* ingredients lista składników
+		* wypisanych kolejno samych nazw składników np. { "name":"kurczak", "name":"oliwki"}    
+	* describe opis dania
+    * price cena dania
+    * *image* w formie nazwy obrazu, którą można uzyskać wysyłając obraz pod adres *```/sendImage```*
+* **co robi:**
+  * jeśli danie nie istnieje i udało się je zapisać w bazie:
+    * zwraca JSON z danymi:
+        * status *0*
+        * descripton *Request completed with no errors.*
+  * jeśli dodawanie dania zakończone neipowodzeniem, nazwa zduplikowana:
+    * zwraca JSON z danymi:
+        * status *-9*
+        * descripton *Meal is already exist.*
+  * jeśli brak jakiejś danej:
+    * status *-14*
+    * descripton *Missing data.*
+    * missing dana, która jest wymagana, a której brakuje
+
+### ```/admin/meal/{id}```
+
+* **metoda:** PUT
+* **wymagania:** 
+  * wymaga autoryzacji z rolą *ADMIN*
+  * w adresie *{id}* jest to id dania, które chcemy poddać modyfikacji
+  * wymaga w ciele JSON'a z danymi:
+	* name nazwa dania
+  	* ingredients lista składników
+		* wypisanych kolejno samych nazw składników np. { "name":"kurczak", "name":"oliwki"}    
+	* describe opis dania
+    * price cena dania
+    * *image* w formie nazwy obrazu, którą można uzyskać wysyłając obraz pod adres *```/sendImage```*
+  * **jeśli jakaś z danych nie została zmieniona należy ją także umieścić w podstawowej wersji**    
+* **co robi:**
+  * jeśli powodzenie aktualizacji danych dania zwraca JSON z danymi:
+    * status *0*
+	* descripton *Request completed with no errors.*
+  * JSON z danymi jeśli niepowodzenie z powodu:
+    * danie nie istnieje błędne *id*:
+        * status *-10*
+        * description *Meal doesn't exist.*
+    * nowa nazwa dania już jest zajęta:
+        * status *-9*
+        * descripton *Meal is already exist.*
+    * jeśli brak jakiejś danej:
+        * status *-14*
+        * descripton *Missing data.*
+        * missing dana, która jest wymagana, a której brakuje
+    
+### ```/admin/meal/{id}```
+
+* **metoda:** DELETE
+* **wymagania:** 
+  * wymaga autoryzacji z rolą *ADMIN*
+  * w adresie *{id}* jest to id dania, które chcemy usunąć  
+* **co robi:**
+  * jeśli powodzenie usunięcia dania zwraca JSON z danymi:
+    * status *0*
+    * description *Request completed with no errors.*
+  * JSON z danymi jeśli niepowodzenie z powodu:
+    * danie nie istnieje błędne *id*:
+        * status *-10*
+        * description *Meal doesn't exist.*       
+  
 ### ```/admin/tables```
 
 * **metoda:** GET

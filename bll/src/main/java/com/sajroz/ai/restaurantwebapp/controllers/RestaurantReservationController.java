@@ -36,7 +36,7 @@ public class RestaurantReservationController {
 
     @RequestMapping(value = "/restaurantReservation", method = RequestMethod.POST, produces = "application/json")
     public String addRestaurantReservation(@RequestBody RestaurantReservationDto restaurantReservationDto) {
-        logger.debug("restaurantReservation Inserting to database, restaurantReservationDto={}", restaurantReservationDto);
+        logger.debug("addRestaurantReservation Inserting to database, restaurantReservationDto={}", restaurantReservationDto);
         return restaurantReservationService.saveRestaurantReservation(restaurantReservationDto, null);
     }
 
@@ -64,13 +64,13 @@ public class RestaurantReservationController {
 
     @RequestMapping(value = "/admin/restaurantReservation", method = RequestMethod.POST, produces = "application/json")
     public String adminAddRestaurantReservation(@RequestBody RestaurantReservationDto restaurantReservationDto) {
-        logger.debug("restaurantReservation Inserting to database, restaurantReservationDto={}", restaurantReservationDto);
+        logger.debug("adminAddRestaurantReservation Inserting to database, restaurantReservationDto={}", restaurantReservationDto);
         return restaurantReservationService.saveRestaurantReservation(restaurantReservationDto, null);
     }
 
     @RequestMapping(value = "/admin/restaurantReservation/{restaurantReservationId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = "application/json")
     public String adminUpdateUserRestaurantReservation(@PathVariable(value = "restaurantReservationId") Long restaurantReservationId, @RequestBody RestaurantReservationDto restaurantReservationDto) {
-        logger.info("adminUpdateUser Updating by admin to, restaurantReservation={}", restaurantReservationDto);
+        logger.info("adminUpdateUserRestaurantReservation Updating by admin to, restaurantReservation={}", restaurantReservationDto);
         return restaurantReservationService.saveRestaurantReservation(restaurantReservationDto, restaurantReservationId);
     }
 

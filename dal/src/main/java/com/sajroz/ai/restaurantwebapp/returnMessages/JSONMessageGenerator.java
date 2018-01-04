@@ -6,7 +6,9 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.OffsetTime;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class JSONMessageGenerator {
@@ -209,4 +211,71 @@ public class JSONMessageGenerator {
         reservation.put("table", convertTableToJSON(tableReservationDto.getTable()));
         return reservation;
     }
+
+    public JSONArray generateJSONWithFrequencyOfTableReservation(Map<Long, Long> frequencyOfTableReservation) {
+        JSONArray mainObject = new JSONArray();
+        for (Map.Entry<Long, Long> m : frequencyOfTableReservation.entrySet()) {
+            if(!m.getKey().equals(0L)) {
+                JSONObject tableInfo = new JSONObject();
+                tableInfo.put("tableId", m.getKey());
+                tableInfo.put("frequency", (double)m.getValue()/frequencyOfTableReservation.get(0L));
+                mainObject.put(tableInfo);
+            }
+        }
+        return mainObject;
+    }
+
+    public JSONArray generateJSONWithTrafficInRestaurant(List<TrafficStatisticDataDto> trafficInRestaurant) {
+        JSONArray mainObject = new JSONArray();
+
+        for(TrafficStatisticDataDto t : trafficInRestaurant) {
+            JSONObject date = new JSONObject();
+            JSONArray hours = new JSONArray();
+
+            date.put("date", t.getTrafficInDate());
+            t.sortMapByKey();
+            Long sum = 0L;
+            for (Map.Entry<OffsetTime, Long> m : t.getTrafficByHours().entrySet()) {
+                JSONObject hourData = new JSONObject();
+                hourData.put(m.getKey().toString(), m.getValue());
+                sum+=m.getValue();
+                hours.put(hourData);
+            }
+            date.put("sum", sum);
+            date.put("body", hours);
+
+            mainObject.put(date);
+        }
+
+        return mainObject;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

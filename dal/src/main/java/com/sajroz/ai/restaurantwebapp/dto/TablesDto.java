@@ -1,6 +1,5 @@
 package com.sajroz.ai.restaurantwebapp.dto;
 
-import com.sajroz.ai.restaurantwebapp.model.entity.ReservationHistory;
 import com.sajroz.ai.restaurantwebapp.model.entity.TableReservation;
 import com.sajroz.ai.restaurantwebapp.model.entity.TrafficHistory;
 
@@ -24,8 +23,6 @@ public class TablesDto implements Serializable {
     private boolean isFree;
 
     private Set<TableReservation> tableReservations;
-
-    private Set<ReservationHistory> tableReservationsHistory;
 
     private Set<TrafficHistory> tableOccupations;
 
@@ -91,14 +88,6 @@ public class TablesDto implements Serializable {
 
     public void setTableReservations(Set<TableReservation> tableReservations) {
         this.tableReservations = tableReservations;
-    }
-
-    public Set<ReservationHistory> getTableReservationsHistory() {
-        return tableReservationsHistory;
-    }
-
-    public void setTableReservationsHistory(Set<ReservationHistory> tableReservationsHistory) {
-        this.tableReservationsHistory = tableReservationsHistory;
     }
 
     public Set<TrafficHistory> getTableOccupations() {

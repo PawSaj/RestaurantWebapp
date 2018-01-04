@@ -68,3 +68,11 @@ Domyślnie http://localhost:8080/
 ##### ```/admin/tableReservation``` POST
 ##### ```/admin/tableReservation/{tableReservationId}``` PUT  
 ##### ```/admin/tableReservation/{tableReservationId}``` DELETE
+<br />
+
+##### ```/admin/restaurantReservation``` GET
+##### ```/admin/restaurantReservation/{restaurantReservationId}``` GET	
+##### ```/reservations/admin/restaurant/{date}``` GET   
+##### ```/admin/restaurantReservation``` POST
+##### ```/admin/restaurantReservation/{restaurantReservationId}``` PUT  
+##### ```/admin/restaurantReservation/{restaurantReservationId}``` DELETE
