@@ -130,7 +130,7 @@ public class MealService {
     public String updateMeal(Long mealId, MealDto mealDto) {
         Meal meal = mealMapper.mealDtoToMeal(mealDto);
         String verifyMealDataResponse = verifyMealData(meal);
-        if ("".equals(verifyMealDataResponse)) {
+        if (verifyMealDataResponse == null) {
             if (!mealRepository.exists(mealId)) {
                 return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_MEAL).toString();
             }
