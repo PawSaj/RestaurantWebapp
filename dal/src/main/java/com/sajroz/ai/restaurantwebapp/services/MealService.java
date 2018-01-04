@@ -83,6 +83,8 @@ public class MealService {
     private String verifyMealData(Meal meal) {
         if (meal.getName() == null) {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "name").toString();
+        } else if(meal.getMealCategory() == null) {
+            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "mealCategory").toString();
         } else if (!checkCategoryExists(meal.getMealCategory().getName())) {
             //return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_MEAL_CATEGORY).toString();
             mealCategoryRepository.save(meal.getMealCategory());
@@ -128,7 +130,7 @@ public class MealService {
     public String updateMeal(Long mealId, MealDto mealDto) {
         Meal meal = mealMapper.mealDtoToMeal(mealDto);
         String verifyMealDataResponse = verifyMealData(meal);
-        if (verifyMealDataResponse == null) {
+        if ("".equals(verifyMealDataResponse)) {
             if (!mealRepository.exists(mealId)) {
                 return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_MEAL).toString();
             }
