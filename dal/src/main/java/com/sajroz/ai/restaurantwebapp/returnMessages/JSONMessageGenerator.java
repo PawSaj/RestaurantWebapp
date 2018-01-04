@@ -249,6 +249,31 @@ public class JSONMessageGenerator {
 
         return mainObject;
     }
+
+    public JSONArray generateJSONWithMealOrderHistory(List<MealOrderStatisticDataDto> mealOrderStatistic) {
+        JSONArray mainObject = new JSONArray();
+
+        for (MealOrderStatisticDataDto mO : mealOrderStatistic) {
+            JSONObject date = new JSONObject();
+            JSONArray orders = new JSONArray();
+
+            date.put("date", mO.getDate());
+            //mO.sortMapByKey();
+            Long sum = 0L;
+            for (Map.Entry<String, Long> m : mO.getMealOrder().entrySet()) {
+                JSONObject mealOrders = new JSONObject();
+                mealOrders.put(m.getKey(), m.getValue());
+                sum+=m.getValue();
+                orders.put(mealOrders);
+            }
+            date.put("sum", sum);
+            date.put("body", orders);
+
+            mainObject.put(date);
+        }
+
+        return mainObject;
+    }
 }
 
 

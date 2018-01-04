@@ -67,7 +67,7 @@ public class MealService {
     public String addMeal(MealDto mealDto) {
         Meal meal = mealMapper.mealDtoToMeal(mealDto);
         String verifyMealDataResponse = verifyMealData(meal);
-        if (verifyMealDataResponse == null) {
+        if ("".equals(verifyMealDataResponse)) {
             if (isMealExist(meal)) {
                 logger.warn("addMeal Meal adding failed - meal already exist, meal={}", mealDto);
                 return jsonMessageGenerator.createSimpleResponse(ResponseMessages.DUPLICATE_MEAL).toString();
@@ -87,7 +87,7 @@ public class MealService {
             //return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_MEAL_CATEGORY).toString();
             mealCategoryRepository.save(meal.getMealCategory());
         }
-        return null;
+        return "";
     }
 
     private boolean checkCategoryExists(String mealCategory) {

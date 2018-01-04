@@ -11,8 +11,6 @@ import com.sajroz.ai.restaurantwebapp.model.entity.TableReservation;
 import com.sajroz.ai.restaurantwebapp.model.entity.TrafficHistory;
 import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
 import com.sajroz.ai.restaurantwebapp.returnMessages.ResponseMessages;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,16 +19,12 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.IntStream;
 
 @Service
 @Transactional
-public class TrafficInRestaurantService {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+public class TrafficHistoryService {
 
     private final TableReservationRepository tableReservationRepository;
 
@@ -43,11 +37,11 @@ public class TrafficInRestaurantService {
     private final TrafficHistoryMapper trafficHistoryMapper;
 
     @Autowired
-    public TrafficInRestaurantService(JSONMessageGenerator jsonMessageGenerator,
-                                      TableReservationRepository tableReservationRepository,
-                                      TableReservationMapper tableReservationMapper,
-                                      TrafficHistoryRepository trafficHistoryRepository,
-                                      TrafficHistoryMapper trafficHistoryMapper) {
+    public TrafficHistoryService(JSONMessageGenerator jsonMessageGenerator,
+                                 TableReservationRepository tableReservationRepository,
+                                 TableReservationMapper tableReservationMapper,
+                                 TrafficHistoryRepository trafficHistoryRepository,
+                                 TrafficHistoryMapper trafficHistoryMapper) {
         this.jsonMessageGenerator = jsonMessageGenerator;
         this.tableReservationRepository = tableReservationRepository;
         this.tableReservationMapper = tableReservationMapper;
@@ -69,11 +63,12 @@ public class TrafficInRestaurantService {
         if(tableReservations.isEmpty() && trafficHistory.isEmpty()) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_RESERVATION).toString();
         }
-       /* Map<OffsetTime, Long> trafficByHours = new HashMap<>();
-        Map<LocalDate, Map<OffsetTime, Long>> trafficByDays = new HashMap<>();*/
+
         List<TrafficStatisticDataDto> trafficInRestaurant = new ArrayList<>();
         trafficInRestaurant = addTrafficFromTableReservations(tableReservations, trafficInRestaurant);
         trafficInRestaurant = addTrafficFromTrafficHistory(trafficHistory, trafficInRestaurant);
+
+        trafficInRestaurant.sort(Comparator.comparing(TrafficStatisticDataDto::getTrafficInDate));
 
         return jsonMessageGenerator.generateJSONWithTrafficInRestaurant(trafficInRestaurant).toString();
     }

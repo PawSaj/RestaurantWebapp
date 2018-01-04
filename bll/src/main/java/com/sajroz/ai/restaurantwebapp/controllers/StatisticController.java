@@ -1,7 +1,8 @@
 package com.sajroz.ai.restaurantwebapp.controllers;
 
 import com.sajroz.ai.restaurantwebapp.services.FrequencyOfTableReservationService;
-import com.sajroz.ai.restaurantwebapp.services.TrafficInRestaurantService;
+import com.sajroz.ai.restaurantwebapp.services.MealOrderHistoryService;
+import com.sajroz.ai.restaurantwebapp.services.TrafficHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,12 +15,15 @@ public class StatisticController {
 
     private final FrequencyOfTableReservationService frequencyOfTableReservationService;
 
-    private final TrafficInRestaurantService trafficInRestaurantService;
+    private final TrafficHistoryService trafficHistoryService;
+
+    private final MealOrderHistoryService mealOrderHistoryService;
 
     @Autowired
-    public StatisticController(FrequencyOfTableReservationService frequencyOfTableReservationService, TrafficInRestaurantService trafficInRestaurantService) {
+    public StatisticController(FrequencyOfTableReservationService frequencyOfTableReservationService, TrafficHistoryService trafficHistoryService, MealOrderHistoryService mealOrderHistoryService) {
         this.frequencyOfTableReservationService = frequencyOfTableReservationService;
-        this.trafficInRestaurantService = trafficInRestaurantService;
+        this.trafficHistoryService = trafficHistoryService;
+        this.mealOrderHistoryService = mealOrderHistoryService;
     }
 
     //częstotliwość wybierania stolików
@@ -33,13 +37,14 @@ public class StatisticController {
     @RequestMapping(value = "/management/reservations/traffic/{startDate}/{endDate}", method = RequestMethod.GET, produces = "application/json")
     public String getTrafficInRestaurant(@PathVariable(value = "startDate") String startDate,
                                          @PathVariable(value = "endDate") String endDate) {
-        return trafficInRestaurantService.generateTrafficInRestaurant(startDate, endDate);
+        return trafficHistoryService.generateTrafficInRestaurant(startDate, endDate);
     }
 
     //dzienne potrawy
-    @RequestMapping(value = "/management/2")
-    public String test2() {
-        return "good";
+    @RequestMapping(value = "/management/meal/order/{startDate}/{endDate}", method = RequestMethod.GET, produces = "application/json")
+    public String getMealOrderHistory(@PathVariable(value = "startDate") String startDate,
+                                      @PathVariable(value = "endDate") String endDate) {
+        return mealOrderHistoryService.generateMealOrderHistory(startDate, endDate);
     }
 
     //konsument okresu
