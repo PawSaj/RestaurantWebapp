@@ -528,6 +528,7 @@ export function reservationTraffic(startDate, endDate) {
         return api.getReservationTraffic(startDate, endDate).then(response => response.data)
             .then(data => {
                 console.log('reservation traffic: ', data);
+                dispatch(successReservationTraffic(data))
             });
     }
 }

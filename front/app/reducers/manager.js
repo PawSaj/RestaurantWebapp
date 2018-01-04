@@ -1,4 +1,4 @@
-import {MEAL_ORDERS_SUCCESS} from '../_consts/actions';
+import {MEAL_ORDERS_SUCCESS, RESERVATION_TRAFFIC_SUCCESS} from '../_consts/actions';
 
 const orders = (state = {}, action) => {
     switch (action.type) {
@@ -19,6 +19,8 @@ const reservations = (state = {}, action) => {
 
 const traffic = (state = {}, action) => {
     switch (action.type) {
+        case RESERVATION_TRAFFIC_SUCCESS:
+            return Object.assign({}, state, {data: action.data});
         default:
             return state;
     }
