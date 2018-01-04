@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux';
 import main from './main';
 import admin from './admin';
+import manager from './manager';
 import {
     MENU_SUCCESS,
     MENU_PENDING,
@@ -17,7 +18,12 @@ import {
     ADD_MEAL_SUCCESS,
     ADD_MEAL_FAILURE, GET_MEAL_BY_ID_SUCCESS
 } from '../_consts/actions';
-import {stateAfterMenuDelete, stateAfterMenuAdd, stateAfterMenuUpdate,stateAfterMealGetByID} from '../lib/helpers/stateHelpers';
+import {
+    stateAfterMenuDelete,
+    stateAfterMenuAdd,
+    stateAfterMenuUpdate,
+    stateAfterMealGetByID
+} from '../lib/helpers/stateHelpers';
 
 const errors = (state = {}, action) => {
     switch (action.type) {
@@ -72,4 +78,4 @@ const user = (state = {}, action) => {
     }
 };
 
-export default combineReducers({errors, user, menu, main, admin});
+export default combineReducers({errors, user, menu, main, admin, manager});

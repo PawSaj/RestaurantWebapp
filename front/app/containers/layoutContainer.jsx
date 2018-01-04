@@ -72,8 +72,13 @@ const adminMapStateToProps = (store) => {
 };
 
 const managerMapStateToProps = (store) => {
+    console.log('store: ', store);
     return {
         manager: {
+            frequency: store.manager.frequency,
+            orders: store.manager.orders,
+            reservations: store.manager.reservations,
+            traffic:store.manager.traffic,
             ...managerLayoutProp
         }
     }
