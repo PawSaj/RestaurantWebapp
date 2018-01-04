@@ -5,7 +5,7 @@ import {
     USER_ENDPOINTS,
     MAIN_ENDPOINTS,
     IMAGE_ENDPOINTS,
-    ADMIN_ENDPOINTS
+    ADMIN_ENDPOINTS, MANAGER_ENDPOINTS
 } from '../_consts/api/api';
 import {parseDataToURI} from './helpers/urlHelpers';
 
@@ -125,6 +125,22 @@ class API {
 
     createNewTable(table) {
         return this.request.post(ADMIN_ENDPOINTS.TABLES, table);
+    }
+
+    getTableFrequency(startDate, endDate) {
+        return this.request.get(MANAGER_ENDPOINTS.TABLE + `/${startDate}/${endDate}`);
+    }
+
+    getReservationTraffic(startDate, endDate) {
+        return this.request.get(MANAGER_ENDPOINTS.TRAFFIC + `/${startDate}/${endDate}`);
+    }
+
+    getMealOrders(startDate, endDate) {
+        return this.request.get(MANAGER_ENDPOINTS.ORDER + `/${startDate}/${endDate}`);
+    }
+
+    getUserReservations(startDate, endDate, topNumber) {
+        return this.request.get(MANAGER_ENDPOINTS.TABLE + `/${startDate}/${endDate}/${topNumber}`);
     }
 }
 
