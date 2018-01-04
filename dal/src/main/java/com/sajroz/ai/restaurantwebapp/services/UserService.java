@@ -98,8 +98,8 @@ public class UserService {
 
     private String saveUserToDatabase(User user) {
         logger.debug("saveUserToDatabase saving user to database, user={}", user);
-        userRepository.save(user);
-        return jsonMessageGenerator.createSimpleResponse(ResponseMessages.USER_REGISTERED).toString();
+        UserDto finalObject = userMapper.mapToDto(userRepository.save(user));
+        return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.USER_REGISTERED, "data", jsonMessageGenerator.convertUserToJSON(finalObject)).toString();
     }
 
     public String updateUser(Long userId, UserDto userDto, boolean admin) {
@@ -125,9 +125,9 @@ public class UserService {
             User userToUpdate = createUpdatedUser(userId, user, admin);
             updateUserInThisSession(userId, userToUpdate);
             logger.debug("updateUser Update user to database, user={}", userToUpdate);
-            userRepository.save(userToUpdate);
 
-            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.USER_UPDATED).toString();
+            UserDto finalObject = userMapper.mapToDto(userRepository.save(userToUpdate));
+            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.USER_UPDATED, "data", jsonMessageGenerator.convertUserToJSON(finalObject)).toString();
         } else {
             return verifyUserDataResponse;
         }
