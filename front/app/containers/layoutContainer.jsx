@@ -90,7 +90,7 @@ const mainMapDispatchToProps = (dispatch) => {
     }
 };
 
-const adminMapDispatchToProps = (dispatch) => {
+const adminMapDispatchToProps = (dispatch, ownProps) => {
     return {
         adminFunctions: {
             getAllUsers: () => {
@@ -103,7 +103,7 @@ const adminMapDispatchToProps = (dispatch) => {
                 dispatch(getUserById(id));
             },
             updateUserAdmin: (id, userData) => {
-                dispatch(updateUserAdmin(id, userData));
+                dispatch(updateUserAdmin(id, userData)).then(() => ownProps.history.push('/users'));
             }
         }
     }
@@ -133,7 +133,7 @@ const mergedProps = (stateProps, dispatchProps, ownProps) => {
         props = mainMapDispatchToProps(dispatch);
     }
     else if (user.data.role === 'ROLE_ADMIN') {
-        props = adminMapDispatchToProps(dispatch);
+        props = adminMapDispatchToProps(dispatch, ownProps);
     }
     else {
         props = null;
