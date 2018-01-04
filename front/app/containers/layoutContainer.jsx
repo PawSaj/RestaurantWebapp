@@ -13,7 +13,7 @@ import {
     getAllUsers,
     deleteUser,
     getUserById,
-    updateUserAdmin, deleteMeal, updateMeal, addMeal, getMealByID
+    updateUserAdmin, deleteMeal, updateMeal, addMeal, getMealByID, allTables
 } from '../actions/index';
 
 const mainLayoutProp = {
@@ -56,6 +56,7 @@ const adminMapStateToProps = (store) => {
         admin: {
             errors: store.admin.errors,
             users: store.admin.users,
+            tables: store.admin.tables,
             ...adminLayoutProp
         }
     }
@@ -124,6 +125,9 @@ const adminMapDispatchToProps = (dispatch, ownProps) => {
             },
             getMealByID: (id) => {
                 dispatch(getMealByID(id));
+            },
+            getTables: () =>{
+                dispatch(allTables());
             }
         }
     }

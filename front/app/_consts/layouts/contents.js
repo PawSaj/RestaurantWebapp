@@ -90,9 +90,6 @@ export const MANAGER_CONTENT = {
             path: MANAGER_PATHS.HOME,
             component: ManagerPanel
         }, {
-            path: MANAGER_PATHS.PROMOTIONS,
-            component: null
-        }, {
             path: MANAGER_PATHS.REPORTS,
             component: null
         }

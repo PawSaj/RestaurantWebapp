@@ -91,7 +91,7 @@ class API {
         })
     }
 
-    getMeal(id){
+    getMeal(id) {
         return this.request.get(ADMIN_ENDPOINTS.MEALS + `/${id}`);
     }
 
@@ -105,6 +105,10 @@ class API {
 
     deleteMeal(id) {
         return this.request.delete(ADMIN_ENDPOINTS.MEALS + `/${id}`);
+    }
+
+    getTables() {
+        return this.request.get(ADMIN_ENDPOINTS.TABLES);
     }
 }
 

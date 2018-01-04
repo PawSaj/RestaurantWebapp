@@ -24,6 +24,5 @@ export const ADMIN_PATHS = {
 
 export const MANAGER_PATHS = {
     HOME: '/',
-    REPORTS: '/reports',
-    PROMOTIONS: '/promotions'
+    REPORTS: '/reports'
 };

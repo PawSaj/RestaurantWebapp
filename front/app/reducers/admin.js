@@ -6,9 +6,9 @@ import {
     GET_USER_BY_ID_SUCCESS,
     GET_USER_BY_ID_FAILURE,
     UPDATE_USER_ADMIN_SUCCESS,
-    UPDATE_USER_FAILURE
+    UPDATE_USER_FAILURE, GET_ALL_TABLES_SUCCESS
 } from '../_consts/actions';
-import {stateAfterDelete,stateAfterUpdate} from '../lib/helpers/stateHelpers';
+import {stateAfterDelete, stateAfterUpdate} from '../lib/helpers/stateHelpers';
 
 const errors = (state = {}, action) => {
     switch (action.type) {
@@ -41,11 +41,22 @@ const users = (state = {}, action) => {
     }
 };
 
+const tables = (state = {}, action) => {
+    let {data} = state;
+    switch (action.type) {
+        case GET_ALL_TABLES_SUCCESS:
+            return Object.assign({}, state, {data: action.data, all: true});
+        default:
+            return state;
+    }
+};
+
 
 const admin = (state = {}, action) => {
     return {
         errors: errors(state.errors, action),
-        users: users(state.users, action)
+        users: users(state.users, action),
+        tables: tables(state.tables, action)
     }
 };
 

@@ -23,7 +23,9 @@ export const USER_ENDPOINTS = {
 
 export const ADMIN_ENDPOINTS = {
     USERS: '/admin/users',
-    MEALS: '/admin/meal'
+    MEALS: '/admin/meal',
+    TABLES: '/admin/tables'
 };
 
-export const MANAGER_ENDPOINTS = {};
+export const MANAGER_ENDPOINTS = {
+};

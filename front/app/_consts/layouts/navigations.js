@@ -69,10 +69,6 @@ export const MANAGER_NAV = {
             desc: 'Panel',
             exact: true
         }, {
-            link: MANAGER_PATHS.PROMOTIONS,
-            desc: 'Promocje',
-            exact: true
-        }, {
             link: MANAGER_PATHS.REPORTS,
             desc: 'Raporty',
             exact: true

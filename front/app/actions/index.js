@@ -397,3 +397,22 @@ export function getMealByID(id) {
             });
     }
 }
+/* GET ALL TABLES */
+
+function successAllTables(data) {
+   return {
+       type: ACTION.GET_ALL_TABLES_SUCCESS,
+       data
+   }
+}
+
+export function allTables() {
+    return dispatch => {
+
+        return api.getTables().then(response => response.data)
+            .then(data => {
+                console.log('all tables data: ', data);
+                dispatch(successAllTables(data))
+            });
+    }
+}
