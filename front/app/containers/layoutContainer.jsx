@@ -72,7 +72,6 @@ const adminMapStateToProps = (store) => {
 };
 
 const managerMapStateToProps = (store) => {
-    console.log('store: ', store);
     return {
         manager: {
             frequency: store.manager.frequency,

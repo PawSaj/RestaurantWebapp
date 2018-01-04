@@ -546,6 +546,7 @@ export function mealOrders(startDate, endDate) {
         return api.getMealOrders(startDate,endDate).then(response => response.data)
             .then(data => {
                 console.log('meal orders: ', data);
+                dispatch(successMealOrders(data))
             });
     }
 }
