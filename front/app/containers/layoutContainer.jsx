@@ -61,6 +61,14 @@ const adminMapStateToProps = (store) => {
     }
 };
 
+const managerMapStateToProps = (store) => {
+    return {
+        manager: {
+            ...managerLayoutProp
+        }
+    }
+};
+
 const sharedMapDispatchToProps = (dispatch, ownProps) => {
     return {
         sharedFunctions: {
@@ -114,7 +122,7 @@ const adminMapDispatchToProps = (dispatch, ownProps) => {
             addMeal: (mealData) => {
                 dispatch(addMeal(mealData)).then(() => ownProps.history.push('/menu'));
             },
-            getMealByID: (id) =>{
+            getMealByID: (id) => {
                 dispatch(getMealByID(id));
             }
         }
@@ -122,7 +130,6 @@ const adminMapDispatchToProps = (dispatch, ownProps) => {
 };
 
 const mapStateToProps = state => {
-    console.log(state);
     let store = state, props = null;
     let {user} = store;
     if (Object.keys(user).length <= 1 || user.data.role === 'ROLE_USER') {
@@ -132,7 +139,7 @@ const mapStateToProps = state => {
         props = Object.assign(adminMapStateToProps(store), {current: 'admin'});
     }
     else {
-        props = null;
+        props = Object.assign(managerMapStateToProps(store), {current: 'manager'});
     }
 
     return Object.assign({}, sharedStateToProps(store), props)
