@@ -108,11 +108,7 @@ class API {
     }
 
     deleteMeal(id) {
-        this.request.delete(ADMIN_ENDPOINTS.MEALS + `/${id}`).then((response) => {
-            console.log(response);
-        }).catch((error) => {
-            console.log(error);
-        })
+        return this.request.delete(ADMIN_ENDPOINTS.MEALS + `/${id}`);
     }
 }
 

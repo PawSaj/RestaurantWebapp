@@ -9,6 +9,7 @@ class Menu extends React.Component {
         super(props);
         this.passed = props.passed;
         this.getMenu = props.passed.sharedFunctions.getMenu;
+        this.deleteMeal = props.passed.adminFunctions.deleteMeal;
         this.state = {
             menu: props.passed.shared.menu.data
         };
@@ -21,7 +22,8 @@ class Menu extends React.Component {
             let preparedElement = Object.assign({}, element, {
                 order: ['id', 'name', 'ingredients', 'price'],
                 headsTitles: ['Id', 'Nazwa', 'Składniki', 'Cena'],
-                modify: true
+                modify: true,
+                deleteFunction: this.deleteMeal
             });
             return <CustomTable key={index} {...Object.assign({}, preparedElement, this.passed)}/>
         })

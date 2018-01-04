@@ -13,7 +13,7 @@ import {
     getAllUsers,
     deleteUser,
     getUserById,
-    updateUserAdmin
+    updateUserAdmin, deleteMeal
 } from '../actions/index';
 
 const mainLayoutProp = {
@@ -104,6 +104,9 @@ const adminMapDispatchToProps = (dispatch, ownProps) => {
             },
             updateUserAdmin: (id, userData) => {
                 dispatch(updateUserAdmin(id, userData)).then(() => ownProps.history.push('/users'));
+            },
+            deleteMeal: (id) => {
+                dispatch(deleteMeal(id));
             }
         }
     }

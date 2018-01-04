@@ -288,4 +288,36 @@ export function updateUserAdmin(id, userData) {
             });
     }
 }
+
+/* DELETE MEAL*/
+
+function successDeleteMeal(id) {
+    return {
+        type: ACTION.DELETE_MEAL_SUCCESS,
+        id
+    }
+}
+
+function failDeleteMeal(errorText) {
+    return {
+        type: ACTION.DELETE_MEAL_FAILURE,
+        errorText
+    }
+}
+
+export function deleteMeal(id) {
+    return dispatch => {
+
+        return api.deleteMeal(id)
+            .then(response => response.data)
+            .then(data => {
+                console.log('delete dish: ', data);
+                let status = data.status;
+                if (API_SUCCESS_CODES.includes(status)) {
+                    dispatch(successDeleteMeal(id));
+                }
+            });
+    }
+}
+
 /* ADMIN END */

@@ -9,7 +9,7 @@ import {
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
     UPDATE_USER_SUCCESS,
-    UPDATE_USER_FAILURE
+    UPDATE_USER_FAILURE, DELETE_MEAL_FAILURE, DELETE_MEAL_SUCCESS
 } from '../_consts/actions';
 import {stateAfterDelete, stateAfterUpdate} from '../lib/helpers/stateHelpers';
 
@@ -26,11 +26,14 @@ const errors = (state = {}, action) => {
 
 
 const menu = (state = {}, action) => {
+    let {data} = state;
     switch (action.type) {
         case MENU_PENDING:
             return Object.assign({}, state, {pending: true});
         case MENU_SUCCESS:
             return Object.assign({}, state, {pending: false, data: action.menu, all: true});
+        case DELETE_MEAL_SUCCESS:
+            return Object.assign({}, {data: stateAfterDelete(data, action)});
         default:
             return state;
     }
