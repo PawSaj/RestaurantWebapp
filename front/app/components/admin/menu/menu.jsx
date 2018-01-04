@@ -35,7 +35,8 @@ class Menu extends React.Component {
     }
 
     componentDidMount() {
-        if (this.state.menu === undefined) {
+
+        if (Object.keys(this.state.menu).length === 0 || !this.state.menu.all) {
             this.getMenu();
         }
     }

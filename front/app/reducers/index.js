@@ -15,9 +15,9 @@ import {
     UPDATE_MEAL_SUCCESS,
     UPDATE_MEAL_FAILURE,
     ADD_MEAL_SUCCESS,
-    ADD_MEAL_FAILURE
+    ADD_MEAL_FAILURE, GET_MEAL_BY_ID_SUCCESS
 } from '../_consts/actions';
-import {stateAfterMenuDelete, stateAfterMenuAdd, stateAfterMenuUpdate} from '../lib/helpers/stateHelpers';
+import {stateAfterMenuDelete, stateAfterMenuAdd, stateAfterMenuUpdate,stateAfterMealGetByID} from '../lib/helpers/stateHelpers';
 
 const errors = (state = {}, action) => {
     switch (action.type) {
@@ -32,7 +32,6 @@ const errors = (state = {}, action) => {
 
 
 const menu = (state = {}, action) => {
-    console.log('action:', action)
     let {data} = state;
     switch (action.type) {
         case MENU_PENDING:
@@ -45,6 +44,8 @@ const menu = (state = {}, action) => {
             return Object.assign({}, state, {data: stateAfterMenuUpdate(data, action)});
         case ADD_MEAL_SUCCESS:
             return Object.assign({}, state, {data: stateAfterMenuAdd(data, action)});
+        case GET_MEAL_BY_ID_SUCCESS:
+            return Object.assign({}, state, {data: stateAfterMealGetByID(action)});
         default:
             return state;
     }

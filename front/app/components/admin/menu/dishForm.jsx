@@ -49,14 +49,26 @@ class DishForm extends React.Component {
         super(props);
         this.new = props.new;
         this.updateMeal = props.passed.adminFunctions.updateMeal;
+        this.getMealByID = props.passed.adminFunctions.getMealByID;
         this.addMeal = props.passed.adminFunctions.addMeal;
         this.dish = getDish(props.passed.location.pathname, props.passed.shared.menu.data);
         this.state = setDishData(this.dish);
+
+        if (!this.new && this.dish === null) {
+            let dishID = getIDFromPath(props.passed.location.pathname);
+            this.getMealByID(dishID);
+        }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleMealUpdate = this.handleMealUpdate.bind(this);
         this.handleAddMeal = this.handleAddMeal.bind(this);
     }
+
+    componentWillReceiveProps(nextProps) {
+        this.dish = getDish(nextProps.passed.location.pathname, nextProps.passed.shared.menu.data);
+        this.state = setDishData(this.dish);
+    }
+
 
     handleChange(event) {
         let {id, value} = event.target, newValue = {};

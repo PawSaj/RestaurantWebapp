@@ -376,3 +376,24 @@ export function addMeal(mealData) {
 }
 
 /* ADMIN END */
+
+/* GET MEAL BY ID */
+
+function successGetMealByID(data) {
+    return {
+        type: ACTION.GET_MEAL_BY_ID_SUCCESS,
+        data
+    }
+}
+
+export function getMealByID(id) {
+    return dispatch => {
+
+        return api.getMeal(id)
+            .then(response => response.data)
+            .then(data => {
+                console.log('get meal data: ', data);
+                dispatch(successGetMealByID(data));
+            });
+    }
+}

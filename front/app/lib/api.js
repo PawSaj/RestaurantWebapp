@@ -91,6 +91,10 @@ class API {
         })
     }
 
+    getMeal(id){
+        return this.request.get(ADMIN_ENDPOINTS.MEALS + `/${id}`);
+    }
+
     addMeal(meal) {
         return this.request.post(ADMIN_ENDPOINTS.MEALS, meal);
     }

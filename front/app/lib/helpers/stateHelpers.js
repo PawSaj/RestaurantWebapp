@@ -66,6 +66,23 @@ export const stateAfterMenuAdd = (data, action) => {
 
 };
 
+
+export const stateAfterMealGetByID = (action) => {
+    let newData = {
+        id: action.data.id,
+        ingredients: action.data.ingredients,
+        price: action.data.price,
+        name: action.data.name
+    };
+
+    return [
+        {
+            category: action.data.category,
+            body: [newData]
+        }
+    ]
+};
+
 export const stateAfterMenuUpdate = (data, action) => {
     let newData = {
         id: action.data.id,
