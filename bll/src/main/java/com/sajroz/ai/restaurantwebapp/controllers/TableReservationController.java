@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.OffsetDateTime;
-
 @RestController
 public class TableReservationController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -31,8 +29,8 @@ public class TableReservationController {
         return tableReservationService.getTableReservation(tableReservationId);
     }
 
-    @RequestMapping(value = "/getReservedTables/{date}", method = RequestMethod.GET, produces = "application/json")
-    public String getFreeTablesForDate(@PathVariable(value = "date") OffsetDateTime date) {
+    @RequestMapping(value = "/reservations/table/{date}", method = RequestMethod.GET, produces = "application/json")
+    public String getReservedTablesForDate(@PathVariable(value = "date") String date) {
         return tableReservationService.getReservedTables(date);
     }
 
@@ -45,7 +43,7 @@ public class TableReservationController {
     @RequestMapping(value = "/tableReservation/{tableReservationId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = "application/json")
     public String updateTableReservation(@PathVariable(value = "tableReservationId") Long tableReservationId, @RequestBody TableReservationDto tableReservationDto) {
         logger.debug("updateTableReservation Updating to database, tableReservationDto={}", tableReservationDto);
-        return tableReservationService.updateTableReservation(tableReservationDto, tableReservationId);
+        return tableReservationService.saveTableReservation(tableReservationDto, tableReservationId);
     }
 
     @RequestMapping(value = "/tableReservation/{tableReservationId}", method = RequestMethod.DELETE, produces = "application/json")
