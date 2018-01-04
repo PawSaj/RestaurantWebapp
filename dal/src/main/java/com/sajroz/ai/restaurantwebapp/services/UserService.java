@@ -205,6 +205,9 @@ public class UserService {
     }
 
     public String getUser(Long userId) {
+        if (!userRepository.exists(userId)) {
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_USER).toString();
+        }
         return jsonMessageGenerator.convertUserToJSON(userMapper.mapToDto(userRepository.findOne(userId))).toString();
     }
 

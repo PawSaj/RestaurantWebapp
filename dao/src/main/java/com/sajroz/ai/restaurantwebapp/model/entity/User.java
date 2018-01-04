@@ -41,9 +41,6 @@ public class User implements Serializable {
     @OneToMany(mappedBy="user")
     private Set<RestaurantReservation> restaurantReservationSet;
 
-    @OneToMany(mappedBy="user")
-    private Set<ReservationHistory> reservationHistorySet;
-
     public Long getId() {
         return id;
     }
@@ -122,14 +119,6 @@ public class User implements Serializable {
 
     public void setRestaurantReservationSet(Set<RestaurantReservation> restaurantReservationSet) {
         this.restaurantReservationSet = restaurantReservationSet;
-    }
-
-    public Set<ReservationHistory> getReservationHistorySet() {
-        return reservationHistorySet;
-    }
-
-    public void setReservationHistorySet(Set<ReservationHistory> reservationHistorySet) {
-        this.reservationHistorySet = reservationHistorySet;
     }
 
     @Override

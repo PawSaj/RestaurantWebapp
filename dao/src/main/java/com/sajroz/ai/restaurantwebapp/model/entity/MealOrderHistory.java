@@ -4,6 +4,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 @Entity
@@ -18,9 +19,8 @@ public class MealOrderHistory implements Serializable{
     @JoinColumn(name = "ordered_meal", referencedColumnName = "meal_id", nullable = false)
     private Meal meal;
 
-    @Column(name = "meal_order_timestamp", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date mealOrderDate;
+    @Column(name = "meal_order_datetime", nullable = false)
+    private OffsetDateTime mealOrderDate;
 
     public Long getId() {
         return id;
@@ -38,11 +38,11 @@ public class MealOrderHistory implements Serializable{
         this.meal = meal;
     }
 
-    public Date getMealOrderDate() {
+    public OffsetDateTime getMealOrderDate() {
         return mealOrderDate;
     }
 
-    public void setMealOrderDate(Date mealOrderDate) {
+    public void setMealOrderDate(OffsetDateTime mealOrderDate) {
         this.mealOrderDate = mealOrderDate;
     }
 

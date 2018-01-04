@@ -210,3 +210,143 @@ Domyślnie http://localhost:8080/
         * status - *-7*
         * descripton - *You try to access data of different user.*		
 		
+### ```/restaurantReservation```
+
+* **metoda:** GET
+* **wymagania:** 
+  * wymaga autoryzacji
+* **co robi:**
+  * zwraca JSON z listą wszystkich rezerwacji restauracji danego użytkownika, gdzie każda rezerwacja to kolejny element listy:
+	* id - id
+	* date - data rezerwacji restauracji w formacie "YYYY-MM-DD"
+	* allDay - zawsze true, bo tylko takie obsługujemy
+	* describe - opis wpisany przez użytkownika
+	* floor - zawse 0, gdyż nie obsługujemy pięter
+  * jeśli brak rezerwacji JSON z danymi:
+    * status - *-17*
+    * descripton - *No reservation in database.*	
+
+### ```/restaurantReservation/{restaurantReservationId}```
+
+* **metoda:** GET
+* **wymagania:** 
+  * wymaga autoryzacji
+  * w adresie *{id}* jest to id rezerwacji restauracji, które chcemy pobrać
+* **co robi:**
+  * zwraca JSON z rezerwacją restauracji:
+    * id - id
+	* date - data rezerwacji restauracji w formacie "YYYY-MM-DD"
+	* allDay - zawsze true, bo tylko takie obsługujemy
+	* describe - opis wpisany przez użytkownika
+	* floor - zawse 0, gdyż nie obsługujemy pięter
+  * jeśli brak rezerwacji JSON z danymi:
+    * status - *-17*
+    * descripton - *No reservation in database.*	
+  * jeśli próba pobrania rezerwacji innego użytkownika:
+        * status - *-7*
+        * descripton - *You try to access data of different user.*	
+	
+### ```/reservations/restaurant/{date}```
+
+* **metoda:** GET
+* **wymagania:** 
+  * wymaga autoryzacji
+  * w adresie *{date}* jest to data początku okresu miesiąca który chcemy pobrać w formacie "YYYY-MM-DD
+* **co robi:**
+  * zwraca JSON z listą wszystkich wszystkich rezerwacji restauracji w danym okresie, gdzie każda rezerwacja restauracji to kolejny element listy:
+	* id - id
+	* date - data rezerwacji restauracji w formacie "YYYY-MM-DD"
+	* allDay - zawsze true, bo tylko takie obsługujemy
+	* describe - opis wpisany przez użytkownika
+	* floor - zawse 0, gdyż nie obsługujemy pięter
+  * jeśli brak rezerwacji JSON z danymi:
+    * status - *-17*
+    * descripton - *No reservation in database.*
+   
+### ```/restaurantReservation```
+
+* **metoda:** POST
+* **wymagania:** 
+  * wymaga autoryzacji
+  * wymaga w ciele JSON'a z danymi do zapisania rezerwacji restauracji:
+	* restaurantReservationDate - data rezerwacji restauracji w formacie "YYYY-MM-DD"
+	* opcjonalnie:
+		*describe - opis do rezerwacji
+* **co robi:**
+  * jeśli rezerwacja nie istnieje i udało się ją zapisać w bazie:
+    * zwraca JSON z danymi:
+        * status - *0*
+        * descripton - *Request completed with no errors.*
+		* reservation - dane rezerwacji jako obiekt z danymi:
+			* id - id
+			* date - data rezerwacji restauracji w formacie "YYYY-MM-DD"
+			* allDay - zawsze true, bo tylko takie obsługujemy
+			* describe - opis wpisany przez użytkownika
+			* floor - zawse 0, gdyż nie obsługujemy pięter
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, próba modyfikacji rezerwacji innego użytkownika:
+    * zwraca JSON z danymi:
+        * status - *-7*
+        * descripton - *You try to access data of different user.*
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, brak danej:
+	* zwraca JSON z danymi:
+		* status - *-14*
+		* descripton - *Missing data.*
+		* missing - dana, która jest wymagana, a której brakuje
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, stolik w tym czasie zajęty:
+	* zwraca JSON z danymi:
+		* status - *-19*
+		* descripton - *Restaurant is occupied.*	
+
+### ```/restaurantReservation/{restaurantReservationId}```
+
+* **metoda:** PUT
+* **wymagania:** 
+  * wymaga autoryzacji
+  * w adresie *{id}* jest to id rezerwacji restauracji, który chcemy zaktualizować
+  * wymaga w ciele JSON'a z danymi do zapisania rezerwacji restauracji:
+	* restaurantReservationDate - data rezerwacji restauracji w formacie "YYYY-MM-DD"
+  * opcjonalnie:
+	*describe - opis do rezerwacji
+* **co robi:**
+  * jeśli rezerwacja nie istnieje i udało się ją zapisać w bazie:
+    * zwraca JSON z danymi:
+        * status - *0*
+        * descripton - *Request completed with no errors.*
+		* reservation - dane rezerwacji jako obiekt z danymi:
+			* id - id
+			* date - data rezerwacji restauracji w formacie "YYYY-MM-DD"
+			* allDay - zawsze true, bo tylko takie obsługujemy
+			* describe - opis wpisany przez użytkownika
+			* floor - zawse 0, gdyż nie obsługujemy pięter
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, próba modyfikacji rezerwacji innego użytkownika:
+    * zwraca JSON z danymi:
+        * status - *-7*
+        * descripton - *You try to access data of different user.*
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, brak danej:
+	* zwraca JSON z danymi:
+		* status - *-14*
+		* descripton - *Missing data.*
+		* missing - dana, która jest wymagana, a której brakuje
+  * jeśli dodawanie rezerwacji zakończone neipowodzeniem, stolik w tym czasie zajęty:
+	* zwraca JSON z danymi:
+		* status - *-19*
+		* descripton - *Restaurant is occupied.*	
+    
+### ```/restaurantReservation/{restaurantReservationId}```
+
+* **metoda:** DELETE
+* **wymagania:** 
+  * wymaga autoryzacji
+  * w adresie *{id}* jest to id rezerwacji restauracji, którą chcemy usunąć  
+* **co robi:**
+  * jeśli powodzenie usunięcia restauracji zwraca JSON z danymi:
+    * status - *0*
+    * description - *Request completed with no errors.*
+  * JSON z danymi jeśli niepowodzenie z powodu:
+    * rezerwacja nie istnieje - błędne *{id}*:
+        * status - -20*
+        * description - *Restaurant reservation doesn't exist.*  
+	* próba modyfikacji rezerwacji innego użytkownika:
+        * status - *-7*
+        * descripton - *You try to access data of different user.*		
+		

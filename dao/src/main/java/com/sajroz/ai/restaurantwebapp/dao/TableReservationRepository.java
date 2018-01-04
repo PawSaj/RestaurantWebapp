@@ -46,4 +46,12 @@ public interface TableReservationRepository extends JpaRepository<TableReservati
             "AND t.table_reservation_timestamp < DATE_ADD(?1, INTERVAL 1 DAY) "
             , nativeQuery=true)
     boolean checkIsNoTableReservationOnDay(LocalDate restaurantReservationDate);
+
+    @Query(value = "SELECT * " +
+            "FROM table_reservation t " +
+            "WHERE t.table_reservation_timestamp >= ?1 " +
+            "AND t.table_reservation_timestamp < ?2 " +
+            "ORDER BY t.table_reservation_timestamp ASC "
+            , nativeQuery=true)
+    List<TableReservation> getReservedTablesInRange(OffsetDateTime startDate, OffsetDateTime endDate);
 }
