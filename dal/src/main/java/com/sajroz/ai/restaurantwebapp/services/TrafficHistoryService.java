@@ -49,11 +49,11 @@ public class TrafficHistoryService {
 
     public String generateTrafficInRestaurant(String startDateString, String endDateString) {
         OffsetDateTime startDate, endDate;
-        LocalTime time = LocalTime.of(0,0,0);
+        LocalTime time = LocalTime.of(0, 0, 0);
         ZoneOffset zoneOffset = ZoneOffset.ofHours(1);
         try {
-            startDate = OffsetDateTime.of(LocalDate.parse(startDateString), time,zoneOffset);
-            endDate = OffsetDateTime.of(LocalDate.parse(endDateString), time,zoneOffset);
+            startDate = OffsetDateTime.of(LocalDate.parse(startDateString), time, zoneOffset);
+            endDate = OffsetDateTime.of(LocalDate.parse(endDateString), time, zoneOffset);
         } catch (DateTimeParseException e) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.BAD_DATE_FORMAT).toString();
         }
@@ -61,7 +61,7 @@ public class TrafficHistoryService {
         List<TableReservationDto> tableReservations = getTableReservations(startDate, endDate);
         List<TrafficHistoryDto> trafficHistory = getTrafficHistory(startDate, endDate);
 
-        if(tableReservations.isEmpty() && trafficHistory.isEmpty()) {
+        if (tableReservations.isEmpty() && trafficHistory.isEmpty()) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_RESERVATION).toString();
         }
 
@@ -138,7 +138,7 @@ public class TrafficHistoryService {
 
     private List<TableReservationDto> getTableReservations(OffsetDateTime startDate, OffsetDateTime endDate) {
         List<TableReservationDto> tableReservations = new ArrayList<>();
-        for(TableReservation t : tableReservationRepository.getReservedTablesInRange(startDate, endDate)) {
+        for (TableReservation t : tableReservationRepository.getReservedTablesInRange(startDate, endDate)) {
             tableReservations.add(tableReservationMapper.tableReservationToTableReservationDto(t));
         }
         return tableReservations;

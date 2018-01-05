@@ -40,4 +40,9 @@
     * ^[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ0-9!:";'.?\s]{1,1000}$
     * ciąg znaków 1-1k z podstawowymi znakami specjalnymi
     * dozwolone pl znaki
+##RestaurantReservation
+* describe
+    * ^[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ0-9!:";'.?\s]{1,1000}$
+    * ciąg znaków 1-1k z podstawowymi znakami specjalnymi
+    * dozwolone pl znaki
     

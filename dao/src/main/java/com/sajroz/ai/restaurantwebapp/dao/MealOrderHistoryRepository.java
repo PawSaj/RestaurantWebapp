@@ -17,7 +17,7 @@ public interface MealOrderHistoryRepository extends JpaRepository<MealOrderHisto
             "WHERE m.meal_order_datetime >= ?1 " +
             "AND m.meal_order_datetime < ?2 " +
             "ORDER BY m.meal_order_datetime ASC "
-            , nativeQuery=true)
+            , nativeQuery = true)
     List<MealOrderHistory> getReservedTablesInRange(OffsetDateTime startDate, OffsetDateTime endDate);
 
 }

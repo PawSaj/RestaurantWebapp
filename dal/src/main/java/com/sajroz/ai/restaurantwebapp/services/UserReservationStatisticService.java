@@ -48,11 +48,11 @@ public class UserReservationStatisticService {
 
     public String generateUserReservationStatistic(String startDateString, String endDateString, int topNumber) {
         OffsetDateTime startDate, endDate;
-        LocalTime time = LocalTime.of(0,0,0);
+        LocalTime time = LocalTime.of(0, 0, 0);
         ZoneOffset zoneOffset = ZoneOffset.ofHours(1);
         try {
-            startDate = OffsetDateTime.of(LocalDate.parse(startDateString), time,zoneOffset);
-            endDate = OffsetDateTime.of(LocalDate.parse(endDateString), time,zoneOffset);
+            startDate = OffsetDateTime.of(LocalDate.parse(startDateString), time, zoneOffset);
+            endDate = OffsetDateTime.of(LocalDate.parse(endDateString), time, zoneOffset);
         } catch (DateTimeParseException e) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.BAD_DATE_FORMAT).toString();
         }

@@ -10,8 +10,6 @@ import com.sajroz.ai.restaurantwebapp.model.entity.TableReservation;
 import com.sajroz.ai.restaurantwebapp.model.entity.TrafficHistory;
 import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
 import com.sajroz.ai.restaurantwebapp.returnMessages.ResponseMessages;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +27,6 @@ import java.util.Map;
 @Service
 @Transactional
 public class FrequencyOfTableReservationService {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final TableReservationRepository tableReservationRepository;
 
@@ -56,11 +53,11 @@ public class FrequencyOfTableReservationService {
 
     public String generateFrequencyOfTableReservation(String startDateString, String endDateString) {
         OffsetDateTime startDate, endDate;
-        LocalTime time = LocalTime.of(0,0,0);
+        LocalTime time = LocalTime.of(0, 0, 0);
         ZoneOffset zoneOffset = ZoneOffset.ofHours(1);
         try {
-            startDate = OffsetDateTime.of(LocalDate.parse(startDateString), time,zoneOffset);
-            endDate = OffsetDateTime.of(LocalDate.parse(endDateString), time,zoneOffset);
+            startDate = OffsetDateTime.of(LocalDate.parse(startDateString), time, zoneOffset);
+            endDate = OffsetDateTime.of(LocalDate.parse(endDateString), time, zoneOffset);
         } catch (DateTimeParseException e) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.BAD_DATE_FORMAT).toString();
         }
@@ -68,7 +65,7 @@ public class FrequencyOfTableReservationService {
         List<TableReservationDto> tableReservations = getTableReservations(startDate, endDate);
         List<TrafficHistoryDto> trafficHistory = getTrafficHistory(startDate, endDate);
 
-        if(tableReservations.isEmpty() && trafficHistory.isEmpty()) {
+        if (tableReservations.isEmpty() && trafficHistory.isEmpty()) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_RESERVATION).toString();
         }
 
@@ -87,7 +84,7 @@ public class FrequencyOfTableReservationService {
 
     private List<TableReservationDto> getTableReservations(OffsetDateTime startDate, OffsetDateTime endDate) {
         List<TableReservationDto> tableReservations = new ArrayList<>();
-        for(TableReservation t : tableReservationRepository.getReservedTablesInRange(startDate, endDate)) {
+        for (TableReservation t : tableReservationRepository.getReservedTablesInRange(startDate, endDate)) {
             tableReservations.add(tableReservationMapper.tableReservationToTableReservationDto(t));
         }
         return tableReservations;
@@ -111,7 +108,7 @@ public class FrequencyOfTableReservationService {
         return frequencyOfTableReservation;
     }
 
-    private Map<Long,Long> addTableReservationInfoFromTrafficHistory(Map<Long, Long> frequencyOfTableReservation, List<TrafficHistoryDto> trafficHistory) {
+    private Map<Long, Long> addTableReservationInfoFromTrafficHistory(Map<Long, Long> frequencyOfTableReservation, List<TrafficHistoryDto> trafficHistory) {
         for (TrafficHistoryDto th : trafficHistory) {
             if (frequencyOfTableReservation.containsKey(th.getTable().getId())) {
                 frequencyOfTableReservation.put(th.getTable().getId(), frequencyOfTableReservation.get(th.getTable().getId()) + 1L);

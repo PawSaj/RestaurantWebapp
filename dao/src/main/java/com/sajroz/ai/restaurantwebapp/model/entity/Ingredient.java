@@ -18,7 +18,7 @@ public class Ingredient implements Serializable {
     private String name;
 
     @ManyToMany(mappedBy = "ingredients", fetch = FetchType.LAZY)
-    private Set<Meal> meal = new HashSet<Meal>();
+    private Set<Meal> meal = new HashSet<>();
 
     public Long getId() {
         return id;
