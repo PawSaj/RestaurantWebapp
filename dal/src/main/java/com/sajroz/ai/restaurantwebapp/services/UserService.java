@@ -84,7 +84,7 @@ public class UserService {
     }
 
     private String verifyUserData(UserDto user) {
-        UserValidation validation = new UserValidation(user);
+        UserValidation validator = new UserValidation(user);
         if (user == null || user.getEmail() == null){
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "email").toString();
         } else if (user.getPassword() == null) {
@@ -94,7 +94,7 @@ public class UserService {
         } else if (user.getSurname() == null) {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "surname").toString();
         } else {
-            String validationResult = validation.validateUser();
+            String validationResult = validator.validateUser();
             if (validationResult != null) {
                 return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "invalid data", validationResult).toString();
             } else {

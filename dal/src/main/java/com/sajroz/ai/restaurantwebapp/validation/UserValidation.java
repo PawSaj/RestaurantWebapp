@@ -33,8 +33,8 @@ public class UserValidation {
         if (image == null) {
             return true;
         }
-        String patternPhone = "^[a-zA-Z0-9-]{1,40}\\.[a-zA-Z]{1,5}$";
-        return Pattern.matches(patternPhone, image);
+        String patternImage = "^[a-zA-Z0-9-]{1,40}\\.[a-zA-Z]{1,5}$";
+        return Pattern.matches(patternImage, image);
     }
 
     private boolean checkPhone(Integer phone) {
