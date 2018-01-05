@@ -16,11 +16,21 @@ public class MealValidator {
             return "name";
         } else if (!checkImage(meal.getImage())) {
             return "image";
-        } else if(!checkCategory(meal.getMealCategory().getName())) {
+        } else if (!checkCategory(meal.getMealCategory().getName())) {
             return "mealCategory";
-        } else {
+        } else if (!checkDescribe(meal.getDescribe())) {
+            return "describe";
+        } else{
             return null;
         }
+    }
+
+    private boolean checkDescribe(String describe) {
+        if (describe == null) {
+            return true;
+        }
+        String patternDescribe = "^[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ0-9!:\";'.?\\s]{1,1000}$";
+        return Pattern.matches(patternDescribe, describe);
     }
 
     private boolean checkImage(String image) {
