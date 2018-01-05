@@ -6,6 +6,22 @@ let api = new API();
 /*USER*/
 
 /* LOGIN */
+function successAddTableReservation(data) {
+    return {
+        type: ACTION.ADD_TABLE_RESERVATION_SUCCESS,
+        data
+    }
+}
+
+export function addTableReservation(data) {
+    return dispatch => {
+        return api.createTableReservation(data).then((response) => response.data).then((data) => {
+            console.log('add table reservation data: ', data);
+            dispatch(successAddTableReservation(data))
+        })
+    }
+}
+
 function successAddLocalReservation(data) {
     return {
         type: ACTION.ADD_LOCAL_RESERVATION,
@@ -18,6 +34,22 @@ export function addLocalReservation(date) {
         return api.createLocalReservation(date).then((response) => response.data).then((data) => {
             console.log('add local reservation data: ', data);
             dispatch(successAddLocalReservation(data))
+        })
+    }
+}
+
+function successTablesReservation(data) {
+    return {
+        type: ACTION.TABLES_RESERVATIONS_SUCCESS,
+        data
+    }
+}
+
+export function tablesReservation() {
+    return dispatch => {
+        return api.getTablesReservations().then((response) => response.data).then((data) => {
+            console.log('tables reservations data: ', data);
+            dispatch(successTablesReservation(data))
         })
     }
 }

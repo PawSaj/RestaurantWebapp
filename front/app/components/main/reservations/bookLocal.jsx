@@ -30,7 +30,7 @@ class BookLocal extends React.Component {
     selected(data) {
         const myDate = moment(data.start).format('YYYY-MM-DD');
         for (let event of this.state.events) {
-            if (moment(event.start).format('YYYY-MM-DD') === myDate) {
+            if (moment(event.start).format('YYYY-MM-DD') === myDate || myDate <= moment().format('YYYY-MM-DD')) {
                 return false;
             }
         }
@@ -38,6 +38,9 @@ class BookLocal extends React.Component {
     }
 
     setEvents() {
+        if (!this.reservations)
+            return;
+
         let events = this.reservations.map((event) => {
             return {
                 'title': 'Rezerwacja lokalu',

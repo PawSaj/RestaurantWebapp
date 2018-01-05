@@ -150,6 +150,15 @@ class API {
     createLocalReservation(date) {
         return this.request.post(MAIN_ENDPOINTS.RESTAURANT_RESERVATION, date);
     }
+
+    getTablesReservations() {
+        return this.request.get(MAIN_ENDPOINTS.TABLE_RESERVATION);
+    }
+
+    createTableReservation(data) {
+        return this.request.post(MAIN_ENDPOINTS.TABLE_RESERVATION, data);
+    }
+
 }
 
 export default API;

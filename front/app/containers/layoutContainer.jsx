@@ -28,7 +28,9 @@ import {
     reservationTraffic,
     tableFrequency,
     localReservation,
-    addLocalReservation
+    addLocalReservation,
+    tablesReservation,
+    addTableReservation
 } from '../actions/index';
 
 const mainLayoutProp = {
@@ -118,8 +120,14 @@ const mainMapDispatchToProps = (dispatch) => {
             localReservation: () => {
                 dispatch(localReservation());
             },
-            addLocalReservation: (date) =>{
+            addLocalReservation: (date) => {
                 dispatch(addLocalReservation(date));
+            },
+            tablesReservation: () => {
+                dispatch(tablesReservation());
+            },
+            addTableReservation: (data) => {
+                dispatch(addTableReservation(data));
             }
         }
     }

@@ -1,5 +1,9 @@
 import {
-    REGISTRATION_SUCCESS, REGISTRATION_FAILURE, LOCAL_RESERVATIONS_SUCCESS,ADD_LOCAL_RESERVATION
+    REGISTRATION_SUCCESS,
+    REGISTRATION_FAILURE,
+    LOCAL_RESERVATIONS_SUCCESS,
+    ADD_LOCAL_RESERVATION,
+    TABLES_RESERVATIONS_SUCCESS
 } from '../_consts/actions';
 
 const errors = (state = {}, action) => {
@@ -19,6 +23,8 @@ const reservations = (state = {}, action) => {
             return Object.assign({}, state, {local: action.data});
         case ADD_LOCAL_RESERVATION:
             return Object.assign({}, state);
+        case TABLES_RESERVATIONS_SUCCESS:
+            return Object.assign({}, state, {tables: action.data});
         default:
             return state;
     }
