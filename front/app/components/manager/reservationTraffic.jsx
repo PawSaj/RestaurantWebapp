@@ -9,7 +9,7 @@ class ReservationTraffic extends React.Component {
         this.passed = props.passed;
         this.reservationTraffic = props.passed.managerFunctions.reservationTraffic;
         this.state = {
-            reservations: props.passed.manager.traffic.data,
+            traffic: props.passed.manager.traffic.data,
             startDate: '',
             endDate: ''
         };
@@ -19,7 +19,7 @@ class ReservationTraffic extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({reservations: nextProps.passed.manager.traffic.data})
+        this.setState({traffic: nextProps.passed.manager.traffic.data})
     }
 
     handleOnClick() {
@@ -36,7 +36,7 @@ class ReservationTraffic extends React.Component {
         return (
             <div className="chart-area">
                 <h3>Ruch w restauracji</h3>
-                <BarChart width={500} height={300} data={this.state.reservations}>
+                <BarChart width={500} height={300} data={this.state.traffic}>
                     <CartesianGrid stroke="#ccc"/>
                     <XAxis dataKey="date"/>
                     <YAxis />
@@ -73,7 +73,7 @@ class ReservationTraffic extends React.Component {
                     </Col>
                 </Row>
                 <Button bsClass="btn btn-panel" onClick={this.handleOnClick}>Szukaj</Button>
-                {this.state.reservations && this.renderChart()}
+                {this.state.traffic && this.renderChart()}
             </Grid>
         );
     }

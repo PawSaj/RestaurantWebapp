@@ -567,6 +567,7 @@ export function usersReservations(startDate, endDate, topNumber) {
         return api.getUserReservations(startDate, endDate, topNumber).then(response => response.data)
             .then(data => {
                 console.log('user reservations: ', data);
+                dispatch(successUsersReservations(data))
             });
     }
 }

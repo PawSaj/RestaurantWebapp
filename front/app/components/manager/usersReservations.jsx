@@ -1,14 +1,18 @@
 import React from 'react';
+import {BarChart, Bar, CartesianGrid, XAxis, YAxis} from 'recharts';
+import {Grid, Button, Row, Col} from 'react-bootstrap';
+import FieldGroup from '../_custom/fieldGroup';
 
 class UserReservations extends React.Component {
     constructor(props) {
         super(props);
         this.passed = props.passed;
-        this.mealOrders = props.passed.managerFunctions.mealOrders;
+        this.usersReservations = props.passed.managerFunctions.usersReservations;
         this.state = {
-            orders: props.passed.manager.orders.data,
+            reservations: props.passed.manager.reservations.data,
             startDate: '',
-            endDate: ''
+            endDate: '',
+            topNumber: ''
         };
         this.handleOnClick = this.handleOnClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -16,11 +20,11 @@ class UserReservations extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({orders: nextProps.passed.manager.orders.data})
+        this.setState({reservations: nextProps.passed.manager.reservations.data})
     }
 
     handleOnClick() {
-        this.mealOrders(this.state.startDate, this.state.endDate);
+        this.usersReservations(this.state.startDate, this.state.endDate, this.state.topNumber);
     }
 
     handleChange(event) {
@@ -32,11 +36,10 @@ class UserReservations extends React.Component {
     renderChart() {
         return (
             <div className="chart-area">
-                <h3>Liczba złożonych zamówień miedzy {this.state.orders[0].date}
-                    - {this.state.orders[Object.keys(this.state.orders).length - 1].date}</h3>
-                <BarChart width={500} height={300} data={this.state.orders}>
+                <h3>Rezerwacje</h3>
+                <BarChart width={500} height={300} data={this.state.reservations}>
                     <CartesianGrid stroke="#ccc"/>
-                    <XAxis dataKey="date"/>
+                    <XAxis dataKey="type"/>
                     <YAxis />
                     <Bar dataKey="sum" fill="#8884d8"/>
                 </BarChart>
@@ -49,7 +52,7 @@ class UserReservations extends React.Component {
         return (
             <Grid className="edit-form">
                 <Row>
-                    <Col xs={6}>
+                    <Col xs={4}>
                         <FieldGroup
                             id="startDate"
                             type="text"
@@ -59,7 +62,7 @@ class UserReservations extends React.Component {
                             onChange={this.handleChange}
                         />
                     </Col>
-                    <Col xs={6}>
+                    <Col xs={4}>
                         <FieldGroup
                             id="endDate"
                             type="text"
@@ -69,9 +72,19 @@ class UserReservations extends React.Component {
                             onChange={this.handleChange}
                         />
                     </Col>
+                    <Col xs={4}>
+                        <FieldGroup
+                            id="topNumber"
+                            type="text"
+                            label="Liczba userów"
+                            placeholder="Wprowadź liczbę userów"
+                            value={this.state.topNumber}
+                            onChange={this.handleChange}
+                        />
+                    </Col>
                 </Row>
                 <Button bsClass="btn btn-panel" onClick={this.handleOnClick}>Szukaj</Button>
-                {this.state.orders && this.renderChart()}
+                {this.state.reservations && this.renderChart()}
             </Grid>
         );
     }

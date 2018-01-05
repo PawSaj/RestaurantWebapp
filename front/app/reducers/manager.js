@@ -1,4 +1,4 @@
-import {MEAL_ORDERS_SUCCESS, RESERVATION_TRAFFIC_SUCCESS, TABLE_FREQUENCY_SUCCESS} from '../_consts/actions';
+import {MEAL_ORDERS_SUCCESS, RESERVATION_TRAFFIC_SUCCESS, TABLE_FREQUENCY_SUCCESS,USER_RESERVATIONS_SUCCESS} from '../_consts/actions';
 
 const orders = (state = {}, action) => {
     switch (action.type) {
@@ -11,6 +11,8 @@ const orders = (state = {}, action) => {
 
 const reservations = (state = {}, action) => {
     switch (action.type) {
+        case USER_RESERVATIONS_SUCCESS:
+            return Object.assign({}, state, {data: action.data});
         default:
             return state;
     }

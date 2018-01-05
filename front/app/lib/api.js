@@ -140,7 +140,7 @@ class API {
     }
 
     getUserReservations(startDate, endDate, topNumber) {
-        return this.request.get(MANAGER_ENDPOINTS.TABLE + `/${startDate}/${endDate}/${topNumber}`);
+        return this.request.get(MANAGER_ENDPOINTS.RESERVATION + `/${startDate}/${endDate}/${topNumber}`);
     }
 }
 
