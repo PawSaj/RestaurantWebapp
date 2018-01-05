@@ -30,7 +30,7 @@ public class UserValidation {
     }
 
     private boolean checkImage(String image) {
-        if (image == null) {
+        if (image == null || "".equals(image)) {
             return true;
         }
         String patternImage = "^[a-zA-Z0-9-]{1,40}\\.[a-zA-Z]{1,5}$";
@@ -38,7 +38,7 @@ public class UserValidation {
     }
 
     private boolean checkPhone(Integer phone) {
-        if (phone == null) {
+        if (phone == null || phone.equals(0L)) {
             return true;
         }
         String patternPhone = "^\\d{9}$";

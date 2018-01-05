@@ -71,6 +71,7 @@ public class JSONMessageGenerator {
         }
         mealJSON.put("ingredients", ingredients);
         mealJSON.put("image", mealDto.getImage());
+        mealJSON.put("mealCategory", mealDto.getMealCategory().getName());
         JSONArray ja = new JSONArray();
         ja.put(mealJSON);
         return mealJSON;

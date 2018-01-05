@@ -1,11 +1,8 @@
 package com.sajroz.ai.restaurantwebapp.model.entity;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "MEAL_ORDER_HISTORY")

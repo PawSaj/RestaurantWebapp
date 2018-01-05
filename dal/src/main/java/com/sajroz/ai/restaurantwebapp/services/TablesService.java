@@ -39,7 +39,7 @@ public class TablesService {
         tables = tablesRepository.findAll();
 
         List<TablesDto> tablesDto = new ArrayList<>(tables.size());
-        for(Tables t: tables) {
+        for (Tables t : tables) {
             tablesDto.add(tablesMapper.tablesToTablesDto(t));
         }
         logger.debug("getAllTables, tablesDto={}", tablesDto);
@@ -62,8 +62,8 @@ public class TablesService {
     public String saveTable(Long tableId, TablesDto tableDto) {
         Tables table = tablesMapper.tablesDtoToTables(tableDto);
         String verifyTableDataResponse = verifyTableData(table);
-        if(verifyTableDataResponse == null) {
-            if (isTableByNumberExist(table)){
+        if (verifyTableDataResponse == null) {
+            if (isTableByNumberExist(table)) {
                 logger.warn("addTable Table adding failed - table already exist, tableDto={}", tableDto);
                 return jsonMessageGenerator.createSimpleResponse(ResponseMessages.DUPLICATE_TABLE).toString();
             }

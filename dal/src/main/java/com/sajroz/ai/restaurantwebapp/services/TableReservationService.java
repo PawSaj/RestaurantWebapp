@@ -118,12 +118,61 @@ public class TableReservationService {
     public String saveTableReservation(TableReservationDto tableReservationDto, Long tableReservationId) {
         logger.debug("saveTableReservation Saving tableReservation to database, tableReservationDto={}", tableReservationDto);
 
+        String verifyRestaurantReservationDataResponse = checkIfUserTryGetNotHisData(tableReservationId);
+        if (verifyRestaurantReservationDataResponse == null) {
+            verifyRestaurantReservationDataResponse = verifyRestaurantReservationData(tableReservationDto);
+        }
+
+
+        if (verifyRestaurantReservationDataResponse == null) {
+            OffsetDateTime oldTimeOfTableReservation = null;
+            List<TableReservation> tableReservationsInDate = getReservationsOnTableInDate(tableReservationDto.getTableReservationDate(), tableReservationDto.getTable().getId());
+            int indexOfTableReservationInOldDate = -1;
+            if (tableReservationId != null) {
+                TableReservation tableReservationToUpdate = tableReservationRepository.findOne(tableReservationId);
+
+                indexOfTableReservationInOldDate = checkUpdateIsInOldDate(tableReservationToUpdate, tableReservationsInDate);
+                if (indexOfTableReservationInOldDate >= 0) {
+                    oldTimeOfTableReservation = tableReservationsInDate.get(indexOfTableReservationInOldDate).getTableReservationDate();
+                }
+            }
+
+            if (tableReservationsInDate.isEmpty()
+                    || (oldTimeOfTableReservation != null && tableReservationDto.getTableReservationDate().isAfter(oldTimeOfTableReservation) && indexOfTableReservationInOldDate == tableReservationsInDate.size() - 1)
+                    || (oldTimeOfTableReservation != null && tableReservationDto.getTableReservationDate().isBefore(oldTimeOfTableReservation) && indexOfTableReservationInOldDate == 0)) {
+                return saveTableReservationInDatabase(tableReservationDto, tableReservationId);
+            } else {
+                return jsonMessageGenerator.createSimpleResponse(ResponseMessages.TABLE_OCCUPIED).toString();
+            }
+        } else {
+            return verifyRestaurantReservationDataResponse;
+        }
+
+    }
+
+    private String saveTableReservationInDatabase(TableReservationDto tableReservationDto, Long tableReservationId) {
+        TableReservation tableReservation = tableReservationMapper.tableReservationDtoToTableReservation(tableReservationDto);
+        if (hasAdminRole()) {
+            tableReservation.setUser(userService.getUserById(tableReservation.getUser().getId()));
+        } else {
+            tableReservation.setUser(userService.getUserByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
+        }
+        tableReservation.setTable(tablesService.getTable(tableReservation.getTable().getId()));
+        tableReservation.setId(tableReservationId);
+        TableReservationDto finalObject = tableReservationMapper.tableReservationToTableReservationDto(tableReservationRepository.save(tableReservation));
+        return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.OK, "data", jsonMessageGenerator.convertTableReservationsToJSON(finalObject, hasAdminRole())).toString();
+    }
+
+    private String checkIfUserTryGetNotHisData(Long tableReservationId) {
         if (!hasAdminRole()
                 && tableReservationId != null
                 && !(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals(tableReservationRepository.findOne(tableReservationId).getUser().getEmail())) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
-
         }
+        return null;
+    }
+
+    private String verifyRestaurantReservationData(TableReservationDto tableReservationDto) {
         if (tableReservationDto.getTable() == null
                 || tableReservationDto.getTable().getId() == null) {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "Table info.").toString();
@@ -140,39 +189,10 @@ public class TableReservationService {
         if (hasAdminRole() && !userService.isUserExist(tableReservationDto.getUser().getId())) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_USER).toString();
         }
-        if(!checkRestaurantIsFree(LocalDate.of(tableReservationDto.getTableReservationDate().getYear(), tableReservationDto.getTableReservationDate().getMonth(), tableReservationDto.getTableReservationDate().getDayOfMonth()))) {
+        if (!checkRestaurantIsFree(LocalDate.of(tableReservationDto.getTableReservationDate().getYear(), tableReservationDto.getTableReservationDate().getMonth(), tableReservationDto.getTableReservationDate().getDayOfMonth()))) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.RESTAURANT_OCCUPIED).toString();
         }
-
-
-        OffsetDateTime oldTimeOfTableReservation = null;
-        List<TableReservation> tableReservationsInDate = checkTableIsFree(tableReservationDto.getTableReservationDate(), tableReservationDto.getTable().getId());
-        int indexOfTableReservationInOldDate = -1;
-        if (tableReservationId != null) {
-            TableReservation tableReservationToUpdate = tableReservationRepository.findOne(tableReservationId);
-
-            indexOfTableReservationInOldDate = checkUpdateIsInOldDate(tableReservationToUpdate, tableReservationsInDate);
-            if (indexOfTableReservationInOldDate >= 0) {
-                oldTimeOfTableReservation = tableReservationsInDate.get(indexOfTableReservationInOldDate).getTableReservationDate();
-            }
-        }
-
-        if (tableReservationsInDate.isEmpty()
-                || (oldTimeOfTableReservation != null && tableReservationDto.getTableReservationDate().isAfter(oldTimeOfTableReservation) && indexOfTableReservationInOldDate == tableReservationsInDate.size() - 1)
-                || (oldTimeOfTableReservation != null && tableReservationDto.getTableReservationDate().isBefore(oldTimeOfTableReservation) && indexOfTableReservationInOldDate == 0)) {
-            TableReservation tableReservation = tableReservationMapper.tableReservationDtoToTableReservation(tableReservationDto);
-            if (hasAdminRole()) {
-                tableReservation.setUser(userService.getUserById(tableReservation.getUser().getId()));
-            } else {
-                tableReservation.setUser(userService.getUserByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
-            }
-            tableReservation.setTable(tablesService.getTable(tableReservation.getTable().getId()));
-            tableReservation.setId(tableReservationId);
-            TableReservationDto finalObject = tableReservationMapper.tableReservationToTableReservationDto(tableReservationRepository.save(tableReservation));
-            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.OK, "data", jsonMessageGenerator.convertTableReservationsToJSON(finalObject, hasAdminRole())).toString();
-        } else {
-            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.TABLE_OCCUPIED).toString();
-        }
+        return null;
     }
 
     private boolean checkRestaurantIsFree(LocalDate date) {
@@ -189,7 +209,7 @@ public class TableReservationService {
     }
 
 
-    private List<TableReservation> checkTableIsFree(OffsetDateTime tableReservationDate, Long tableId) {
+    private List<TableReservation> getReservationsOnTableInDate(OffsetDateTime tableReservationDate, Long tableId) {
         return tableReservationRepository.checkTableIsFree(tableReservationDate, tableId);
     }
 
