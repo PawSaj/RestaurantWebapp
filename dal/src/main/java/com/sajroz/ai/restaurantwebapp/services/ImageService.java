@@ -44,14 +44,14 @@ public class ImageService {
         byte[] decodedImage;
         try {
             decodedImage = Base64.getMimeDecoder().decode(userImage.getImage());
-        }  catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             logger.info("No data to save, decode error, e={}", e.getMessage());
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.BASE64_ERROR).toString();
         }
 
         if (decodedImage != null) {
             String filename = storeImage(decodedImage);
-            if(filename != null) {
+            if (filename != null) {
                 logger.info("Saving user image successful, filepath={}", filename);
                 return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.IMAGE_SAVED, "filename", filename).toString();
             } else {
@@ -72,12 +72,12 @@ public class ImageService {
             file = new File("./images/" + filename);
         }
 
-        boolean isDirectoryCreated= file.getParentFile().exists();
+        boolean isDirectoryCreated = file.getParentFile().exists();
         if (!isDirectoryCreated) {
-            isDirectoryCreated= file.getParentFile().mkdirs();
+            isDirectoryCreated = file.getParentFile().mkdirs();
         }
 
-        if(isDirectoryCreated) {
+        if (isDirectoryCreated) {
             try {
                 FileOutputStream out = new FileOutputStream(file);
                 out.write(userImage);

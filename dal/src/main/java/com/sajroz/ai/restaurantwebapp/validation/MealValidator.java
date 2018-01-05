@@ -20,7 +20,7 @@ public class MealValidator {
             return "mealCategory";
         } else if (!checkDescribe(meal.getDescribe())) {
             return "describe";
-        } else{
+        } else {
             return null;
         }
     }

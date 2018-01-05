@@ -35,7 +35,8 @@ public class ModelConfig {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-    /** Konfiguracja entityManagerFactory.
+    /**
+     * Konfiguracja entityManagerFactory.
      *
      * @return LocalContainerEntityManagerFactoryBean - EntityManagerFactory zdefiniowany w spring orm.
      */

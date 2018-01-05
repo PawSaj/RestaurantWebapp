@@ -17,6 +17,6 @@ public interface TrafficHistoryRepository extends JpaRepository<TrafficHistory, 
             "WHERE t.table_occupied_datetime >= ?1 " +
             "AND t.table_occupied_datetime < ?2 " +
             "ORDER BY t.table_occupied_datetime ASC "
-            , nativeQuery=true)
+            , nativeQuery = true)
     List<TrafficHistory> getReservedTablesInRange(OffsetDateTime startDate, OffsetDateTime endDate);
 }

@@ -1,7 +1,6 @@
 package com.sajroz.ai.restaurantwebapp.dto;
 
 import java.time.LocalDate;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,9 +30,9 @@ public class MealOrderStatisticDataDto {
         return mealOrder;
     }
 
-    public void setMealOrder(Map<String, Long> mealOrder) {
+    /*public void setMealOrder(Map<String, Long> mealOrder) {
         this.mealOrder = mealOrder;
-    }
+    }*/
 
     @Override
     public String toString() {

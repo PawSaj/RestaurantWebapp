@@ -11,6 +11,7 @@ import com.sajroz.ai.restaurantwebapp.model.entity.RestaurantReservation;
 import com.sajroz.ai.restaurantwebapp.model.entity.TableReservation;
 import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
 import com.sajroz.ai.restaurantwebapp.returnMessages.ResponseMessages;
+import com.sajroz.ai.restaurantwebapp.validation.RestaurantReservationValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,15 +129,11 @@ public class RestaurantReservationService {
 
     public String saveRestaurantReservation(RestaurantReservationDto restaurantReservationDto, Long restaurantReservationId) {
         logger.debug("saveRestaurantReservation Saving tableReservation to database, restaurantReservationDto={}", restaurantReservationDto);
-        String verifyRestaurantReservationDataResponse = verifyRestaurantReservationData(restaurantReservationDto);
+        String verifyRestaurantReservationDataResponse = checkIfUserTryGetNotHisData(restaurantReservationId);
         if (verifyRestaurantReservationDataResponse == null) {
-            if (!hasAdminRole()
-                    && restaurantReservationId != null
-                    && !(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals(restaurantReservationRepository.findOne(restaurantReservationId).getUser().getEmail())) {
-                return jsonMessageGenerator.createSimpleResponse(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
-
-            }
-
+            verifyRestaurantReservationDataResponse = verifyRestaurantReservationData(restaurantReservationDto);
+        }
+        if (verifyRestaurantReservationDataResponse == null) {
             if (checkRestaurantIsFree(restaurantReservationDto.getRestaurantReservationDate(), restaurantReservationId)) {
                 RestaurantReservation restaurantReservation = restaurantReservationMapper.restaurantReservationDtoToRestaurantReservation(restaurantReservationDto);
                 if (hasAdminRole()) {
@@ -157,7 +154,17 @@ public class RestaurantReservationService {
 
     }
 
+    private String checkIfUserTryGetNotHisData(Long restaurantReservationId) {
+        if (!hasAdminRole()
+                && restaurantReservationId != null
+                && !(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals(restaurantReservationRepository.findOne(restaurantReservationId).getUser().getEmail())) {
+            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.ACCESS_TO_USER_ERROR).toString();
+        }
+        return null;
+    }
+
     private String verifyRestaurantReservationData(RestaurantReservationDto restaurantReservationDto) {
+        RestaurantReservationValidator validator = new RestaurantReservationValidator(restaurantReservationDto);
         if (restaurantReservationDto.getRestaurantReservationDate() == null) {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "Reservation date.").toString();
         } else if (hasAdminRole()
@@ -167,6 +174,10 @@ public class RestaurantReservationService {
         }
         if (hasAdminRole() && !userService.isUserExist(restaurantReservationDto.getUser().getId())) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_USER).toString();
+        }
+        String validationResult = validator.validateUser();
+        if (validationResult != null) {
+            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "invalid data", validationResult).toString();
         }
         return null;
     }

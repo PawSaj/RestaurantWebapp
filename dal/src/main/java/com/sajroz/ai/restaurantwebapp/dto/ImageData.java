@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class ImageData implements Serializable {
 
-    String image;
+    private String image;
 
     public String getImage() {
         return image;
