@@ -84,12 +84,17 @@ public class ModelConfig {
     private Properties additionalProperties() {
         Properties properties = new Properties();
         // NIE WLACZAC - automatyczna aktualizacja schematu db
-        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        properties.setProperty("hibernate.hbm2ddl.auto", "create");
         properties.setProperty("hibernate.show_sql", "true");
         properties.setProperty("hibernate.format_sql", "true");
         properties.setProperty("hibernate.jdbc.fetch_size", "0");
         // w MySQL to chyba nie dziala (JDBC Batch nie dziala przy AUTO ID jesli dobrze pamietam)
         properties.setProperty("hibernate.jdbc.batch_size", "20");
+        // kodowanie
+        properties.setProperty("hibernate.connection.CharSet", "utf8");
+        properties.setProperty("hibernate.connection.characterEncoding", "utf8");
+        properties.setProperty("hibernate.connection.useUnicode", "true");
+        properties.setProperty("hibernate.hbm2ddl.import_files_sql_extractor", "com.sajroz.ai.restaurantwebapp.dao.CustomSqlExtractor");
         return properties;
     }
 

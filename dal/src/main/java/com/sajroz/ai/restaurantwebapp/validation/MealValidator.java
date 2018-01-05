@@ -42,7 +42,7 @@ public class MealValidator {
     }
 
     private boolean checkName(String name) {
-        String patternUsername = "^[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]{1,20}((-|\\s)[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]{1,20}){0,4}$";
+        String patternUsername = "^[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]{1,20}((-|\\s)[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]{1,20}){0,10}$";
         return Pattern.matches(patternUsername, name);
     }
 
