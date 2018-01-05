@@ -19,11 +19,11 @@ public class Tables implements Serializable {
     @Column(name = "seats", nullable = false)
     private short seats;
 
-    @Column(name = "x")
+/*    @Column(name = "x")
     private short x;
 
     @Column(name = "y")
-    private short y;
+    private short y;*/
 
     @Column(name = "floor")
     private short floor;
@@ -61,7 +61,7 @@ public class Tables implements Serializable {
         this.seats = seats;
     }
 
-    public short getX() {
+/*    public short getX() {
         return x;
     }
 
@@ -75,7 +75,7 @@ public class Tables implements Serializable {
 
     public void setY(short y) {
         this.y = y;
-    }
+    }*/
 
     public short getFloor() {
         return floor;
@@ -114,8 +114,6 @@ public class Tables implements Serializable {
         return "Table{" +
                 "id=" + id +
                 ", seats=" + seats +
-                ", x=" + x +
-                ", y=" + y +
                 ", floor=" + floor +
                 ", isFree=" + isFree +
                 '}';
