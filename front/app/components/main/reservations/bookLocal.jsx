@@ -38,6 +38,7 @@ class BookLocal extends React.Component {
     }
 
     setEvents() {
+        console.log('res: ', this.reservations);
         if (!this.reservations)
             return;
 
@@ -53,7 +54,6 @@ class BookLocal extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('nextProps lokal: ', nextProps);
         this.setState({showModal: false, selectedDate: ''});
         this.reservations = nextProps.passed.main.reservations.local;
         this.setEvents();

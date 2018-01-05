@@ -17,7 +17,7 @@ export function addTableReservation(data) {
     return dispatch => {
         return api.createTableReservation(data).then((response) => response.data).then((data) => {
             console.log('add table reservation data: ', data);
-            dispatch(successAddTableReservation(data))
+            dispatch(successAddTableReservation(data.data))
         })
     }
 }
@@ -33,7 +33,7 @@ export function addLocalReservation(date) {
     return dispatch => {
         return api.createLocalReservation(date).then((response) => response.data).then((data) => {
             console.log('add local reservation data: ', data);
-            dispatch(successAddLocalReservation(data))
+            dispatch(successAddLocalReservation(data.data))
         })
     }
 }
@@ -49,7 +49,11 @@ export function tablesReservation() {
     return dispatch => {
         return api.getTablesReservations().then((response) => response.data).then((data) => {
             console.log('tables reservations data: ', data);
-            dispatch(successTablesReservation(data))
+            if (data.status < 0) {
+                dispatch(successTablesReservation(null))
+            } else {
+                dispatch(successTablesReservation(data))
+            }
         })
     }
 }
@@ -65,7 +69,11 @@ export function localReservation() {
     return dispatch => {
         return api.getLocalReservations().then((response) => response.data).then((data) => {
             console.log('local reservations data: ', data);
-            dispatch(successLocalReservation(data))
+            if (data.status < 0) {
+                dispatch(successLocalReservation(null))
+            } else {
+                dispatch(successLocalReservation(data))
+            }
         })
     }
 }
@@ -407,7 +415,7 @@ export function updateMeal(id, mealData) {
             .then(response => response.data)
             .then(data => {
                 console.log('update meal admin: ', data);
-                dispatch(successUpdateMeal(id, mealData));
+                dispatch(successUpdateMeal(id, data.data));
             });
     }
 }
@@ -434,7 +442,7 @@ export function addMeal(mealData) {
             .then(response => response.data)
             .then(data => {
                 console.log('add meal admin: ', data);
-                dispatch(successAddMeal(mealData));
+                dispatch(successAddMeal(data.data));
             });
     }
 }

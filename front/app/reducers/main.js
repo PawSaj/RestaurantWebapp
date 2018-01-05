@@ -3,7 +3,7 @@ import {
     REGISTRATION_FAILURE,
     LOCAL_RESERVATIONS_SUCCESS,
     ADD_LOCAL_RESERVATION,
-    TABLES_RESERVATIONS_SUCCESS
+    TABLES_RESERVATIONS_SUCCESS, ADD_TABLE_RESERVATION_SUCCESS
 } from '../_consts/actions';
 
 const errors = (state = {}, action) => {
@@ -22,7 +22,13 @@ const reservations = (state = {}, action) => {
         case LOCAL_RESERVATIONS_SUCCESS:
             return Object.assign({}, state, {local: action.data});
         case ADD_LOCAL_RESERVATION:
-            return Object.assign({}, state);
+            let newStateArray = state.local;
+            newStateArray.push(action.data);
+            return Object.assign({}, state, {local: newStateArray});
+        case ADD_TABLE_RESERVATION_SUCCESS:
+            let newTableStateArray = state.local;
+            newTableStateArray.push(action.data);
+            return Object.assign({}, state, {tables: newTableStateArray});
         case TABLES_RESERVATIONS_SUCCESS:
             return Object.assign({}, state, {tables: action.data});
         default:
