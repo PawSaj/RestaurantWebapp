@@ -154,8 +154,8 @@ public class RestaurantReservationService {
                 restaurantReservation.setUser(userService.getUserByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
             }
             restaurantReservation.setId(restaurantReservationId);
-            restaurantReservationRepository.save(restaurantReservation);
-            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.OK).toString();
+            RestaurantReservationDto finalObject = restaurantReservationMapper.restaurantReservationToRestaurantReservationDto(restaurantReservationRepository.save(restaurantReservation));
+            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.OK, "data", jsonMessageGenerator.convertRestaurantReservationToJSON(finalObject, hasAdminRole())).toString();
         } else {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.RESTAURANT_OCCUPIED).toString();
         }

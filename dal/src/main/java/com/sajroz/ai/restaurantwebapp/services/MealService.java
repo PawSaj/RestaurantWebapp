@@ -73,8 +73,8 @@ public class MealService {
                 return jsonMessageGenerator.createSimpleResponse(ResponseMessages.DUPLICATE_MEAL).toString();
             }
             meal.setId(null);
-            saveMeal(meal);
-            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.OK).toString();
+            MealDto finalObject = mealMapper.mealToMealDto(saveMeal(meal));
+            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.OK, "data", jsonMessageGenerator.convertMealToJSON(finalObject)).toString();
         } else {
             return verifyMealDataResponse;
         }
@@ -96,11 +96,11 @@ public class MealService {
         return mealCategoryRepository.findByName(mealCategory) != null;
     }
 
-    private void saveMeal(Meal meal) {
+    private Meal saveMeal(Meal meal) {
         meal = correctIngredientsInMeal(meal);
         meal = correctMealCategory(meal);
         logger.debug("Saving meal with corrected ingredients information, meal={}", meal);
-        mealRepository.save(meal);
+        return mealRepository.save(meal);
     }
 
     private Meal correctMealCategory(Meal meal) {
@@ -139,8 +139,8 @@ public class MealService {
             }
 
             meal.setId(mealId);
-            saveMeal(meal);
-            return jsonMessageGenerator.createSimpleResponse(ResponseMessages.OK).toString();
+            MealDto finalObject = mealMapper.mealToMealDto(saveMeal(meal));
+            return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.OK, "data", jsonMessageGenerator.convertMealToJSON(finalObject)).toString();
         } else {
             return verifyMealDataResponse;
         }
