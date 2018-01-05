@@ -14,9 +14,9 @@ public class TablesDto implements Serializable {
 
     private short seats;
 
-    private short x;
+/*    private short x;
 
-    private short y;
+    private short y;*/
 
     private short floor;
 
@@ -50,7 +50,7 @@ public class TablesDto implements Serializable {
         this.seats = seats;
     }
 
-    public short getX() {
+/*    public short getX() {
         return x;
     }
 
@@ -64,7 +64,7 @@ public class TablesDto implements Serializable {
 
     public void setY(short y) {
         this.y = y;
-    }
+    }*/
 
     public short getFloor() {
         return floor;
@@ -104,8 +104,6 @@ public class TablesDto implements Serializable {
                 "id=" + id +
                 ", tableNumber=" + tableNumber +
                 ", seats=" + seats +
-                ", x=" + x +
-                ", y=" + y +
                 ", floor=" + floor +
                 ", isFree=" + isFree +
                 '}';
