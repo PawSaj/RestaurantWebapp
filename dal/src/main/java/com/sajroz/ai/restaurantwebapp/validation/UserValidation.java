@@ -5,31 +5,49 @@ import com.sajroz.ai.restaurantwebapp.dto.UserDto;
 import java.util.regex.Pattern;
 
 public class UserValidation {
-    /*private UserDto user;
+    private UserDto user;
 
     public UserValidation(UserDto user) {
         this.user = user;
     }
 
     public String validateUser() {
-        if (checkUsername(user.getName()) == false) {
-            return false;
-        } else if (checkPassword(user.getPassword()) == false) {
-            return false;
-        } else if (checkFirstname(user.getSurname()) == false) {
-            return false;
-        } else if (checkLastname(user.getSurname()) == false) {
-            return false;
-        } else if (checkEmail(user.getEmail()) == false) {
-            return false;
+        if (!checkEmail(user.getEmail())) {
+            return "email";
+        } else if (!checkPassword(user.getPassword())) {
+            return "password";
+        } else if (!checkName(user.getName())) {
+            return "name";
+        } else if (!checkSurname(user.getSurname())) {
+            return "surname";
+        } else if (!checkPhone(user.getPhone())) {
+            return "phone";
+        } else if (!checkImage(user.getImage())) {
+            return "image";
         } else {
             return null;
         }
     }
 
-    private boolean checkUsername(String username) {
-        String patternUsername = "^(?=.*[a-z])[\\wąćęłńóśźżĄĘŁŃÓŚŹŻ\\d]{3,20}$";
-        return Pattern.matches(patternUsername, username);
+    private boolean checkImage(String image) {
+        if (image == null) {
+            return true;
+        }
+        String patternImage = "^[a-zA-Z0-9-]{1,40}\\.[a-zA-Z]{1,5}$";
+        return Pattern.matches(patternImage, image);
+    }
+
+    private boolean checkPhone(Integer phone) {
+        if (phone == null) {
+            return true;
+        }
+        String patternPhone = "^\\d{9}$";
+        return Pattern.matches(patternPhone, phone.toString());
+    }
+
+    private boolean checkName(String name) {
+        String patternUsername = "^[A-ZĆŁŚŻŹ][a-ząćęłńóśźż]{1,20}$";
+        return Pattern.matches(patternUsername, name);
     }
 
     private boolean checkPassword(String password) {
@@ -37,19 +55,14 @@ public class UserValidation {
         return Pattern.matches(patternPassword, password);
     }
 
-    private boolean checkFirstname(String firstname) {
-        String patternFirstname = "^[A-ZŁŻ][a-ząćęłńóśźżĄĘŁŃÓŚŹŻ]{1,20}$";
-        return Pattern.matches(patternFirstname, firstname);
-    }
-
-    private boolean checkLastname(String lastnamename) {
-        String patternLastname = "^[A-ZĆŁŚŻŹ][a-ząćęłńóśźżĄĘŁŃÓŚŹŻ]{1,20}((-|\\\\s)?[A-ZĆŁŚŻŹ][a-ząćęłńóśźżĄĘŁŃÓŚŹŻ]{1,20})?$";
-        return Pattern.matches(patternLastname, lastnamename);
+    private boolean checkSurname(String surname) {
+        String patternSurname = "^[A-ZĆŁŚŻŹ][a-ząćęłńóśźż]{1,20}((-|\\s)[A-ZĆŁŚŻŹ][a-ząćęłńóśźż]{1,20})?$";
+        return Pattern.matches(patternSurname, surname);
     }
 
     private boolean checkEmail(String email) {
-        String patternEmail = "^[[\\w]+(?:\\.[\\w]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}]{6,50}$";
+        String patternEmail = "^[\\w]{1,20}@[\\w]{1,10}(\\.[a-zA-Z]{1,5}){1,6}";
         return Pattern.matches(patternEmail, email);
-    }*/
+    }
 }
 

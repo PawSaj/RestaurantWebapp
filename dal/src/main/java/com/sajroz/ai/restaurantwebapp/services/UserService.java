@@ -2,6 +2,7 @@ package com.sajroz.ai.restaurantwebapp.services;
 
 import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
 import com.sajroz.ai.restaurantwebapp.returnMessages.ResponseMessages;
+import com.sajroz.ai.restaurantwebapp.validation.UserValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,8 +67,8 @@ public class UserService {
     }
 
     public String registerUser(UserDto userDto) {
+        String verifyUserDataResponse = verifyUserData(userDto);
         User user = userMapper.mapFromDto(userDto);
-        String verifyUserDataResponse = verifyUserData(user);
         if(verifyUserDataResponse == null) {
             if (isEmailExist(user)) {
                 logger.debug("registerUser Registration failed - user already exist, email={}", userDto.getEmail());
@@ -82,8 +83,9 @@ public class UserService {
         }
     }
 
-    private String verifyUserData(User user) {
-        if (user.getEmail() == null){
+    private String verifyUserData(UserDto user) {
+        UserValidation validator = new UserValidation(user);
+        if (user == null || user.getEmail() == null){
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "email").toString();
         } else if (user.getPassword() == null) {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "password").toString();
@@ -92,7 +94,12 @@ public class UserService {
         } else if (user.getSurname() == null) {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "surname").toString();
         } else {
-            return null;
+            String validationResult = validator.validateUser();
+            if (validationResult != null) {
+                return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "invalid data", validationResult).toString();
+            } else {
+                return null;
+            }
         }
     }
 
@@ -104,8 +111,8 @@ public class UserService {
 
     public String updateUser(Long userId, UserDto userDto, boolean admin) {
         logger.debug("updateUser, userId={}, user={}", userId, userDto);
+        String verifyUserDataResponse = verifyUserData(userDto);
         User user = userMapper.mapFromDto(userDto);
-        String verifyUserDataResponse = verifyUserData(user);
         if(verifyUserDataResponse == null) {
             if (!userRepository.exists(userId)) {
                 logger.debug("updateUser User doesn't exist, wrong id, userId={}, user={}", userId, userDto);
