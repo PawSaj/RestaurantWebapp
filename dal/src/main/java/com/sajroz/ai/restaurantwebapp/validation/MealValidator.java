@@ -26,7 +26,7 @@ public class MealValidator {
     }
 
     private boolean checkDescribe(String describe) {
-        if (describe == null) {
+        if (describe == null || "".equals(describe)) {
             return true;
         }
         String patternDescribe = "^[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ0-9!:\";'.?\\s]{1,1000}$";
@@ -34,7 +34,7 @@ public class MealValidator {
     }
 
     private boolean checkImage(String image) {
-        if (image == null) {
+        if (image == null || "".equals(image)) {
             return true;
         }
         String patternImage = "^[a-zA-Z0-9-]{1,40}\\.[a-zA-Z]{1,5}$";

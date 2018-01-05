@@ -20,7 +20,7 @@ public class RestaurantReservationValidator {
     }
 
     private boolean checkDescribe(String describe) {
-        if (describe == null) {
+        if (describe == null|| "".equals(describe)) {
             return true;
         }
         String patternDescribe = "^[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ0-9!:\";'.?\\s]{1,1000}$";
