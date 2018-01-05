@@ -142,6 +142,14 @@ class API {
     getUserReservations(startDate, endDate, topNumber) {
         return this.request.get(MANAGER_ENDPOINTS.RESERVATION + `/${startDate}/${endDate}/${topNumber}`);
     }
+
+    getLocalReservations() {
+        return this.request.get(MAIN_ENDPOINTS.RESTAURANT_RESERVATION);
+    }
+
+    createLocalReservation(date) {
+        return this.request.post(MAIN_ENDPOINTS.RESTAURANT_RESERVATION, date);
+    }
 }
 
 export default API;

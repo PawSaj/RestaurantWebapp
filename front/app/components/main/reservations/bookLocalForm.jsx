@@ -3,8 +3,7 @@ import FieldGroup from '../../_custom/fieldGroup';
 import {Button} from 'react-bootstrap';
 
 
-const bookLocalForm = ({date}) => {
-    console.log(date);
+const bookLocalForm = ({date, callback}) => {
     return (
         <form id="book-local-form">
             <FieldGroup
@@ -14,7 +13,7 @@ const bookLocalForm = ({date}) => {
                 disabled={true}
                 value={date}
             />
-            <Button>Potwierdż</Button>
+            <Button onClick={() => callback({restaurantReservationDate: date})}>Potwierdż</Button>
         </form>
     )
 };

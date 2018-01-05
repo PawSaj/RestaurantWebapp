@@ -6,6 +6,38 @@ let api = new API();
 /*USER*/
 
 /* LOGIN */
+function successAddLocalReservation(data) {
+    return {
+        type: ACTION.ADD_LOCAL_RESERVATION,
+        data
+    }
+}
+
+export function addLocalReservation(date) {
+    return dispatch => {
+        return api.createLocalReservation(date).then((response) => response.data).then((data) => {
+            console.log('add local reservation data: ', data);
+            dispatch(successAddLocalReservation(data))
+        })
+    }
+}
+
+function successLocalReservation(data) {
+    return {
+        type: ACTION.LOCAL_RESERVATIONS_SUCCESS,
+        data
+    }
+}
+
+export function localReservation() {
+    return dispatch => {
+        return api.getLocalReservations().then((response) => response.data).then((data) => {
+            console.log('local reservations data: ', data);
+            dispatch(successLocalReservation(data))
+        })
+    }
+}
+
 function pendingLogin() {
     return {
         type: ACTION.LOGIN_PENDING
@@ -545,7 +577,7 @@ function successMealOrders(data) {
 export function mealOrders(startDate, endDate) {
     return dispatch => {
 
-        return api.getMealOrders(startDate,endDate).then(response => response.data)
+        return api.getMealOrders(startDate, endDate).then(response => response.data)
             .then(data => {
                 console.log('meal orders: ', data);
                 dispatch(successMealOrders(data))

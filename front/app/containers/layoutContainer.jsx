@@ -22,7 +22,13 @@ import {
     deleteTable,
     getTableByID,
     updateTable,
-    createTable, usersReservations, mealOrders, reservationTraffic, tableFrequency
+    createTable,
+    usersReservations,
+    mealOrders,
+    reservationTraffic,
+    tableFrequency,
+    localReservation,
+    addLocalReservation
 } from '../actions/index';
 
 const mainLayoutProp = {
@@ -55,6 +61,7 @@ const mainMapStateToProps = (store) => {
         main: {
             errors: store.main.errors,
             registration: store.main.registration,
+            reservations: store.main.reservations,
             ...mainLayoutProp
         }
     }
@@ -77,7 +84,7 @@ const managerMapStateToProps = (store) => {
             frequency: store.manager.frequency,
             orders: store.manager.orders,
             reservations: store.manager.reservations,
-            traffic:store.manager.traffic,
+            traffic: store.manager.traffic,
             ...managerLayoutProp
         }
     }
@@ -107,6 +114,12 @@ const mainMapDispatchToProps = (dispatch) => {
         mainFunctions: {
             registerUser: (userData) => {
                 dispatch(register(userData));
+            },
+            localReservation: () => {
+                dispatch(localReservation());
+            },
+            addLocalReservation: (date) =>{
+                dispatch(addLocalReservation(date));
             }
         }
     }

@@ -11,8 +11,11 @@ class BookTable extends React.Component {
     componentDidMount() {
         let buttons = document.getElementsByTagName('button');
         buttons[5].click();
-        buttons[buttons.length - 1].remove();
-        buttons[buttons.length - 1].remove();
+        for(let key in buttons){
+            if(buttons.hasOwnProperty(key)){
+                buttons[key].remove();
+            }
+        }
     }
 
     render() {
