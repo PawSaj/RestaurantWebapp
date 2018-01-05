@@ -11,7 +11,9 @@ export const IMAGE_ENDPOINTS = {
 };
 
 export const MAIN_ENDPOINTS = {
-    MENU: '/menu'
+    MENU: '/menu',
+    RESTAURANT_RESERVATION: '/restaurantReservation',
+    TABLE_RESERVATION: '/tableReservation'
 };
 
 export const USER_ENDPOINTS = {
