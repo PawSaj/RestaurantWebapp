@@ -36,4 +36,8 @@
 * image
     * ^[a-zA-Z0-9-]{1,40}\.[a-zA-Z]{1,5}$
     * ciąg znaków 1-40 z dozwolonym znakiem "-" oraz "." i po niej rozszerzenie
+* describe
+    * ^[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ0-9!:";'.?\s]{1,1000}$
+    * ciąg znaków 1-1k z podstawowymi znakami specjalnymi
+    * dozwolone pl znaki
     

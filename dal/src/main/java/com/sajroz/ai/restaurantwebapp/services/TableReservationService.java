@@ -137,7 +137,7 @@ public class TableReservationService {
         if (!tablesService.isTableExist(tableReservationDto.getTable().getId())) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_TABLE).toString();
         }
-        if (!userService.isUserExist(tableReservationDto.getUser().getId())) {
+        if (hasAdminRole() && !userService.isUserExist(tableReservationDto.getUser().getId())) {
             return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_USER).toString();
         }
         if(!checkRestaurantIsFree(LocalDate.of(tableReservationDto.getTableReservationDate().getYear(), tableReservationDto.getTableReservationDate().getMonth(), tableReservationDto.getTableReservationDate().getDayOfMonth()))) {
