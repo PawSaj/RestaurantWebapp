@@ -12,6 +12,7 @@ import com.sajroz.ai.restaurantwebapp.model.entity.Meal;
 import com.sajroz.ai.restaurantwebapp.model.entity.MealCategory;
 import com.sajroz.ai.restaurantwebapp.returnMessages.JSONMessageGenerator;
 import com.sajroz.ai.restaurantwebapp.returnMessages.ResponseMessages;
+import com.sajroz.ai.restaurantwebapp.validation.MealValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,9 +66,10 @@ public class MealService {
     }
 
     public String addMeal(MealDto mealDto) {
+        String verifyMealDataResponse = verifyMealData(mealDto);
         Meal meal = mealMapper.mealDtoToMeal(mealDto);
-        String verifyMealDataResponse = verifyMealData(meal);
-        if ("".equals(verifyMealDataResponse)) {
+
+        if (verifyMealDataResponse == null) {
             if (isMealExist(meal)) {
                 logger.warn("addMeal Meal adding failed - meal already exist, meal={}", mealDto);
                 return jsonMessageGenerator.createSimpleResponse(ResponseMessages.DUPLICATE_MEAL).toString();
@@ -80,16 +82,23 @@ public class MealService {
         }
     }
 
-    private String verifyMealData(Meal meal) {
+    private String verifyMealData(MealDto meal) {
+        MealValidator validator = new MealValidator(meal);
         if (meal.getName() == null) {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "name").toString();
         } else if (meal.getMealCategory() == null) {
             return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "missing", "mealCategory").toString();
-        } else if (!checkCategoryExists(meal.getMealCategory().getName())) {
-            //return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_MEAL_CATEGORY).toString();
-            mealCategoryRepository.save(meal.getMealCategory());
+        } else {
+            String validationResult = validator.validateUser();
+            if (validationResult != null) {
+                return jsonMessageGenerator.createResponseWithAdditionalInfo(ResponseMessages.MISSING_DATA, "invalid data", validationResult).toString();
+            }
         }
-        return "";
+        if (!checkCategoryExists(meal.getMealCategory().getName())) {
+            //return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_MEAL_CATEGORY).toString();
+            mealCategoryRepository.save(mealCategoryMapper.mealCategoryDtoToMealCategory(meal.getMealCategory()));
+        }
+        return null;
     }
 
     private boolean checkCategoryExists(String mealCategory) {
@@ -128,8 +137,9 @@ public class MealService {
     }
 
     public String updateMeal(Long mealId, MealDto mealDto) {
+        String verifyMealDataResponse = verifyMealData(mealDto);
         Meal meal = mealMapper.mealDtoToMeal(mealDto);
-        String verifyMealDataResponse = verifyMealData(meal);
+
         if (verifyMealDataResponse == null) {
             if (!mealRepository.exists(mealId)) {
                 return jsonMessageGenerator.createSimpleResponse(ResponseMessages.NO_MEAL).toString();
