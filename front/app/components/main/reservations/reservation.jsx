@@ -3,8 +3,8 @@ import {NavLink} from 'react-router-dom';
 import CustomPanel from '../../_custom/panel';
 import {RESERVATIONS_PATHS} from '../../../_consts/paths';
 
-const Reservation = (props) => {
-    let url = props.match.url;
+const Reservation = ({passed}) => {
+    let url = passed.location.pathname;
     let panelProperties = {
         header: <div className="description">
             <h2>Rezerwacje</h2>
@@ -12,8 +12,11 @@ const Reservation = (props) => {
                 na imprezy okolicznościowe, bądź pojedyńczego stolika</p>
         </div>,
         buttons: [
-            <NavLink exact to={url + RESERVATIONS_PATHS.LOCAL}>Lokal</NavLink>,
-            <NavLink exact to={url + RESERVATIONS_PATHS.TABLE}>Stolik</NavLink>
+            {
+                name: <NavLink exact to={url + RESERVATIONS_PATHS.LOCAL}>Lokal</NavLink>
+            }, {
+                name: <NavLink exact to={url + RESERVATIONS_PATHS.TABLE}>Stolik</NavLink>
+            }
         ]
     };
 

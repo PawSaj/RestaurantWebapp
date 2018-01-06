@@ -1,34 +1,68 @@
 import React from 'react';
 import CustomTable from '../../_custom/table';
-import TABLES from '../../../_consts/mocks/tables';
 import CustomTabs from '../../_custom/tabs';
 import {Grid} from 'react-bootstrap';
-import NewTable from './newTableForm';
+import NewTable from './tableForm';
 
-const Tables = (props) => {
-    let tableProps = {
-        headsTitles: ['Id', 'Nazwa', 'Opis'],
-        modify: true,
-        body: TABLES
-    };
+class Tables extends React.Component {
+    constructor(props) {
+        super(props);
+        this.passed = props.passed;
+        this.tables = props.passed.admin.tables;
+        this.getTables = props.passed.adminFunctions.getTables;
+        this.deleteTable = props.passed.adminFunctions.deleteTable;
+        this.state = {
+            tables: props.passed.admin.tables.data,
+            all: props.passed.admin.tables.all
+        };
 
-    let tabsProps = {
-        id: "tables-tab",
-        tabs: [
-            {
-                title: 'Edycja stolików',
-                content: <CustomTable {...Object.assign({}, tableProps, props)}/>
-            }, {
-                title: 'Dodawanie stolików',
-                content: <NewTable addingEl={true}/>
-            }
-        ],
-    };
+        this.prepareTablesTable = this.prepareTablesTable.bind(this);
+    }
 
-    return (
-        <Grid>
-            <CustomTabs {...tabsProps}/>
-        </Grid>);
-};
+    prepareTablesTable() {
+        if (this.state.tables !== undefined) {
+            let preparedElement = Object.assign({}, {
+                order: ['id', 'seats', 'tableNumber', 'floor'],
+                headsTitles: ['Id', 'Miejsca', 'Numer', 'Piętro'],
+                modify: true,
+                body: this.state.tables,
+                deleteFunction: this.deleteTable
+            });
 
+            return <CustomTable {...Object.assign({}, preparedElement, this.passed)}/>
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({tables: nextProps.passed.admin.tables.data, all: nextProps.passed.admin.tables.all});
+    }
+
+
+    componentDidMount() {
+        if (!this.state.tables || !this.state.all) {
+            this.getTables();
+        }
+    }
+
+    render() {
+        let tabsProps = {
+            id: "tables-tab",
+            tabs: [
+                {
+                    title: 'Edycja stolików',
+                    content: this.state.tables && this.prepareTablesTable()
+                }, {
+                    title: 'Dodawanie stolików',
+                    content: <NewTable passed={this.passed} new={true}/>
+                }
+            ],
+        };
+        return (
+            <Grid>
+                <CustomTabs {...tabsProps}/>
+            </Grid>
+        )
+
+    }
+}
 export default Tables;

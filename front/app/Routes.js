@@ -1,18 +1,18 @@
 import React from 'react';
 import {BrowserRouter as Router} from 'react-router-dom';
+import {Provider} from 'react-redux';
 
 /*  user imports    */
-import MainLayout from './layouts/main';
-import AdminLayout from './layouts/admin';
-import ManagerLayout from './layouts/manager'
+import LayoutContainer from './containers/layoutContainer';
 
-const Routes = () => {
+const Routes = ({store}) => {
+
     return (
-        <Router>
-            <MainLayout/>
-            {/*<AdminLayout/>*/}
-            {/*<ManagerLayout/>*/}
-        </Router>
+        <Provider store={store}>
+            <Router>
+                <LayoutContainer/>
+            </Router>
+        </Provider>
     );
 };
 

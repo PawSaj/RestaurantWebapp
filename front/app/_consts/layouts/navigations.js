@@ -1,4 +1,4 @@
-import {MAIN_PATHS, ADMIN_PATHS, MANAGER_PATHS} from '../../_consts/paths';
+import {MAIN_PATHS, ADMIN_PATHS, MANAGER_PATHS} from '../paths';
 
 export const BRAND = {
     link: MAIN_PATHS.HOME,
@@ -69,12 +69,20 @@ export const MANAGER_NAV = {
             desc: 'Panel',
             exact: true
         }, {
-            link: MANAGER_PATHS.PROMOTIONS,
-            desc: 'Promocje',
+            link: MANAGER_PATHS.ORDER,
+            desc: 'Zamówienia',
             exact: true
         }, {
-            link: MANAGER_PATHS.REPORTS,
-            desc: 'Raporty',
+            link: MANAGER_PATHS.TRAFFIC,
+            desc: 'Przepustowości',
+            exact: true
+        }, {
+            link: MANAGER_PATHS.RESERVATION,
+            desc: 'Rezerwacje',
+            exact: true
+        }, {
+            link: MANAGER_PATHS.TABLE,
+            desc: 'Stoliki',
             exact: true
         }
     ],

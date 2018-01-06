@@ -3,7 +3,8 @@ import {NavLink} from 'react-router-dom'
 import {ADMIN_PATHS} from '../../_consts/paths';
 import CustomPanel from '../_custom/panel';
 
-const AdminPanel = () => {
+const AdminPanel = ({passed}) => {
+    console.log('admin panel', passed)
     let panelProperties = {
         header: <h2>Witaj w panelu administarcyjnym</h2>,
         buttons: [

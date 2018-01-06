@@ -31,11 +31,14 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 loaders: ['babel']
+            }, {
+                test: /\.(json)$/,
+                loaders: ['json-loader']
             },
             {
                 test: /\.(css|scss)$/,
-                loaders: ["style-loader","css-loader","sass-loader"],
-            },{
+                loaders: ["style-loader", "css-loader", "sass-loader"],
+            }, {
                 test: /\.(png|jpg|jpeg|gif)$/,
                 loaders: ['file-loader']
             }
@@ -43,7 +46,7 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ["", ".js", ".jsx"]
+        extensions: ["",".json", ".js", ".jsx"]
     }
 
 };
