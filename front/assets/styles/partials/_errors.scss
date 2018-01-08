@@ -1,0 +1,11 @@
+.error-form-msg{
+  text-align: center;
+  color: red;
+  font-weight: bold;
+}
+
+form#registration{
+  .error-form-msg{
+    text-align: right;
+  }
+}

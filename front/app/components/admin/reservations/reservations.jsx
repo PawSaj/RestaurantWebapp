@@ -5,7 +5,7 @@ import CustomTabs from '../../_custom/tabs';
 import {ADMIN_PATHS} from '../../../_consts/paths';
 import RES_DATA from '../../../_consts/mocks/reservations';
 
-const Reservations = (props) => {
+const Reservations = ({passed}) => {
     let tableProps = {
         headsTitles: ['Id', 'Rezerwujący', 'Opis', 'Początek', 'Koniec'],
         modify: true,
@@ -21,7 +21,7 @@ const Reservations = (props) => {
         tabs: [
             {
                 title: 'Edycja rezerwacji',
-                content: <CustomTable {...Object.assign({}, tableProps, props)}/>
+                content: <CustomTable {...Object.assign({}, tableProps, passed)}/>
             }
         ],
     };

@@ -17,7 +17,7 @@ public class MealDto implements Serializable {
 
     private String image;
 
-    private Set<IngredientDto> ingredients = new HashSet<>();
+    private Set<IngredientDto> ingredients = new HashSet<IngredientDto>();
 
     private MealCategoryDto mealCategory;
 

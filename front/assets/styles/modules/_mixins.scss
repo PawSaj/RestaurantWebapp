@@ -1,4 +1,4 @@
-@mixin centered-elemnet($top:50%,$left:50%, $translate:translate(-50%,-50%)) {
+@mixin centered-element($top:50%,$left:50%, $translate:translate(-50%,-50%)) {
   position: absolute;
   top: $top;
   left: $left;

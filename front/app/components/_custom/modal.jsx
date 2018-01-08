@@ -1,24 +1,34 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 
-const CustomModal = (props) => {
+class CustomModal extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {show: false};
 
-    const onHide = () => {
-        console.log('onHide: hi3');
-    };
+        this.onHide = this.onHide.bind(this);
+    }
 
-    let {body, title, show} = props;
+    componentWillReceiveProps(nextProps) {
+        this.setState({show: nextProps.show});
+    }
 
-    return (
-        <Modal show={show}>
-            <Modal.Header closeButton onHide={onHide}>
-                <Modal.Title>{title}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                {body}
-            </Modal.Body>
-        </Modal>
-    );
-};
+    onHide() {
+        this.setState({show: false});
+    }
+
+    render() {
+        return (
+            <Modal show={this.state.show}>
+                <Modal.Header closeButton onHide={this.onHide}>
+                    <Modal.Title>{this.props.title}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {this.props.body}
+                </Modal.Body>
+            </Modal>
+        )
+    }
+}
 
 export default CustomModal;

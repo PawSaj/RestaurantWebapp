@@ -1,4 +1,4 @@
-import {MAIN_PATHS, RESERVATIONS_PATHS, ADMIN_PATHS, MANAGER_PATHS} from '../../_consts/paths';
+import {MAIN_PATHS, RESERVATIONS_PATHS, ADMIN_PATHS, MANAGER_PATHS} from '../paths';
 
 /* components main */
 import Home from '../../components/main/home';
@@ -21,6 +21,10 @@ import AdminEditTable from '../../components/admin/tables/tableForm';
 
 /* components manager */
 import ManagerPanel from '../../components/manager/panel';
+import TableFrequency from '../../components/manager/tableFrequency';
+import ReservationTraffic from '../../components/manager/reservationTraffic';
+import MealOrder from '../../components/manager/mealOrders';
+import UserReservations from '../../components/manager/usersReservations'
 
 export const MAIN_CONTENT = {
     urlToRedirect: MAIN_PATHS.HOME,
@@ -42,7 +46,8 @@ export const MAIN_CONTENT = {
             component: Menu
         }, {
             path: MAIN_PATHS.PROFILE,
-            component: Profile
+            component: Profile,
+            login: true
         }
     ]
 };
@@ -89,11 +94,17 @@ export const MANAGER_CONTENT = {
             path: MANAGER_PATHS.HOME,
             component: ManagerPanel
         }, {
-            path: MANAGER_PATHS.PROMOTIONS,
-            component: null
+            path: MANAGER_PATHS.TABLE,
+            component: TableFrequency
         }, {
-            path: MANAGER_PATHS.REPORTS,
-            component: null
+            path: MANAGER_PATHS.RESERVATION,
+            component: UserReservations
+        }, {
+            path: MANAGER_PATHS.ORDER,
+            component: MealOrder
+        }, {
+            path: MANAGER_PATHS.TRAFFIC,
+            component: ReservationTraffic
         }
     ]
 };

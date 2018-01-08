@@ -26,12 +26,19 @@ const insertHeadRow = (heads, modify) => {
 
 const createBodyRow = (element, links) => {
     let {field, path} = links ? links : {}, value = null;
+    if (element === null) {
+        return null;
+    }
 
     return Object.keys(element).map((key) => {
         if (key === 'price') {
             value = `${element[key]} zł`;
         } else {
-            value = element[key];
+            if (Array.isArray(element[key])) {
+                value = element[key].join(', ');
+            } else {
+                value = element[key];
+            }
         }
 
         if (links && key === field) {
@@ -43,8 +50,13 @@ const createBodyRow = (element, links) => {
 
 };
 
-const insertBodyRow = ({element, modify, index, links, url}) => {
+const insertBodyRow = ({element, modify, index, links, url, deleteFunction}) => {
+    if (element === null) {
+        return null;
+    }
+
     let row = createBodyRow(element, links);
+
     if (modify === true) {
         return (
             <tr key={index}>
@@ -54,7 +66,15 @@ const insertBodyRow = ({element, modify, index, links, url}) => {
                         <NavLink exact to={url + '/' + element['id']}>Edytuj</NavLink>
                     </Button>
                 </td>
-                <td><Button bsClass="btn btn-panel">Usuń</Button></td>
+                <td><Button bsClass="btn btn-panel"
+                            onClick={(deleteFunction) ?
+                                () => deleteFunction(element['id']) :
+                                () => {
+                                    console.log('clicked');
+                                    return false;
+                                }
+                            }>Usuń</Button>
+                </td>
             </tr>
         );
     }
@@ -68,8 +88,8 @@ const insertBodyRow = ({element, modify, index, links, url}) => {
 
 const CustomTable = (props) => {
     let tableClassName = null;
-    let {headsTitles, category, modify, body, match} = props;
-    let url = match.path;
+    let {headsTitles, category, modify, body, location, order} = props;
+    let url = location.pathname;
 
     if (modify === true) {
         tableClassName = 'modify';
@@ -83,7 +103,17 @@ const CustomTable = (props) => {
                 {insertHeadRow(createHeadRow(headsTitles), modify)}
                 </thead>
                 <tbody>
-                {body.map((element, index) => insertBodyRow({element, index, url, ...props}))}
+                {body.map((element, index) => {
+                    let preparedObj = {};
+                    if (order && element) {
+                        order.map((key) => {
+                            preparedObj[key] = element[key];
+                        })
+                    } else {
+                        preparedObj = element;
+                    }
+                    return insertBodyRow({element: preparedObj, index, url, ...props})
+                })}
                 </tbody>
             </Table>
         </div>
